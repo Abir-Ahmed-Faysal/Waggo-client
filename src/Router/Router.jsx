@@ -3,6 +3,7 @@ import Root from "../Root/Root";
 import AuthRoot from "../Root/AuthRoot";
 import LogIn from "../Pages/Authentication/LogIn";
 import Register from "../Pages/Authentication/Register";
+import Home from "../Pages/Home/Home";
 export const router = createBrowserRouter([
   {
     path: "/",
@@ -24,6 +25,7 @@ export const router = createBrowserRouter([
     children: [
       {
         index: true,
+        Component: Home,
       },
     ],
   },
