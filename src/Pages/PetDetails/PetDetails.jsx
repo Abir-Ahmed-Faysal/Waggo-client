@@ -13,6 +13,8 @@ import { Button } from "@/components/ui/button";
 import { Label } from "@/components/ui/label";
 import { Textarea } from "@/components/ui/textarea";
 import useAuth from "../../Hooks/useAuth";
+import useApi from "../../Hooks/useApi";
+import { toast } from "react-toastify";
 
 const PetDetails = () => {
   const { user, loading } = useAuth();
@@ -20,6 +22,7 @@ const PetDetails = () => {
   const [phone, setPhone] = useState("");
   const [address, setAddress] = useState("");
   const [open, setOpen] = useState(false);
+  const apiPromise=useApi()
 
   if (details.length === 0 || loading) {
     return <div className="text-center mt-10">Loading...</div>;
@@ -37,34 +40,34 @@ const PetDetails = () => {
     adopted,
   } = details;
 
-  const handleAdoptSubmit = async (e) => {
-    e.preventDefault();
 
-    const adoptionData = {
-      petId: _id,
-      petName: name,
-      petImage: image,
-      userName: user.name,
-      userEmail: user.email,
-      phone,
-      address,
-    };
+const handleAdoptSubmit = async (e) => {
+  e.preventDefault();
 
-    const res = await fetch("https://your-api.com/adoptions", {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify(adoptionData),
-    });
-
-    if (res.ok) {
-      alert("Adoption request submitted successfully!");
-      setOpen(false);
-    } else {
-      alert("Failed to submit request.");
-    }
+  const adoptionData = {
+    petId: _id,
+    petName: name,
+    petImage: image,
+    userName: user.name,
+    userEmail: user.email,
+    phone,
+    address,
   };
+
+  try {
+    const res = await apiPromise.post('/adoption', adoptionData);
+    if(res.data.insertedId){
+      setOpen(false);
+      toast.success("Adoption request submitted successfully!");
+     setPhone("")
+     setAddress("")
+    };
+    
+  } catch (error) {
+    console.error("Error submitting adoption request:", error);
+    alert("Failed to submit request.");
+  }
+};
 
   return (
     <div className="max-w-4xl mx-auto my-10 p-5">
