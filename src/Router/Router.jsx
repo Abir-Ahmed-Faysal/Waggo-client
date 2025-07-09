@@ -4,6 +4,7 @@ import AuthRoot from "../Root/AuthRoot";
 import LogIn from "../Pages/Authentication/LogIn";
 import Register from "../Pages/Authentication/Register";
 import Home from "../Pages/Home/Home";
+import PetList from "../Pages/AllPets/Pets";
 export const router = createBrowserRouter([
   {
     path: "/",
@@ -12,7 +13,9 @@ export const router = createBrowserRouter([
       {
         index: true,
         Component: Home,
-      },
+      },{
+        path:'/all-Pets',Component:PetList
+      }
     ],
   },
   {

@@ -20,7 +20,7 @@ const Home = () => {
   }, [])
 
   return (
-    <div className="pt-16">
+    <div className="">
       
       {/* Banner */}
       <section className="relative h-[80vh] flex items-center justify-center bg-cover bg-center bg-[url('https://i.ibb.co/5hz32WKZ/Pet-adoption-1536x865.webp')]">
