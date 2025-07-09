@@ -3,8 +3,10 @@ import axios from 'axios';
 import { useState, useEffect } from 'react';
 import { useInView } from 'react-intersection-observer';
 import useDebounce from '../../Hooks/useDebounce';
+import { Link, useNavigate } from 'react-router';
 
 const fetchPets = async ({ pageParam = 1, queryKey }) => {
+
   const [_key, { search, category }] = queryKey;
   const res = await axios.get('http://localhost:3000/pets', {
     params: {
@@ -17,9 +19,11 @@ const fetchPets = async ({ pageParam = 1, queryKey }) => {
   return res.data;
 };
 
+
 export default function PetList() {
   const [search, setSearch] = useState('');
   const [category, setCategory] = useState('');
+    const navigate=useNavigate()
 
   // Debounced values
   const debouncedSearch = useDebounce(search, 500);
@@ -48,6 +52,10 @@ export default function PetList() {
       fetchNextPage();
     }
   }, [inView, hasNextPage, isFetchingNextPage, fetchNextPage]);
+
+const handleClick=(id)=>{
+ navigate(`/pet/${id}`)
+}
 
   // Optional: error handling
   if (isError) {
@@ -103,7 +111,8 @@ export default function PetList() {
             <h3 className="text-xl font-bold mt-2">{pet.name}</h3>
             <p>Age: {pet.age}</p>
             <p>Location: {pet.location}</p>
-            <button className="mt-2 text-blue-500 underline">
+            <button onClick={
+             ()=>handleClick(pet._id) } className="mt-2 text-blue-500 ">
               View Details
             </button>
           </div>
