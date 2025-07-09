@@ -2,15 +2,22 @@ import React from "react";
 import { Outlet } from "react-router";
 import Navbar from "../components/Navbar";
 import { ToastContainer } from "react-toastify";
+import useAuth from "../Hooks/useAuth";
+import Spinner from "../components/Spinner";
 
 const Root = () => {
-  return (
-    <div className="">
-         <ToastContainer />
-      <Navbar ></Navbar>
+  const { loading } = useAuth();
 
+  if (loading) {
+    return <Spinner />;
+  }
+
+  return (
+    <div>
+      <ToastContainer />
+      <Navbar />
       <div className="min-h-screen">
-        <Outlet></Outlet>
+        <Outlet />
       </div>
     </div>
   );
