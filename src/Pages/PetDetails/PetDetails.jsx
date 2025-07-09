@@ -65,7 +65,12 @@ const handleAdoptSubmit = async (e) => {
     
   } catch (error) {
     console.error("Error submitting adoption request:", error);
-    alert("Failed to submit request.");
+
+    if (error.response && error.response.status === 409) {
+      toast.error(error.response.data.message || "You've already submitted a request for this pet.");
+    } else {
+      toast.error("Something went wrong. Please try again.");
+    }
   }
 };
 
