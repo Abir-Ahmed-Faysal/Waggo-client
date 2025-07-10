@@ -8,6 +8,9 @@ import PetList from "../Pages/AllPets/Pets";
 import PetDetails from "../Pages/PetDetails/PetDetails";
 import DonationCampaignsPage from "../Pages/Donation/DonationCampaign";
 import DonationCardDetails from "../Pages/Donation/DonationCardDetails";
+import Page from "../Pages/Dashboard/page";
+
+
 export const router = createBrowserRouter([
   {
     path: "/",
@@ -29,8 +32,11 @@ export const router = createBrowserRouter([
       },
       { path: "/donation", Component: DonationCampaignsPage },
       {
-        path:'donationCardDetails/:id',Component:DonationCardDetails,loader:({params})=>fetch(`http://localhost:3000/donation/${params.id}`)
-      }
+        path: "donationCardDetails/:id",
+        Component: DonationCardDetails,
+        loader: ({ params }) =>
+          fetch(`http://localhost:3000/donation/${params.id}`),
+      },
     ],
   },
   {
@@ -43,5 +49,12 @@ export const router = createBrowserRouter([
       },
       { path: "/login", Component: LogIn },
     ],
+  },
+  {
+    path: "/dashboard",
+    Component: Page,
+    children: [{
+      path:'add pet'
+    }],
   },
 ]);

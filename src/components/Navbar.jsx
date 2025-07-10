@@ -14,7 +14,6 @@ const Navbar = () => {
     { path: "/", label: "Home" },
     { path: "/all-pets", label: "All Pets" },
     { path: "/donation", label: "Donation" },
-    { path: "/dashboard", label: "Dashboard" },
   ];
 
   const privateLinks = [
