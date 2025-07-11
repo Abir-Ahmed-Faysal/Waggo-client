@@ -5,8 +5,9 @@ import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import Select from "react-select";
 import axios from "axios";
-import useApi from "../../Hooks/useApi";
 import { toast } from "react-toastify";
+import useAuth from "../../Hooks/useAuth";
+import useSecureApi from "../../Hooks/useSecureApi";
 
 const petCategories = [
   { value: "Dog", label: "Dog" },
@@ -19,7 +20,8 @@ const AddPet = () => {
   const [imageUrl, setImageUrl] = useState("");
   const [loading, setLoading] = useState(false);
   const [imageError, setImageError] = useState("");
-  const apiPromise = useApi();
+  const apiPromise = useSecureApi();
+  const {user}=useAuth()
 
   const handleImageUpload = async (file) => {
     const formData = new FormData();
@@ -82,12 +84,16 @@ const AddPet = () => {
             location: values.location,
             shortDescription: values.shortDescription,
             longDescription: values.longDescription,
-            adopted: false,
             createdAt: new Date().toISOString(),
+            email:user.email
           };
 
           try {
             setLoading(true);
+              if (petData.email) {
+            setImageError("Pet added user is required");
+            return;
+          }
             const res = await apiPromise.post("/pets", petData)
             console.log(res.data);
 

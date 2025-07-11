@@ -11,6 +11,7 @@ import DonationCardDetails from "../Pages/Donation/DonationCardDetails";
 import Page from "../Pages/Dashboard/page";
 import AddPet from "../Pages/addPet.jsx/AddPet";
 import Private from "../Pages/Private/Private";
+import MyPet from "../Pages/MyPet/MyPet";
 
 export const router = createBrowserRouter([
   {
@@ -62,7 +63,7 @@ export const router = createBrowserRouter([
         </Private>,
       },
       {
-        path: "add",
+        path: "my-pet",Component:MyPet
       },
     ],
   },

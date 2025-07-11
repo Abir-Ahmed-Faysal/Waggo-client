@@ -16,7 +16,7 @@ import { Link } from "react-router";
 
 const navMain = [
   { title: "Add a pet", link: "/dashboard/add-pet" },
-  { title: "My added pets", link: "/dashboard/my-added-pets" },
+  { title: "My added pets", link: "/dashboard/my-pet" },
   { title: "Adoption Request", link: "/dashboard/adoption-request" },
   { title: "Create Donation Campaign", link: "/dashboard/create-donation" },
   { title: "My Donation Campaigns", link: "/dashboard/my-campaigns" },
