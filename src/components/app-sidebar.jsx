@@ -1,4 +1,3 @@
-import * as React from "react";
 import { GalleryVerticalEnd } from "lucide-react";
 import {
   Sidebar,
@@ -13,14 +12,15 @@ import {
 } from "@/components/ui/sidebar";
 import { NavUser } from "./nav_user";
 import useAuth from "../Hooks/useAuth";
+import { Link } from "react-router";
 
 const navMain = [
-  { title: "Add a pet", url: "/dashboard/add-pet" },
-  { title: "My added pets", url: "/dashboard/my-added-pets" },
-  { title: "Adoption Request", url: "/dashboard/adoption-request" },
-  { title: "Create Donation Campaign", url: "/dashboard/create-donation" },
-  { title: "My Donation Campaigns", url: "/dashboard/my-campaigns" },
-  { title: "My Donations", url: "/dashboard/my-donations" },
+  { title: "Add a pet", link: "/dashboard/add-pet" },
+  { title: "My added pets", link: "/dashboard/my-added-pets" },
+  { title: "Adoption Request", link: "/dashboard/adoption-request" },
+  { title: "Create Donation Campaign", link: "/dashboard/create-donation" },
+  { title: "My Donation Campaigns", link: "/dashboard/my-campaigns" },
+  { title: "My Donations", link: "/dashboard/my-donations" },
 ];
 
 export function AppSidebar({ ...props }) {
@@ -53,9 +53,9 @@ export function AppSidebar({ ...props }) {
             {navMain.map((item) => (
               <SidebarMenuItem key={item.title}>
                 <SidebarMenuButton asChild>
-                  <a href={item.url} className="font-medium">
+                  <Link to={item.link}  className="font-medium">
                     {item.title}
-                  </a>
+                  </Link>
                 </SidebarMenuButton>
               </SidebarMenuItem>
             ))}

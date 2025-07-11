@@ -17,12 +17,7 @@ const Navbar = () => {
   ];
 
   const privateLinks = [
-    { path: "/dashboard/add-pet", label: "Add a Pet" },
-    { path: "/dashboard/my-added-pets", label: "My Added Pets" },
-    { path: "/dashboard/adoption-requests", label: "Adoption Request" },
-    { path: "/dashboard/create-donation", label: "Create Donation Campaign" },
-    { path: "/dashboard/my-campaigns", label: "My Donation Campaigns" },
-    { path: "/dashboard/my-donations", label: "My Donations" },
+    { path: "/dashboard", label: "Dashboard" },
   ];
 
   return (

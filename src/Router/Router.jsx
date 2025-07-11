@@ -9,7 +9,8 @@ import PetDetails from "../Pages/PetDetails/PetDetails";
 import DonationCampaignsPage from "../Pages/Donation/DonationCampaign";
 import DonationCardDetails from "../Pages/Donation/DonationCardDetails";
 import Page from "../Pages/Dashboard/page";
-
+import AddPet from "../Pages/addPet.jsx/AddPet";
+import Private from "../Pages/Private/Private";
 
 export const router = createBrowserRouter([
   {
@@ -53,8 +54,16 @@ export const router = createBrowserRouter([
   {
     path: "/dashboard",
     Component: Page,
-    children: [{
-      path:'add pet'
-    }],
+    children: [
+      {
+        path: "add-pet",
+        element: <Private>
+        <AddPet></AddPet>
+        </Private>,
+      },
+      {
+        path: "add",
+      },
+    ],
   },
 ]);
