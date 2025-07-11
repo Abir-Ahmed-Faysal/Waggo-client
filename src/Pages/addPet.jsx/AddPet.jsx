@@ -7,13 +7,12 @@ import Select from "react-select";
 import axios from "axios";
 import useApi from "../../Hooks/useApi";
 import { toast } from "react-toastify";
-import { data } from "react-router";
 
 const petCategories = [
-  { value: "dog", label: "Dog" },
-  { value: "cat", label: "Cat" },
-  { value: "bird", label: "Bird" },
-  { value: "rabbit", label: "Rabbit" },
+  { value: "Dog", label: "Dog" },
+  { value: "Cat", label: "Cat" },
+  { value: "Bird", label: "Bird" },
+  { value: "Rabbit", label: "Rabbit" },
 ];
 
 const AddPet = () => {
@@ -28,15 +27,16 @@ const AddPet = () => {
 
     try {
       setLoading(true);
+       setImageError("");
       const res = await axios.post(
         `https://api.imgbb.com/1/upload?key=${import.meta.env.VITE_IMGBBKEY}`,
         formData
       );
       setImageUrl(res.data.data.url);
-      setLoading(false);
     } catch (error) {
       setImageError("Image upload failed, please try again.");
       console.error("Image Upload Failed:", error);
+    } finally {
       setLoading(false);
     }
   };
@@ -47,57 +47,62 @@ const AddPet = () => {
 
       <Formik
         initialValues={{
-          pet_name: "",
-          pet_age: "",
-          pet_category: null,
-          pet_location: "",
-          short_description: "",
-          long_description: "",
+          name: "",
+          age: "",
+          category: null,
+          location: "",
+          shortDescription: "",
+          longDescription: "",
         }}
         validationSchema={Yup.object({
-          pet_name: Yup.string().required("Pet name is required"),
-          pet_age: Yup.string().required("Pet age is required"),
-          pet_category: Yup.object()
+          name: Yup.string().required("Pet name is required"),
+          age: Yup.string().required("Pet age is required"),
+          category: Yup.object()
             .nullable()
             .required("Pet category is required"),
-          pet_location: Yup.string().required("Pickup location is required"),
-          short_description: Yup.string().required(
+          location: Yup.string().required("Pickup location is required"),
+          shortDescription: Yup.string().required(
             "Short description is required"
           ),
-          long_description: Yup.string().required(
+          longDescription: Yup.string().required(
             "Long description is required"
           ),
         })}
         onSubmit={async (values, { resetForm }) => {
-          ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-          // if (!imageUrl) {
-          //   setImageError("Pet image is required");
-          //   return;
-          // }
+          if (!imageUrl) {
+            setImageError("Pet image is required");
+            return;
+          }
 
           const petData = {
-            ...values,
-            pet_category: values.pet_category.value,
+            name: values.name,
+            age: values.age,
+            category: values.category.value,
             image: imageUrl,
-            createdAt: new Date().toISOString(),
+            location: values.location,
+            shortDescription: values.shortDescription,
+            longDescription: values.longDescription,
             adopted: false,
+            createdAt: new Date().toISOString(),
           };
-          console.log("Submitting Pet:", petData);
 
           try {
             setLoading(true);
-            const res = await apiPromise.post("/pets", petData);
+            const res = await apiPromise.post("/pets", petData)
             console.log(res.data);
 
-            if (res.data.insertedId < 0) {
-              toast.success("success");
-              setLoading(false);
+            if (res.data.insertedId ) {
+             alert("Pet added successfully!");
               resetForm();
               setImageUrl("");
+              setImageError("");
+            } else {
+              toast.error("Failed to add pet.");
             }
           } catch (error) {
-            setImageError("Image upload failed, please try again.");
-            console.error("Image Upload Failed:", error);
+            toast.error("Server error. Try again later.");
+            console.error("Submit Failed:", error);
+          } finally {
             setLoading(false);
           }
         }}
@@ -127,31 +132,30 @@ const AddPet = () => {
               {imageError && <span className="text-red-500">{imageError}</span>}
             </div>
 
-            {/* Pet Name */}
             <div>
               <Label>Pet Name</Label>
               <Input
-                name="pet_name"
-                value={formik.values.pet_name}
+                name="name"
+                value={formik.values.name}
                 onChange={formik.handleChange}
                 onBlur={formik.handleBlur}
               />
-              {formik.touched.pet_name && formik.errors.pet_name && (
-                <p className="text-red-500 text-sm">{formik.errors.pet_name}</p>
+              {formik.touched.name && formik.errors.name && (
+                <p className="text-red-500 text-sm">{formik.errors.name}</p>
               )}
             </div>
 
-            {/* Pet Age */}
+            
             <div>
               <Label>Pet Age</Label>
               <Input
-                name="pet_age"
-                value={formik.values.pet_age}
+                name="age"
+                value={formik.values.age}
                 onChange={formik.handleChange}
                 onBlur={formik.handleBlur}
               />
-              {formik.touched.pet_age && formik.errors.pet_age && (
-                <p className="text-red-500 text-sm">{formik.errors.pet_age}</p>
+              {formik.touched.age && formik.errors.age && (
+                <p className="text-red-500 text-sm">{formik.errors.age}</p>
               )}
             </div>
 
@@ -160,34 +164,29 @@ const AddPet = () => {
               <Label className="mb-1 block">Pet Category</Label>
               <Select
                 options={petCategories}
-                value={formik.values.pet_category}
-                onChange={(option) =>
-                  formik.setFieldValue("pet_category", option)
-                }
-                onBlur={() => formik.setFieldTouched("pet_category", true)}
+                value={formik.values.category}
+                onChange={(option) => formik.setFieldValue("category", option)}
+                onBlur={() => formik.setFieldTouched("category", true)}
                 placeholder="Select a category"
-                classNamePrefix="react-select"
               />
-              {formik.touched.pet_category && formik.errors.pet_category && (
+              {formik.touched.category && formik.errors.category && (
                 <p className="text-red-500 text-sm mt-1">
-                  {formik.errors.pet_category}
+                  {formik.errors.category}
                 </p>
               )}
             </div>
 
-            {/* Pickup Location */}
+            {/* Location */}
             <div>
               <Label>Pickup Location</Label>
               <Input
-                name="pet_location"
-                value={formik.values.pet_location}
+                name="location"
+                value={formik.values.location}
                 onChange={formik.handleChange}
                 onBlur={formik.handleBlur}
               />
-              {formik.touched.pet_location && formik.errors.pet_location && (
-                <p className="text-red-500 text-sm">
-                  {formik.errors.pet_location}
-                </p>
+              {formik.touched.location && formik.errors.location && (
+                <p className="text-red-500 text-sm">{formik.errors.location}</p>
               )}
             </div>
 
@@ -195,15 +194,15 @@ const AddPet = () => {
             <div>
               <Label>Short Description</Label>
               <Input
-                name="short_description"
-                value={formik.values.short_description}
+                name="shortDescription"
+                value={formik.values.shortDescription}
                 onChange={formik.handleChange}
                 onBlur={formik.handleBlur}
               />
-              {formik.touched.short_description &&
-                formik.errors.short_description && (
+              {formik.touched.shortDescription &&
+                formik.errors.shortDescription && (
                   <p className="text-red-500 text-sm">
-                    {formik.errors.short_description}
+                    {formik.errors.shortDescription}
                   </p>
                 )}
             </div>
@@ -212,16 +211,16 @@ const AddPet = () => {
             <div>
               <Label>Long Description</Label>
               <textarea
-                name="long_description"
-                value={formik.values.long_description}
+                name="longDescription"
+                value={formik.values.longDescription}
                 onChange={formik.handleChange}
                 onBlur={formik.handleBlur}
                 className="w-full p-2 border rounded"
               />
-              {formik.touched.long_description &&
-                formik.errors.long_description && (
+              {formik.touched.longDescription &&
+                formik.errors.longDescription && (
                   <p className="text-red-500 text-sm">
-                    {formik.errors.long_description}
+                    {formik.errors.longDescription}
                   </p>
                 )}
             </div>
@@ -231,7 +230,7 @@ const AddPet = () => {
               className="bg-blue-600 text-white px-4 py-2 rounded"
               disabled={loading}
             >
-              {loading ? "loading" : "Submit"}
+              {loading ? "Loading..." : "Submit"}
             </button>
           </form>
         )}
