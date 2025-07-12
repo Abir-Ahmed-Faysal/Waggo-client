@@ -11,13 +11,15 @@ const MyPet = () => {
   const api = useSecureApi(user?.accessToken);
   const limit = 10;
   const [currentPage, setCurrentPage] = useState(0);
+  const [sortBy, setSortBy] = useState("index");
+  const [order, setOrder] = useState("dsc");
 
-  const { isPending, error, data,refetch } = useQuery({
-    queryKey: ["myPet", user?.email, currentPage],
+  const { isPending, error, data, refetch } = useQuery({
+    queryKey: ["myPet", user?.email, currentPage, sortBy, order],
     enabled: !!user?.email && !!user?.accessToken,
     queryFn: async () => {
       const response = await api(
-        `/my-pet?email=${user.email}&page=${currentPage}&limit=${limit}`
+        `/my-pet?email=${user.email}&page=${currentPage}&limit=${limit}&sortBy=${sortBy}&order=${order}`
       );
       return response.data;
     },
@@ -35,14 +37,21 @@ const MyPet = () => {
   const pageCount = Math.ceil(total / limit);
   const pagination = [...Array(pageCount).keys()];
 
-// console.log(pets);
- 
+  // console.log(pets);
 
   return (
     <div className="p-4">
       <h2 className="text-xl font-semibold mb-4">My Pet Data</h2>
 
-      <APP mockData={pets} email={user?.email} refetch={refetch}></APP>
+      <APP
+        mockData={pets}
+        setOrder={setOrder}
+        setSortBy={setSortBy}
+        email={user?.email}
+        refetch={refetch}
+        order={order}
+        sortBy={sortBy}
+      ></APP>
 
       {pageCount > 1 && (
         <div className="flex gap-2 mt-4">
