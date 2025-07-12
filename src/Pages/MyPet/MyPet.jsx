@@ -4,13 +4,15 @@ import { useQuery } from "@tanstack/react-query";
 import Spinner from "../../components/Spinner";
 import useSecureApi from "../../Hooks/useSecureApi";
 
+import APP from "../../App";
+
 const MyPet = () => {
   const { user } = useAuth();
   const api = useSecureApi(user?.accessToken);
   const limit = 10;
   const [currentPage, setCurrentPage] = useState(0);
 
-  const { isPending, error, data } = useQuery({
+  const { isPending, error, data,refetch } = useQuery({
     queryKey: ["myPet", user?.email, currentPage],
     enabled: !!user?.email && !!user?.accessToken,
     queryFn: async () => {
@@ -33,13 +35,14 @@ const MyPet = () => {
   const pageCount = Math.ceil(total / limit);
   const pagination = [...Array(pageCount).keys()];
 
+// console.log(pets);
+ 
+
   return (
     <div className="p-4">
       <h2 className="text-xl font-semibold mb-4">My Pet Data</h2>
 
-      <pre className="bg-gray-100 p-4 rounded mb-4">
-        {JSON.stringify(pets, null, 2)}
-      </pre>
+      <APP mockData={pets} refetch={refetch}></APP>
 
       {pageCount > 1 && (
         <div className="flex gap-2 mt-4">

@@ -90,7 +90,7 @@ const AddPet = () => {
 
           try {
             setLoading(true);
-              if (petData.email) {
+              if (!petData.email) {
             setImageError("Pet added user is required");
             return;
           }
