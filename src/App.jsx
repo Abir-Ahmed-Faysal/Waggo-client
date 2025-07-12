@@ -7,12 +7,14 @@ import {
 import { User } from "lucide-react";
 
 import useSecureApi from "./Hooks/useSecureApi";
+import { useNavigate } from "react-router";
 
 const columnHelper = createColumnHelper();
 
-export default function APP({ mockData, refetch }) {
+export default function APP({ mockData, refetch,email }) {
   const data =mockData;
   const api=useSecureApi()
+  const navigate=useNavigate()
 
   const columns = [
     columnHelper.accessor("_id", {
@@ -57,7 +59,9 @@ export default function APP({ mockData, refetch }) {
       cell: (info) => {
         const isAdopted = info.getValue();
         const petId = info.row.original._id;
-        const adopted={adopted:true}
+        const adopted={adopted:true,
+          email
+        }
 
         const handleAdopt = async () => {
           try {
@@ -82,7 +86,7 @@ export default function APP({ mockData, refetch }) {
             Adopted
           </span>
         ) : (
-          <button
+          <button 
             onClick={handleAdopt}
             className="px-2 py-1 text-xs font-semibold rounded-full bg-red-100 text-red-800 hover:bg-red-200 transition"
           >
@@ -97,6 +101,57 @@ export default function APP({ mockData, refetch }) {
         </span>
       ),
     }),
+columnHelper.display({
+  id: "update",
+  header: "Update",
+  cell: ({ row }) => {
+    const id = row.original._id;
+
+    return (
+      <button
+        onClick={() => navigate(`/update-pet/${id}`)}
+        className="btn btn-info btn-xs"
+      >
+        Update
+      </button>
+    );
+  },
+}),
+columnHelper.display({
+  id: "delete",
+  header: "Delete",
+  cell: ({ row }) => {
+    const id = row.original._id;
+
+    const handleDelete=async(id)=>{
+      
+      const data={email}
+  
+      try{
+
+    
+const res=await api.delete(`/pets/${id}`,data)
+console.log(res.data);
+if(res.data.deletedCount===1){
+  alert('success')
+  refetch()
+}}catch(error){
+  alert(error)
+}
+    }
+
+    return (
+      <button
+        onClick={() => handleDelete(id)}
+        className="btn btn-info btn-xs"
+      >
+        Delete
+      </button>
+    );
+  },
+})
+
+
   ];
 
   const table = useReactTable({

@@ -42,7 +42,7 @@ const MyPet = () => {
     <div className="p-4">
       <h2 className="text-xl font-semibold mb-4">My Pet Data</h2>
 
-      <APP mockData={pets} refetch={refetch}></APP>
+      <APP mockData={pets} email={user?.email} refetch={refetch}></APP>
 
       {pageCount > 1 && (
         <div className="flex gap-2 mt-4">
