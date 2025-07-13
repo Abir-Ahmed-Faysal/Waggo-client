@@ -53,7 +53,7 @@ export function AppSidebar({ ...props }) {
             {navMain.map((item) => (
               <SidebarMenuItem key={item.title}>
                 <SidebarMenuButton asChild>
-                  <Link to={item.link}  className="font-medium">
+                  <Link to={item.link} className="font-medium">
                     {item.title}
                   </Link>
                 </SidebarMenuButton>

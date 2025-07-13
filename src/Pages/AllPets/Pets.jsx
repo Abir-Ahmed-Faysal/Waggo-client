@@ -2,8 +2,9 @@ import { useInfiniteQuery } from '@tanstack/react-query';
 import axios from 'axios';
 import { useState, useEffect } from 'react';
 import { useInView } from 'react-intersection-observer';
+
+import {  useNavigate } from 'react-router';
 import useDebounce from '../../Hooks/useDebounce';
-import { Link, useNavigate } from 'react-router';
 
 const fetchPets = async ({ pageParam = 1, queryKey }) => {
 

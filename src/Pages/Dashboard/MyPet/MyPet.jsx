@@ -49,7 +49,7 @@ const MyPet = () => {
     mockData={pets}
     setOrder={setOrder}
     setSortBy={setSortBy}
-    email={user.email}
+    email={user?.email}
     refetch={refetch}
     order={order}
     sortBy={sortBy}

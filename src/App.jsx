@@ -21,6 +21,8 @@ export default function APP({
   setOrder,
   email,
 }) {
+  console.log(email);
+
   const data = useMemo(() => mockData, [mockData]);
 
   const api = useSecureApi();
@@ -61,10 +63,7 @@ export default function APP({
       columnHelper.accessor("name", {
         cell: (info) => info.getValue(),
         header: () => (
-          <span
-            className="flex items-center cursor-pointer"
-           
-          >
+          <span className="flex items-center cursor-pointer">
             <User className="mr-2" size={16} /> Name{" "}
             <span onClick={() => handleSort("name")}>
               {sortBy === "name" && order === "asc" ? "⬇️" : "⬆️"}
@@ -75,10 +74,7 @@ export default function APP({
       columnHelper.accessor("category", {
         cell: (info) => info.getValue(),
         header: () => (
-          <span
-            className="flex items-center cursor-pointer"
-            
-          >
+          <span className="flex items-center cursor-pointer">
             <User className="mr-2" size={16} /> Category
             <span onClick={() => handleSort("category")}>
               {sortBy === "category" && order === "asc" ? "⬇️" : "⬆️"}
@@ -148,9 +144,7 @@ export default function APP({
           const handleDelete = async () => {
             try {
               // If email needs to be sent, add as query param or headers
-              const res = await api.delete(`/pets/${id}`, {
-                params: { email },
-              });
+              const res = await api.delete(`/pets?id=${id}&email=${email}`);
               if (res.data.deletedCount === 1) {
                 alert("Deleted successfully");
                 refetch();
