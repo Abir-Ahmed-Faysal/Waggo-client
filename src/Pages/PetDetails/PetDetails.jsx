@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { useLoaderData } from "react-router";
+import { useLoaderData, useNavigate } from "react-router";
 import {
   Dialog,
   DialogContent,
@@ -13,8 +13,8 @@ import { Button } from "@/components/ui/button";
 import { Label } from "@/components/ui/label";
 import { Textarea } from "@/components/ui/textarea";
 import useAuth from "../../Hooks/useAuth";
-import useApi from "../../Hooks/useApi";
 import { toast } from "react-toastify";
+import useSecureApi from "../../Hooks/useSecureApi";
 
 const PetDetails = () => {
   const { user, loading } = useAuth();
@@ -22,7 +22,8 @@ const PetDetails = () => {
   const [phone, setPhone] = useState("");
   const [address, setAddress] = useState("");
   const [open, setOpen] = useState(false);
-  const apiPromise=useApi()
+  const apiPromise=useSecureApi()
+  const navigate=useNavigate()
 
   if (details.length === 0 || loading) {
     return <div className="text-center mt-10">Loading...</div>;
@@ -43,13 +44,23 @@ const PetDetails = () => {
 
 const handleAdoptSubmit = async (e) => {
   e.preventDefault();
+  if(!user.email){
+alert('Log in first')
+    return navigate('/login')
+  }
+  if(user.email===details.email){
+   return alert('you can not Adopt your own pet')
+  }
+
+
+
 
   const adoptionData = {
     petId: _id,
     petName: name,
     petImage: image,
-    userName: user.name,
-    userEmail: user.email,
+    userName: user.displayName,
+    email: user.email,
     phone,
     address,
   };
@@ -62,6 +73,7 @@ const handleAdoptSubmit = async (e) => {
      setPhone("")
      setAddress("")
     };
+
     
   } catch (error) {
     console.error("Error submitting adoption request:", error);
@@ -112,11 +124,11 @@ const handleAdoptSubmit = async (e) => {
                   <form onSubmit={handleAdoptSubmit} className="space-y-4 mt-2">
                     <div>
                       <Label>User Name</Label>
-                      <Input value={user.name || "empty"} disabled />
+                      <Input value={user.displayName||'empty'} disabled />
                     </div>
                     <div>
                       <Label>Email</Label>
-                      <Input value={user.email || "empty"} disabled />
+                      <Input value={user?.email || "empty"} disabled />
                     </div>
                     <div>
                       <Label>Phone Number</Label>
