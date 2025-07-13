@@ -12,6 +12,7 @@ import Page from "../Pages/Dashboard/page";
 import AddPet from "../Pages/addPet.jsx/AddPet";
 import Private from "../Pages/Private/Private";
 import MyPet from "../Pages/MyPet/MyPet";
+import UpdatePet from "../Pages/Dashboard/UpdatePet/UpdatePet";
 
 export const router = createBrowserRouter([
   {
@@ -54,17 +55,22 @@ export const router = createBrowserRouter([
   },
   {
     path: "/dashboard",
-    Component: Page,
+   element: (
+      <Private>
+        <Page></Page>
+      </Private>
+    ),
     children: [
       {
         path: "add-pet",
-        element: <Private>
-        <AddPet></AddPet>
-        </Private>,
+        Component: AddPet,
       },
       {
-        path: "my-pet",Component:MyPet
-      },
+        path: "my-pet",
+        Component: MyPet,
+      },{
+        path:'update-pet/:id',Component: UpdatePet
+      }
     ],
   },
 ]);

@@ -126,7 +126,7 @@ export default function APP({
           const id = row.original._id;
           return (
             <button
-              onClick={() => navigate(`/update-pet/${id}`)}
+              onClick={() => navigate(`/dashboard/update-pet/${id}`)}
               className="btn btn-info btn-xs"
               aria-label="Update pet"
             >
