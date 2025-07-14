@@ -140,8 +140,7 @@ const DonationCampaignForm = () => {
             <p className="text-red-500">{errors.lastDate.message}</p>
           )}
         </div>
-
-        {/* Short Description */}
+        
         <div>
           <label className="block font-medium">Short Description</label>
           <input

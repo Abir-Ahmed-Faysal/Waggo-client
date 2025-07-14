@@ -19,7 +19,7 @@ const navMain = [
   { title: "My added pets", link: "/dashboard/my-pet" },
   { title: "Adoption Request", link: "/dashboard/adoption-req" },
   { title: "Create Donation Campaign", link: "/dashboard/donation-campaign" },
-  { title: "My Donation Campaigns", link: "/dashboard/my-campaigns" },
+  { title: "My Donation Campaigns", link: "/dashboard/my-campaign" },
   { title: "My Donations", link: "/dashboard/my-donations" },
 ];
 
