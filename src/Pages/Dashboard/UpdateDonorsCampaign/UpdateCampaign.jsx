@@ -19,7 +19,7 @@ const UpdatePet = () => {
   const { user } = useAuth();
   const { id } = useParams();
 
-  const { isPending, error, data } = useQuery({
+  const { isPending, error, data,refetch } = useQuery({
     queryKey: ["my-donation-campaign", user?.email],
     enabled: !!user?.email && !!user?.accessToken,
     queryFn: async () => {
@@ -127,6 +127,7 @@ const UpdatePet = () => {
 
             const res = await apiPromise.patch(`/my-campaign-update/${data._id}`, myAdoption);
             if (res.data.modifiedCount) {
+              refetch()
               alert("Pet updated successfully!");
             } else {
               toast.error("Failed to update pet.");

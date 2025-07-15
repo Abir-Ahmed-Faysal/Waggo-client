@@ -17,6 +17,7 @@ import AdoptionRequest from "../Pages/Dashboard/AdoptionRequest/AdoptionRequest"
 import DonationCampaignForm from "../Pages/Dashboard/CreateDonationForm/DonationCampaignForm";
 import MyDonation from "../Pages/Dashboard/MyDanation/MyDonation";
 import UpdateCampaign from "../Pages/Dashboard/UpdateDonorsCampaign/UpdateCampaign";
+import MyHonorDonation from "../Pages/Dashboard/MyHonorDonation/MyDonation";
 
 export const router = createBrowserRouter([
   {
@@ -92,6 +93,10 @@ export const router = createBrowserRouter([
       {
         path: "my-donation/:id",
         Component: UpdateCampaign,
+      },
+      {
+        path: "my-honor-donation",
+        Component: MyHonorDonation,
       },
     ],
   },

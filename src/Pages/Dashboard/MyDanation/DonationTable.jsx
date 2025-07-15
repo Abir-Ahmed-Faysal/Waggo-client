@@ -116,7 +116,7 @@ export default function DonationTable({
                 ) : (
                   <ul className="list-disc pl-5 space-y-1 text-sm text-gray-700 max-h-64 overflow-y-auto">
                     {donors.map((donor, index) => (
-                      <li key={index}>{donor}</li>
+                      <li key={index}>[{donor.email}=={donor.amount}]</li>
                     ))}
                   </ul>
                 )}

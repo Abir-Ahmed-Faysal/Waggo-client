@@ -20,7 +20,7 @@ const navMain = [
   { title: "Adoption Request", link: "/dashboard/adoption-req" },
   { title: "Create Donation Campaign", link: "/dashboard/donation-campaign" },
   { title: "My Donation Campaigns", link: "/dashboard/my-campaign" },
-  { title: "My Donations", link: "/dashboard/my-donations" },
+  { title: "My Donations", link: "/dashboard/my-honor-donation" },
 ];
 
 export function AppSidebar({ ...props }) {
@@ -39,7 +39,7 @@ export function AppSidebar({ ...props }) {
                 </div>
                 <div className="flex flex-col gap-0.5 leading-none">
                   <span className="font-medium">Dashboard</span>
-                  <span className="">v1.0.0</span>
+                  
                 </div>
               </a>
             </SidebarMenuButton>

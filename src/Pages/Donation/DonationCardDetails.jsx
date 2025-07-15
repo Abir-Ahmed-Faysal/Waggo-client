@@ -1,6 +1,8 @@
+import { Elements } from '@stripe/react-stripe-js';
+import { loadStripe } from '@stripe/stripe-js';
 import React from 'react';
 import { useLoaderData } from 'react-router';
-
+const stripePromise = loadStripe(import.meta.env.VITE_PK);
 const DonationCardDetails = () => {
     const donationDataList = useLoaderData();
     const { petImage, petName, donatedAmount, maxDonation, createdAt } = donationDataList;
@@ -16,6 +18,11 @@ const DonationCardDetails = () => {
             <p className="text-lg mb-2">Donated Amount: <span className="font-semibold text-success">৳{donatedAmount}</span></p>
             <p className="text-lg mb-2">Maximum Donation Goal: <span className="font-semibold text-warning">৳{maxDonation}</span></p>
             <p className="text-sm text-gray-500">Created At: {new Date(createdAt).toLocaleString()}</p>
+            <div>
+                   <Elements stripe={stripePromise}>
+      <CheckoutForm />
+    </Elements>
+            </div>
         </div>
     );
 };
