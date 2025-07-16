@@ -13,19 +13,32 @@ import {
 import { NavUser } from "./nav_user";
 import useAuth from "../Hooks/useAuth";
 import { Link } from "react-router";
-
-const navMain = [
-  { title: "Add a pet", link: "/dashboard/add-pet" },
-  { title: "My added pets", link: "/dashboard/my-pet" },
-  { title: "Adoption Request", link: "/dashboard/adoption-req" },
-  { title: "Create Donation Campaign", link: "/dashboard/donation-campaign" },
-  { title: "My Donation Campaigns", link: "/dashboard/my-campaign" },
-  { title: "My Donations", link: "/dashboard/my-honor-donation" },
-];
+import useUserRole from "../Hooks/useUserRole";
 
 export function AppSidebar({ ...props }) {
   const { user } = useAuth();
+
+  const { role } = useUserRole();
   const currentUser = user || {};
+
+  console.log(role);
+
+  const navMain = [
+    { title: "Add a pet", link: "/dashboard/add-pet" },
+    { title: "My added pets", link: "/dashboard/my-pet" },
+    { title: "Adoption Request", link: "/dashboard/adoption-req" },
+    { title: "Create Donation Campaign", link: "/dashboard/donation-campaign" },
+    { title: "My Donation Campaigns", link: "/dashboard/my-campaign" },
+    { title: "My Donations", link: "/dashboard/my-honor-donation" },
+
+    ...(role === "admin"
+      ? [
+          { title: "All Users", link: "/dashboard/all-users" },
+          { title: "All Pets", link: "/dashboard/all-pets" },
+          { title: "All Donations", link: "/dashboard/all-donations" },
+        ]
+      : []),
+  ];
 
   return (
     <Sidebar {...props}>
@@ -39,7 +52,6 @@ export function AppSidebar({ ...props }) {
                 </div>
                 <div className="flex flex-col gap-0.5 leading-none">
                   <span className="font-medium">Dashboard</span>
-                  
                 </div>
               </a>
             </SidebarMenuButton>

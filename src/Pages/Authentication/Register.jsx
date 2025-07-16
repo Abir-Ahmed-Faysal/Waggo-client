@@ -2,6 +2,7 @@ import { Link, useNavigate } from "react-router";
 import { motion } from "framer-motion";
 import useAuth from "../../Hooks/useAuth";
 import { toast } from "react-toastify";
+import useApi from "../../Hooks/useApi";
 
 const Register = () => {
   const {
@@ -12,36 +13,53 @@ const Register = () => {
     setPhotoURL,
   } = useAuth();
   const navigate = useNavigate();
+  const api = useApi();
+
+
+
+
+
+
+
+
+
+
 
   const handleRegister = (e) => {
     e.preventDefault();
     const form = e.target;
     const displayName = form.username.value.trim();
-  const photoURL = form.photoURL.value.trim();
-  const email = form.email.value.trim();
-  const password = form.password.value;
+    const photoURL = form.photoURL.value.trim();
+    const email = form.email.value.trim();
+    const password = form.password.value;
 
-  const regex = /^(?=.*[a-z])(?=.*[A-Z]).{6,}$/;
+    const regex = /^(?=.*[a-z])(?=.*[A-Z]).{6,}$/;
 
+    if (!displayName || !photoURL || !email || !password) {
+      toast.error("All fields are required!");
+      return;
+    }
 
-  if (!displayName || !photoURL || !email || !password) {
-    toast.error("All fields are required!");
-    return;
-  }
-
-
-  if (!regex.test(password)) {
-    toast.error("Password must have at least 1 uppercase, 1 lowercase, and be 6 characters long.");
-    return;
-  }
+    if (!regex.test(password)) {
+      toast.error(
+        "Password must have at least 1 uppercase, 1 lowercase, and be 6 characters long."
+      );
+      return;
+    }
 
     signUpByEmail(email, password)
       .then(() => {
         updateUser(displayName, photoURL)
           .then(() => {
-            setDisplayName(displayName),
-              setPhotoURL(photoURL),
-              toast.success("sign up success");
+            setDisplayName(displayName);
+            setPhotoURL(photoURL);
+            const user = { email };
+            api.post("/user", user).then((res) => {
+              console.log("User saved:", res.data);
+              toast.success("Login success");
+              navigate("/");
+            });
+            toast.success("sign up success");
             navigate("/");
           })
           .catch((error) => console.log(error));
@@ -50,10 +68,41 @@ const Register = () => {
   };
 
   const handleGoogleRegister = () => {
+    
     signInByGoogle()
-      .then(() => {
-        toast.success('sign Up success');
-        navigate("/");
+      .then((result) => {
+       
+
+
+
+
+  const user = { email: result.user.email };
+
+
+
+
+
+
+        api.post("/user", user)
+        
+        
+        
+        
+        .then((res) => {
+
+
+          toast.success("Login success");
+          console.log("User saved:", res.data);
+          navigate("/");})
+
+
+
+
+
+
+
+
+
       })
       .catch((err) => console.log(err));
   };
@@ -82,7 +131,6 @@ const Register = () => {
 
           <h2 className="text-2xl font-bold mb-4 text-pink-600">Register</h2>
 
-        
           <div className="flex items-center pt-2 space-x-1 mb-4">
             <button
               onClick={handleGoogleRegister}
@@ -128,7 +176,6 @@ const Register = () => {
                 type="text"
                 name="username"
                 placeholder="Enter your username"
-                
                 className="input input-bordered w-full"
               />
             </div>
@@ -141,7 +188,6 @@ const Register = () => {
                 type="text"
                 name="photoURL"
                 placeholder="https://example.com/photo.jpg"
-                
                 className="input input-bordered w-full"
               />
             </div>
@@ -154,7 +200,6 @@ const Register = () => {
                 type="email"
                 name="email"
                 placeholder="jhonCurry@gmail.com"
-                
                 className="input input-bordered w-full"
               />
             </div>
@@ -167,7 +212,6 @@ const Register = () => {
                 type="password"
                 name="password"
                 placeholder="Enter password"
-                
                 className="input input-bordered w-full"
               />
             </div>

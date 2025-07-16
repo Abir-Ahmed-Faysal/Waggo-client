@@ -18,6 +18,10 @@ import DonationCampaignForm from "../Pages/Dashboard/CreateDonationForm/Donation
 import MyDonation from "../Pages/Dashboard/MyDanation/MyDonation";
 import UpdateCampaign from "../Pages/Dashboard/UpdateDonorsCampaign/UpdateCampaign";
 import MyHonorDonation from "../Pages/Dashboard/MyHonorDonation/MyDonation";
+import AdminCheck from "../Pages/Private/AdminCheck";
+import AllUsers from "../Pages/Dashboard/Admin/AllUsers/AllUsers";
+import AllPetsAdmin from "../Pages/Dashboard/Admin/AllPetsAdmin/AllPetsAdmin";
+import AllDonationsAdmin from "../Pages/Dashboard/Admin/AllDonationsAdmin/AllDonationsAdmin";
 
 export const router = createBrowserRouter([
   {
@@ -97,6 +101,30 @@ export const router = createBrowserRouter([
       {
         path: "my-honor-donation",
         Component: MyHonorDonation,
+      },
+      // {
+      //   path: "all-users",
+      //   element: (
+      //     <AdminCheck>
+      //       <AllUsers />
+      //     </AdminCheck>
+      //   ),
+      // },
+      {
+        path: "all-pets",
+        element: (
+          <AdminCheck>
+            <AllPetsAdmin />
+          </AdminCheck>
+        ),
+      },
+      {
+        path: "all-donations",
+        element: (
+          <AdminCheck>
+            <AllDonationsAdmin />
+          </AdminCheck>
+        ),
       },
     ],
   },
