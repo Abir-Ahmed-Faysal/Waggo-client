@@ -1,6 +1,5 @@
 import { useQuery } from "@tanstack/react-query";
 
-
 import { useNavigate } from "react-router";
 import useSecureApi from "../../../../Hooks/useSecureApi";
 import useAuth from "../../../../Hooks/useAuth";
@@ -8,20 +7,28 @@ import useAuth from "../../../../Hooks/useAuth";
 const AllDonationAdmin = () => {
   const secureApi = useSecureApi();
   const { user } = useAuth();
-  const navigate=useNavigate()
-  
+  const navigate = useNavigate();
 
-  const { data: pets = [], isLoading, refetch } = useQuery({
-    queryKey: ["allDonationAdmin",user.email],
+  const {
+    data: pets = [],
+    isLoading,
+    refetch,
+  } = useQuery({
+    queryKey: ["allDonationAdmin", user.email],
     queryFn: async () => {
-      const res = await secureApi.get(`/all-donation/admin?email=${user.email}`);
+      const res = await secureApi.get(
+        `/all-donation/admin?email=${user.email}`
+      );
       return res.data;
     },
   });
 
-  const handleAdoptToggle = async (id, status) => {
+  const handleAdoptToggleStatus = async (id, status) => {
     try {
-      await secureApi.patch(`/donation-status/admin/${id}`, { status: !status,email:user.email });
+      await secureApi.patch(`/donation-status/admin/${id}`, {
+        status: !status,
+        email: user.email,
+      });
       refetch();
     } catch (error) {
       console.error("Failed to toggle adoption status:", error);
@@ -60,26 +67,32 @@ const AllDonationAdmin = () => {
           {pets.map((pet) => (
             <tr key={pet._id} className="border-b">
               <td>
-                <img src={pet.petImage} alt={pet.name} className="w-16 h-16 object-cover rounded" />
+                <img
+                  src={pet.petImage}
+                  alt={pet.name}
+                  className="w-16 h-16 object-cover rounded"
+                />
               </td>
-              
+
               <td>{pet.petName}</td>
               <td>{pet.donatedAmount}</td>
               <td>{pet.lastDate}</td>
               <td>{pet.email}</td>
               <td className={pet.status ? "text-green-600" : "text-red-600"}>
-                {pet.status ? "Adopted" : "Not Adopted"}
-              </td>
-              <td className="flex flex-col gap-2">
                 <button
-                  onClick={() => handleAdoptToggle(pet._id, pet.status)}
+                  onClick={() => handleAdoptToggleStatus(pet._id, pet.status)}
                   className="btn btn-xs btn-primary"
                 >
-                  {pet.adopted ? "Mark Not Adopted" : "Mark Adopted"}
+                  {pet.status ? "active" : "paused"}
                 </button>
+              </td>
+
+              <td className="flex flex-col gap-2">
                 <button
                   className="btn btn-xs btn-warning"
-                  onClick={() => navigate(`/dashboard/admin-pet-update/${pet._id}`)}
+                  onClick={() =>
+                    navigate(`/dashboard/admin-pet-update/${pet._id}`)
+                  }
                 >
                   Edit
                 </button>

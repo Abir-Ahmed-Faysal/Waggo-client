@@ -9,6 +9,7 @@ import { User } from "lucide-react";
 
 import useSecureApi from "./Hooks/useSecureApi";
 import { useNavigate } from "react-router";
+import { toast } from "react-toastify";
 
 const columnHelper = createColumnHelper();
 
@@ -92,14 +93,14 @@ export default function APP({
             try {
               const res = await api.patch(`/status/${petId}`, adopted);
               if (res.data.modifiedCount) {
-                alert("Pet marked as adopted!");
+                toast.success("Pet marked as adopted!");
                 refetch();
               } else {
-                alert("Failed to update");
+                toast.success("Failed to update");
               }
             } catch (error) {
               console.error(error);
-              alert("Error updating pet");
+              toast.success("Error updating pet");
             }
           };
 
@@ -146,11 +147,11 @@ export default function APP({
               // If email needs to be sent, add as query param or headers
               const res = await api.delete(`/pets?id=${id}&email=${email}`);
               if (res.data.deletedCount === 1) {
-                alert("Deleted successfully");
+                toast.success("Deleted successfully");
                 refetch();
               }
             } catch (error) {
-              alert("Error deleting pet");
+              toast.success("Error deleting pet");
               console.log(error);
             }
           };

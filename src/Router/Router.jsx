@@ -43,7 +43,7 @@ export const router = createBrowserRouter([
       },
       { path: "/donation", Component: DonationCampaignsPage },
       {
-        path: "donationCardDetails/:id",
+        path: "/donationCardDetails/:id",
         Component: DonationCardDetails,
       },
     ],
