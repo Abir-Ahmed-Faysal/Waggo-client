@@ -9,7 +9,7 @@ import useDebounce from '../../Hooks/useDebounce';
 const fetchPets = async ({ pageParam = 1, queryKey }) => {
 
   const [_key, { search, category }] = queryKey;
-  const res = await axios.get('http://localhost:3000/pets', {
+  const res = await axios.get('https://waggo.vercel.app/pets', {
     params: {
       search,
       category,

@@ -1,31 +1,74 @@
-import { Elements } from '@stripe/react-stripe-js';
-import { loadStripe } from '@stripe/stripe-js';
-import React, { useState } from 'react';
-import { useLoaderData } from 'react-router';
+import { Elements } from "@stripe/react-stripe-js";
+import { loadStripe } from "@stripe/stripe-js";
+import React, { useState } from "react";
+import {  useParams } from "react-router";
 
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
-import CheckoutForm from '../Payment/CheckoutForm';
+import CheckoutForm from "../Payment/CheckoutForm";
+import { useQuery } from "@tanstack/react-query";
+import useAuth from "../../Hooks/useAuth";
+import useSecureApi from "../../Hooks/useSecureApi";
+import Spinner from "../../components/Spinner";
 
 const stripePromise = loadStripe(import.meta.env.VITE_PK);
 
 const DonationCardDetails = () => {
-   
-  
-  const donationDataList = useLoaderData();
-  const { _id, petImage, petName, donatedAmount, maxDonation, createdAt } = donationDataList;
+   const [inputAmount, setInputAmount] = useState("");
+  const [amount, setAmount] = useState(null);
+ 
+
+    const {id}=useParams()
+    const {user}=useAuth()
+    const apiPromise=useSecureApi()
+
+
+ const {
+    isPending,
+    error,
+    data:donationDataList = [],
+    refetch,
+  } = useQuery({
+    queryKey: ["my-honor-donation", user?.email],
+    enabled: !!user?.email && !!user?.accessToken,
+    queryFn: async () => {
+      try {
+        const res = await apiPromise(
+          `https://waggo.vercel.app/donation/${id}}`
+        );
+        return res.data || [];
+      } catch (err) {
+        console.error(err);
+        throw new Error("Failed to fetch donations.");
+      }
+    },
+  });
+  if(isPending){
+    return Spinner
+  }
+  if(error){
+    return <div><p>Something went wrong</p></div>
+  }
+
+
+  const { _id, petImage, petName, donatedAmount, maxDonation, createdAt } =
+    donationDataList;
+
 
   const donatedValue = parseFloat(donatedAmount);
   const maxDonationNumber = parseFloat(maxDonation);
   const remainingDonation = maxDonationNumber - donatedValue;
 
-  const [inputAmount, setInputAmount] = useState("");
-  const [amount, setAmount] = useState(null);
+ 
 
   const handleClick = () => {
     const parsedAmount = parseFloat(inputAmount);
 
-    if (isNaN(parsedAmount) || parsedAmount < 1 || parsedAmount > remainingDonation) {
+    if (
+      isNaN(parsedAmount) ||
+      parsedAmount < 1 ||
+      parsedAmount > remainingDonation
+    ) {
       setAmount(null);
       alert(`Please enter a valid amount between 1 and ${remainingDonation}`);
       return;
@@ -70,18 +113,25 @@ const DonationCardDetails = () => {
       />
       <h2 className="text-3xl font-bold mb-2 text-primary">{petName}</h2>
       <p className="text-lg mb-2">
-        Donated Amount: <span className="font-semibold text-success">৳{donatedValue}</span>
+        Donated Amount:{" "}
+        <span className="font-semibold text-success">৳{donatedValue}</span>
       </p>
       <p className="text-lg mb-2">
-        Maximum Donation Goal: <span className="font-semibold text-warning">৳{maxDonationNumber}</span>
+        Maximum Donation Goal:{" "}
+        <span className="font-semibold text-warning">৳{maxDonationNumber}</span>
       </p>
       <p className="text-lg mb-2">
-        Remaining Donation Possible: <span className="font-semibold text-info">৳{remainingDonation}</span>
+        Remaining Donation Possible:{" "}
+        <span className="font-semibold text-info">৳{remainingDonation}</span>
       </p>
-      <p className="text-sm text-gray-500">Created At: {new Date(createdAt).toLocaleString()}</p>
+      <p className="text-sm text-gray-500">
+        Created At: {new Date(createdAt).toLocaleString()}
+      </p>
 
       <div className="mt-6 space-y-4">
-        <label htmlFor="amount" className="block font-semibold mb-1">Amount of Donation (৳)</label>
+        <label htmlFor="amount" className="block font-semibold mb-1">
+          Amount of Donation (৳)
+        </label>
 
         <Input
           id="amount"
@@ -104,7 +154,7 @@ const DonationCardDetails = () => {
 
         {amount && (
           <Elements stripe={stripePromise}>
-            <CheckoutForm _id={_id} amount={amount} />
+            <CheckoutForm _id={_id}  refetch={ refetch} amount={amount} />
           </Elements>
         )}
       </div>

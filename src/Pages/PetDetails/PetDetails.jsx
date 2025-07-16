@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { useLoaderData, useNavigate } from "react-router";
+import { useNavigate, useParams } from "react-router";
 import {
   Dialog,
   DialogContent,
@@ -15,15 +15,47 @@ import { Textarea } from "@/components/ui/textarea";
 import useAuth from "../../Hooks/useAuth";
 import { toast } from "react-toastify";
 import useSecureApi from "../../Hooks/useSecureApi";
+import { useQuery } from "@tanstack/react-query";
+import Spinner from "../../components/Spinner";
 
 const PetDetails = () => {
   const { user, loading } = useAuth();
-  const details = useLoaderData();
   const [phone, setPhone] = useState("");
   const [address, setAddress] = useState("");
   const [open, setOpen] = useState(false);
-  const apiPromise=useSecureApi()
-  const navigate=useNavigate()
+  const apiPromise = useSecureApi();
+  const navigate = useNavigate();
+  const { id } = useParams();
+
+  const {
+    isPending,
+    error,
+    data: details = [],
+    refetch,
+  } = useQuery({
+    queryKey: ["PetDetails", id],
+    enabled: !!user?.email && !!user?.accessToken,
+    queryFn: async () => {
+      try {
+        const res = await apiPromise(`https://waggo.vercel.app/pets/${id}`);
+        return res.data || [];
+      } catch (err) {
+        console.error(err);
+        throw new Error("Failed to fetch donations.");
+      }
+    },
+  });
+
+  if (isPending) {
+    return Spinner;
+  }
+  if (error) {
+    return (
+      <div>
+        <p>Something went wrong</p>
+      </div>
+    );
+  }
 
   if (details.length === 0 || loading) {
     return <div className="text-center mt-10">Loading...</div>;
@@ -41,50 +73,48 @@ const PetDetails = () => {
     adopted,
   } = details;
 
+  const handleAdoptSubmit = async (e) => {
+    e.preventDefault();
+    if (!user?.email || user) {
+      toast.warn("Log in first");
+      return navigate("/login");
+    }
+    if (user.email === details.email) {
+      return alert("you can not Adopt your own pet");
+    }
 
-const handleAdoptSubmit = async (e) => {
-  e.preventDefault();
-  if(!user?.email || user){
-toast.warn('Log in first')
-    return navigate('/login')
-  }
-  if(user.email===details.email){
-   return alert('you can not Adopt your own pet')
-  }
-
-
-
-
-  const adoptionData = {
-    petId: _id,
-    petName: name,
-    petImage: image,
-    userName: user.displayName,
-    email: user.email,
-    phone,
-    address,
-  };
-
-  try {
-    const res = await apiPromise.post('/adoption', adoptionData);
-    if(res.data.insertedId){
-      setOpen(false);
-      toast.success("Adoption request submitted successfully!");
-     setPhone("")
-     setAddress("")
+    const adoptionData = {
+      petId: _id,
+      petName: name,
+      petImage: image,
+      userName: user.displayName,
+      email: user.email,
+      phone,
+      address,
     };
 
-    
-  } catch (error) {
-    console.error("Error submitting adoption request:", error);
+    try {
+      const res = await apiPromise.post("/adoption", adoptionData);
+      if (res.data.insertedId) {
+        setOpen(false);
+        refetch();
+        toast.success("Adoption request submitted successfully!");
+        setPhone("");
+        setAddress("");
+      }
+    } catch (error) {
+      console.error("Error submitting adoption request:", error);
 
-    if (error.response && error.response.status === 409) {
-      toast.error(error.response.data.message || "You've already submitted a request for this pet.");
-    } else {
-      toast.error("Something went wrong. Please try again.");
+      if (error.response && error.response.status === 409) {
+        toast.error(
+          error.response.data.message ||
+            "You've already submitted a request for this pet."
+        );
+      } else {
+        toast.error("Something went wrong. Please try again.");
+      }
     }
-  }
-};
+  };
 
   return (
     <div className="max-w-4xl mx-auto my-10 p-5">
@@ -124,7 +154,7 @@ toast.warn('Log in first')
                   <form onSubmit={handleAdoptSubmit} className="space-y-4 mt-2">
                     <div>
                       <Label>User Name</Label>
-                      <Input value={user?.displayName||'empty'} disabled />
+                      <Input value={user?.displayName || "empty"} disabled />
                     </div>
                     <div>
                       <Label>Email</Label>

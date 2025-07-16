@@ -6,7 +6,7 @@ import "react-loading-skeleton/dist/skeleton.css";
 import DonationCampaignCard from "./DonationCampaignCard";
 
 const fetchDonationCampaigns = async ({ pageParam = 1 }) => {
-  const res = await fetch(`http://localhost:3000/donation?page=${pageParam}&limit=9`);
+  const res = await fetch(`https://waggo.vercel.app/donation?page=${pageParam}&limit=9`);
   if (!res.ok) throw new Error("Error fetching campaigns");
   return res.json();
 };
