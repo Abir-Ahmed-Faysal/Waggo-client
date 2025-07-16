@@ -15,16 +15,6 @@ const Register = () => {
   const navigate = useNavigate();
   const api = useApi();
 
-
-
-
-
-
-
-
-
-
-
   const handleRegister = (e) => {
     e.preventDefault();
     const form = e.target;
@@ -53,7 +43,7 @@ const Register = () => {
           .then(() => {
             setDisplayName(displayName);
             setPhotoURL(photoURL);
-            const user = { email };
+            const user = { email, displayName, photoURL };
             api.post("/user", user).then((res) => {
               console.log("User saved:", res.data);
               toast.success("Login success");
@@ -68,41 +58,22 @@ const Register = () => {
   };
 
   const handleGoogleRegister = () => {
-    
     signInByGoogle()
       .then((result) => {
-       
+        const user = {
+          email: result.user.email,
+          PhotoURL: result.photoURL,
+          name: result.displayName,
+        };
 
+        api
+          .post("/user", user)
 
-
-
-  const user = { email: result.user.email };
-
-
-
-
-
-
-        api.post("/user", user)
-        
-        
-        
-        
-        .then((res) => {
-
-
-          toast.success("Login success");
-          console.log("User saved:", res.data);
-          navigate("/");})
-
-
-
-
-
-
-
-
-
+          .then((res) => {
+            toast.success("Login success");
+            console.log("User saved:", res.data);
+            navigate("/");
+          });
       })
       .catch((err) => console.log(err));
   };

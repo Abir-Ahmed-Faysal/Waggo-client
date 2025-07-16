@@ -102,14 +102,14 @@ export const router = createBrowserRouter([
         path: "my-honor-donation",
         Component: MyHonorDonation,
       },
-      // {
-      //   path: "all-users",
-      //   element: (
-      //     <AdminCheck>
-      //       <AllUsers />
-      //     </AdminCheck>
-      //   ),
-      // },
+      {
+        path: "all-users",
+        element: (
+          <AdminCheck>
+            <AllUsers />
+          </AdminCheck>
+        ),
+      },
       {
         path: "all-pets",
         element: (

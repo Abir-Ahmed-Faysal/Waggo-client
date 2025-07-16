@@ -18,7 +18,7 @@ const LogIn = () => {
   const googleSignIn = () => {
     signInByGoogle()
       .then((result) => {
-        const user = { email: result.user.email };
+        const user = { email: result.user.email, PhotoURL:result.photoURL,name:result.displayName};
         api.post("/user", user).then((res) => {
           console.log("User saved:", res.data);
           toast.success("Login success");
@@ -35,8 +35,8 @@ const LogIn = () => {
     const password = form.password.value;
 
     signInUser(email, password)
-      .then(() => {
-        const user = { email };
+      .then((result) => {
+        const user = { email,name:result.displayName,photoURL:result.photoURL };
         api
           .post("/user", user)
           .then((res) => {

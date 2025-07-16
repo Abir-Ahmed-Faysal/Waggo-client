@@ -1,9 +1,11 @@
 import { useQuery } from "@tanstack/react-query";
 import useSecureApi from "../../../../Hooks/useSecureApi";
+import useAuth from "../../../../Hooks/useAuth";
 
 
 const AllUsers = () => {
   const secureApi = useSecureApi();
+  const {user}=useAuth()
 
 
   const {
@@ -11,15 +13,16 @@ const AllUsers = () => {
     isLoading,
     refetch,
   } = useQuery({
-    queryKey: ["allUsersAdmin"],
+    queryKey: ["allUsersAdmin",user.email],
+    enabled: !!user?.email,
     queryFn: async () => {
-      const res = await secureApi.get("/admin/users");
+      const res = await secureApi.get(`/user/admin?email=${user.email}`);
       return res.data;
     },
   });
 
   const handleMakeAdmin = async (id) => {
-    await secureApi.patch(`/admin/users/${id}`, { role: "admin" });
+    await secureApi.patch(`/update-user/admin?id=${id}&email=${user.email}`, { role: "admin" });
     refetch();
   };
 
