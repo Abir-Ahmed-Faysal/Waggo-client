@@ -4,6 +4,7 @@ import Navbar from "../components/Navbar";
 import { ToastContainer } from "react-toastify";
 import useAuth from "../Hooks/useAuth";
 import Spinner from "../components/Spinner";
+import Footer from "../components/Footer";
 
 const Root = () => {
   const { loading } = useAuth();
@@ -19,6 +20,7 @@ const Root = () => {
       <div className="min-h-screen">
         <Outlet />
       </div>
+      <Footer></Footer>
     </div>
   );
 };

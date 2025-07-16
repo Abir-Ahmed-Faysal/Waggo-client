@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import { NavLink } from "react-router";
 import useAuth from "../Hooks/useAuth";
+import { ThemeToggle } from "./ThemeToggle";
 
 const Navbar = () => {
   const { user, logOut } = useAuth();
@@ -16,16 +17,18 @@ const Navbar = () => {
     { path: "/donation", label: "Donation" },
   ];
 
-  const privateLinks = [
-    { path: "/dashboard", label: "Dashboard" },
-  ];
+  const privateLinks = [{ path: "/dashboard", label: "Dashboard" }];
 
   return (
     <header className="bg-gray-100 text-gray-800 shadow-md relative">
       <div className="container mx-auto flex items-center justify-between h-16 px-4">
         {/* Logo */}
         <a href="/" className="flex items-center">
-          <img src="http://a" alt="Logo" className="w-10 h-10 object-cover" />
+          <img
+            src="https://i.ibb.co/6RDpmBqr/Waggo-black-160x.jpg"
+            alt="waggo"
+            className=" lg:max-h-8 md:max-h-10 max-h-5 object-cover"
+          />
         </a>
 
         {/* Desktop Menu */}
@@ -46,6 +49,7 @@ const Navbar = () => {
               </NavLink>
             </li>
           ))}
+          <ThemeToggle></ThemeToggle>
 
           {/* Auth Buttons */}
           {!user ? (

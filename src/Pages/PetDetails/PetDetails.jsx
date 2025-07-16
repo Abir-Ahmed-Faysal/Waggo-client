@@ -44,8 +44,8 @@ const PetDetails = () => {
 
 const handleAdoptSubmit = async (e) => {
   e.preventDefault();
-  if(!user.email){
-alert('Log in first')
+  if(!user?.email || user){
+toast.warn('Log in first')
     return navigate('/login')
   }
   if(user.email===details.email){
@@ -124,7 +124,7 @@ alert('Log in first')
                   <form onSubmit={handleAdoptSubmit} className="space-y-4 mt-2">
                     <div>
                       <Label>User Name</Label>
-                      <Input value={user.displayName||'empty'} disabled />
+                      <Input value={user?.displayName||'empty'} disabled />
                     </div>
                     <div>
                       <Label>Email</Label>

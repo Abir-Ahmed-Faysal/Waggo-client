@@ -22,6 +22,7 @@ import AdminCheck from "../Pages/Private/AdminCheck";
 import AllUsers from "../Pages/Dashboard/Admin/AllUsers/AllUsers";
 import AllPetsAdmin from "../Pages/Dashboard/Admin/AllPetsAdmin/AllPetsAdmin";
 import AllDonationsAdmin from "../Pages/Dashboard/Admin/AllDonationsAdmin/AllDonationsAdmin";
+import AdminUpdatePet from "../Pages/Dashboard/Admin/AdminPetUpdate/UpdatePet";
 
 export const router = createBrowserRouter([
   {
@@ -101,6 +102,10 @@ export const router = createBrowserRouter([
       {
         path: "my-honor-donation",
         Component: MyHonorDonation,
+      },
+      {
+        path: "admin-pet-update/:id",
+        Component: AdminUpdatePet,
       },
       {
         path: "all-users",
