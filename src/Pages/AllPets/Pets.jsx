@@ -115,7 +115,7 @@ const handleClick=(id)=>{
             />
             <h3 className="text-xl font-bold mt-2">{pet.name}</h3>
             <p>Age: {pet.age}</p>
-            <p className='text-red-500'>satatus: {pet.adopted?"ture":'false'}</p>
+            
             <p>Location: {pet.location}</p>
             <p>Description: <br/> {pet.shortDescription}</p>
             <button onClick={

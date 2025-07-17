@@ -1,35 +1,24 @@
-import { useState, CSSProperties } from "react";
-import { ClipLoader } from "react-spinners";
+import React from "react";
+import Skeleton from "react-loading-skeleton";
+import 'react-loading-skeleton/dist/skeleton.css';
 
-const override = {
-  display: "block",
-  margin: "0 auto",
-  borderColor: "red",
-};
+const SkeletonCard = () => (
+  <div className="p-4 rounded-xl shadow-md bg-white space-y-2">
+    <Skeleton height={160} className="rounded-lg" />
+    <Skeleton height={24} width="60%" />
+    <Skeleton height={20} width="50%" />
+    <Skeleton height={20} width="40%" />
+  </div>
+);
 
-function Spinner() {
-  let [loading, setLoading] = useState(true);
-  let [color, setColor] = useState("#ffffff");
-
+const Spinner = () => {
   return (
-    <div className="sweet-loading">
-      <button onClick={() => setLoading(!loading)}>Toggle Loader</button>
-      <input
-        value={color}
-        onChange={(input) => setColor(input.target.value)}
-        placeholder="Color of the loader"
-      />
-
-      <ClipLoader
-        color={color}
-        loading={loading}
-        cssOverride={override}
-        size={150}
-        aria-label="Loading Spinner"
-        data-testid="loader"
-      />
+    <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4">
+      <SkeletonCard />
+      <SkeletonCard />
+      <SkeletonCard />
     </div>
   );
-}
+};
 
 export default Spinner;
