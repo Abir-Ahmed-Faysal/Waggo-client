@@ -26,20 +26,20 @@ const AdminUpdatePet = () => {
   const apiPromise = useSecureApi();
   const { user } = useAuth();
   const { id } = useParams();
-  const queryClient = useQueryClient(); // ✅ Needed for invalidation
+  const queryClient = useQueryClient();
 
   const { isPending, error, data } = useQuery({
-    queryKey: ["myPet", user?.email],
+    queryKey: ["update-admin-adoption", user?.email, id],
     enabled: !!user?.email && !!user?.accessToken,
     queryFn: async () => {
-      const res = await apiPromise(`/update?id=${id}&email=${user?.email}`);
+      const res = await apiPromise(`/update-donation?id=${id}&email=${user?.email}`);
       return res.data;
     },
   });
 
   useEffect(() => {
-    if (data?.image) {
-      setImageUrl(data.image);
+    if (data?.petImage) {
+      setImageUrl(data.petImage);
     }
   }, [data]);
 
@@ -57,15 +57,24 @@ const AdminUpdatePet = () => {
       setImageUrl(res.data.data.url);
     } catch (error) {
       setImageError("Image upload failed, please try again.");
-      console.log(error);
-      
+      console.error(error);
     } finally {
       setLoading(false);
     }
   };
 
-  if (isPending) return <Spinner />;
-  if (error) return <p className="text-red-500 text-center">Something went wrong: {error.message}</p>;
+  if (isPending) {
+    return (
+      <div>
+        <Spinner />
+        <div>Loading...</div>
+      </div>
+    );
+  }
+
+  if (error) {
+    return <p className="text-red-500 text-center">Something went wrong: {error.message}</p>;
+  }
 
   return (
     <div className="max-w-xl mx-auto mt-6 p-6 shadow rounded bg-white">
@@ -73,9 +82,9 @@ const AdminUpdatePet = () => {
 
       <Formik
         initialValues={{
-          name: data.name || "",
+          name: data.petName || "",
           age: data.age || "",
-          category: petCategories.find((cat) => cat.value === data?.category) || null,
+          category: petCategories.find((c) => c.value === data.petCategory) || null,
           location: data.location || "",
           shortDescription: data.shortDescription || "",
           longDescription: data.longDescription || "",
@@ -114,20 +123,17 @@ const AdminUpdatePet = () => {
               return;
             }
 
-            const res = await apiPromise.patch(`/pet-status/admin/${data._id}`, petData);
+            const res = await apiPromise.patch(`/donation-status/admin/${data._id}`, petData);
 
             if (res.data.modifiedCount) {
-              
               queryClient.invalidateQueries({ queryKey: ['all-pets'], exact: false });
-
               toast.success("Pet updated successfully!");
             } else {
               toast.error("Failed to update pet.");
             }
           } catch (error) {
             toast.error("Server error. Try again later.");
-            console.log(error);
-            
+            console.error(error);
           } finally {
             setLoading(false);
           }
@@ -135,6 +141,7 @@ const AdminUpdatePet = () => {
       >
         {(formik) => (
           <form onSubmit={formik.handleSubmit} className="space-y-4">
+            {/* Image Upload */}
             <div>
               <Label>Pet Image</Label>
               <Input
@@ -151,6 +158,7 @@ const AdminUpdatePet = () => {
               {imageError && <span className="text-red-500">{imageError}</span>}
             </div>
 
+            {/* Name */}
             <div>
               <Label>Pet Name</Label>
               <Input
@@ -164,6 +172,7 @@ const AdminUpdatePet = () => {
               )}
             </div>
 
+            {/* Age */}
             <div>
               <Label>Pet Age</Label>
               <Input
@@ -177,6 +186,7 @@ const AdminUpdatePet = () => {
               )}
             </div>
 
+            {/* Category */}
             <div>
               <Label className="mb-1 block">Pet Category</Label>
               <Select
@@ -191,6 +201,7 @@ const AdminUpdatePet = () => {
               )}
             </div>
 
+            {/* Location */}
             <div>
               <Label>Pickup Location</Label>
               <Input
@@ -204,6 +215,7 @@ const AdminUpdatePet = () => {
               )}
             </div>
 
+            {/* Short Description */}
             <div>
               <Label>Short Description</Label>
               <Input
@@ -217,6 +229,7 @@ const AdminUpdatePet = () => {
               )}
             </div>
 
+            {/* Long Description */}
             <div>
               <Label>Long Description</Label>
               <textarea
@@ -231,6 +244,7 @@ const AdminUpdatePet = () => {
               )}
             </div>
 
+            {/* Submit Button */}
             <button
               type="submit"
               className="bg-blue-600 text-white px-4 py-2 rounded"

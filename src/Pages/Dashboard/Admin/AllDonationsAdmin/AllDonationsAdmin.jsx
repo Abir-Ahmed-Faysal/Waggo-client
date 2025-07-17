@@ -40,7 +40,7 @@ const AllDonationAdmin = () => {
       const confirmed = confirm("Are you sure you want to delete this pet?");
       if (!confirmed) return;
 
-      await secureApi.delete(`/pets?id=${id}&email=${user.email}`);
+      await secureApi.delete(`/donationData?id=${id}&email=${user.email}`);
       refetch();
     } catch (error) {
       console.error("Failed to delete pet:", error);
@@ -51,7 +51,7 @@ const AllDonationAdmin = () => {
 
   return (
     <div className="p-4 overflow-x-auto">
-      <h2 className="text-xl font-semibold mb-4">All Pets (Admin)</h2>
+      <h2 className="text-xl font-semibold mb-4">All Donation (Admin)</h2>
       <table className="table w-full">
         <thead>
           <tr className="bg-gray-200 text-left">
