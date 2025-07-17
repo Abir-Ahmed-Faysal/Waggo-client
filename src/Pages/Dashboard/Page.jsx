@@ -14,37 +14,42 @@ import {
   SidebarTrigger,
 } from "@/components/ui/sidebar";
 import { Outlet } from "react-router";
+import Navbar from "../../components/Navbar";
 
 export default function Page() {
   return (
-    <SidebarProvider>
-      <AppSidebar />
-      <SidebarInset>
-        <header className="flex h-16 shrink-0 items-center gap-2 border-b">
-          <div className="flex items-center gap-2 px-3">
-            <SidebarTrigger />
-            <Separator orientation="vertical" className="mr-2 h-4" />
-            <Breadcrumb>
-              <BreadcrumbList>
-                <BreadcrumbItem className="hidden md:block">
-                  <BreadcrumbLink href="#">
-                    Building Your Application
-                  </BreadcrumbLink>
-                </BreadcrumbItem>
-                <BreadcrumbSeparator className="hidden md:block" />
-                <BreadcrumbItem>
-                  <BreadcrumbPage>Data Fetching</BreadcrumbPage>
-                </BreadcrumbItem>
-              </BreadcrumbList>
-            </Breadcrumb>
-          </div>
-        </header>
-        <div className="flex flex-1 flex-col gap-4 p-4">
-          <div className="bg-muted/50 min-h-[100vh] flex-1 rounded-xl md:min-h-min">
-            <Outlet></Outlet>
-          </div>
+    <div className="flex h-screen overflow-hidden">
+      <SidebarProvider>
+        <AppSidebar />
+        <div className="flex flex-col flex-1 overflow-hidden">
+          {/* Navbar stays at top */}
+          <Navbar />
+
+          <SidebarInset>
+            {/* Header under Navbar */}
+            <header className="flex h-16 items-center gap-2 border-b px-3">
+              <SidebarTrigger />
+              <Separator orientation="vertical" className="h-4 mx-2" />
+              <Breadcrumb>
+                <BreadcrumbList>
+                  <BreadcrumbItem className="hidden md:block">
+                    <BreadcrumbLink href="#">Dashboard</BreadcrumbLink>
+                  </BreadcrumbItem>
+                  <BreadcrumbSeparator className="hidden md:block" />
+                  <BreadcrumbItem>
+                    <BreadcrumbPage>Current Page</BreadcrumbPage>
+                  </BreadcrumbItem>
+                </BreadcrumbList>
+              </Breadcrumb>
+            </header>
+
+            {/* Main scrollable content */}
+            <main className="flex-1 overflow-y-auto p-4 bg-muted/50 rounded-xl">
+              <Outlet />
+            </main>
+          </SidebarInset>
         </div>
-      </SidebarInset>
-    </SidebarProvider>
+      </SidebarProvider>
+    </div>
   );
 }

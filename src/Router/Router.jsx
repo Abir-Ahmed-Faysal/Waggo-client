@@ -34,7 +34,7 @@ export const router = createBrowserRouter([
         Component: Home,
       },
       {
-        path: "/all-Pets",
+        path: "/all-Pets/:cat",
         Component: PetList,
       },
       {
@@ -80,7 +80,7 @@ export const router = createBrowserRouter([
         Component: UpdatePet,
       },
       {
-        path: "adoption-req",
+        index:true,
         Component: AdoptionRequest,
       },
       {

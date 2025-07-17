@@ -14,16 +14,16 @@ import { Label } from "@/components/ui/label";
 import { Textarea } from "@/components/ui/textarea";
 import useAuth from "../../Hooks/useAuth";
 import { toast } from "react-toastify";
-import useSecureApi from "../../Hooks/useSecureApi";
 import { useQuery } from "@tanstack/react-query";
 import Spinner from "../../components/Spinner";
+import useApi from "../../Hooks/useApi";
 
 const PetDetails = () => {
   const { user, loading } = useAuth();
   const [phone, setPhone] = useState("");
   const [address, setAddress] = useState("");
   const [open, setOpen] = useState(false);
-  const apiPromise = useSecureApi();
+  const apiPromise = useApi();
   const navigate = useNavigate();
   const { id } = useParams();
 
@@ -34,7 +34,6 @@ const PetDetails = () => {
     refetch,
   } = useQuery({
     queryKey: ["PetDetails", id],
-    enabled: !!user?.email && !!user?.accessToken,
     queryFn: async () => {
       try {
         const res = await apiPromise(`https://waggo.vercel.app/pets/${id}`);
@@ -65,7 +64,7 @@ const PetDetails = () => {
     _id,
     name,
     category,
-    breed,
+   
     age,
     gender,
     longDescription,
@@ -125,10 +124,10 @@ const PetDetails = () => {
         <div className="card-body lg:w-1/2">
           <h2 className="card-title text-3xl font-bold">{name}</h2>
           <p className="text-lg">
-            <strong>Type:</strong> {category}
+            <strong>Type :</strong> {category}
           </p>
           <p className="text-lg">
-            <strong>Breed:</strong> {breed || "Unknown"}
+            {/* <strong>Breed:</strong> {breed || "Unknown"} */}
           </p>
           <p className="text-lg">
             <strong>Age:</strong> {age}

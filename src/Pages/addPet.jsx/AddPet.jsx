@@ -16,6 +16,8 @@ const petCategories = [
   { value: "Cat", label: "Cat" },
   { value: "Bird", label: "Bird" },
   { value: "Rabbit", label: "Rabbit" },
+  { value: "Fish", label: "Fish" },
+  { value: "Hamster", label: "Hamster" },
 ];
 
 const AddPet = () => {
@@ -81,7 +83,7 @@ const AddPet = () => {
           const petData = {
             name: values.name,
             age: values.age,
-            category: values.category.value,
+            category: values.category.value.toLowerCase(),
             image: imageUrl,
             location: values.location,
             shortDescription: values.shortDescription,

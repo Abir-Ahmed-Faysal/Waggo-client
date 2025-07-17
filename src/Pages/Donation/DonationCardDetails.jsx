@@ -1,41 +1,40 @@
 import { Elements } from "@stripe/react-stripe-js";
 import { loadStripe } from "@stripe/stripe-js";
 import React, { useState } from "react";
-import {  useParams } from "react-router";
+import {  useNavigate, useParams } from "react-router";
 
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 import CheckoutForm from "../Payment/CheckoutForm";
 import { useQuery } from "@tanstack/react-query";
 import useAuth from "../../Hooks/useAuth";
-import useSecureApi from "../../Hooks/useSecureApi";
+
 import Spinner from "../../components/Spinner";
+
+import useApi from "../../Hooks/useApi";
+import { toast } from "react-toastify";
 
 const stripePromise = loadStripe(import.meta.env.VITE_PK);
 
 const DonationCardDetails = () => {
-   const [inputAmount, setInputAmount] = useState("");
+  const { id } = useParams();
+  const { user } = useAuth();
+  const apiPromise = useApi();
+  const navigate=useNavigate()
+
+  const [inputAmount, setInputAmount] = useState("");
   const [amount, setAmount] = useState(null);
- 
 
-    const {id}=useParams()
-    const {user}=useAuth()
-    const apiPromise=useSecureApi()
-
-
- const {
+  const {
     isPending,
     error,
-    data:donationDataList = [],
+    data: donationDataList = [],
     refetch,
   } = useQuery({
-    queryKey: ["my-honor-donation", user?.email],
-    enabled: !!user?.email && !!user?.accessToken,
+    queryKey: ["donation", id],
     queryFn: async () => {
       try {
-        const res = await apiPromise(
-          `https://waggo.vercel.app/donation/${id}}`
-        );
+        const res = await apiPromise(`/donation/${id}`);
         return res.data || [];
       } catch (err) {
         console.error(err);
@@ -43,25 +42,38 @@ const DonationCardDetails = () => {
       }
     },
   });
-  if(isPending){
-    return Spinner
+  if (isPending) {
+    return <Spinner></Spinner>;
   }
-  if(error){
-    return <div><p>Something went wrong</p></div>
+  if (error) {
+    return (
+      <div>
+        <p>Something went wrong</p>
+      </div>
+    );
   }
 
+  console.log(id, donationDataList);
 
-  const { _id, petImage, petName, donatedAmount, maxDonation, createdAt } =
-    donationDataList;
-
+  const {
+    _id,
+    petImage,
+    petName,
+    donatedAmount,
+    maxDonation,
+    status,
+    createdAt,
+  } = donationDataList;
 
   const donatedValue = parseFloat(donatedAmount);
   const maxDonationNumber = parseFloat(maxDonation);
   const remainingDonation = maxDonationNumber - donatedValue;
 
- 
-
   const handleClick = () => {
+    if(!user || !user.email){
+      toast.warn("login in first")
+      return  navigate('/login')
+    }
     const parsedAmount = parseFloat(inputAmount);
 
     if (
@@ -151,10 +163,12 @@ const DonationCardDetails = () => {
         >
           Donate Now
         </Button>
-
-        {amount && (
+        {!status && (
+          <span className="text-red-500">this donation is not available</span>
+        )}
+        {amount && status && (
           <Elements stripe={stripePromise}>
-            <CheckoutForm _id={_id}  refetch={ refetch} amount={amount} />
+            <CheckoutForm _id={_id} refetch={refetch} amount={amount} />
           </Elements>
         )}
       </div>

@@ -49,12 +49,14 @@ const Register = () => {
               toast.success("Login success");
               navigate("/");
             });
-            toast.success("sign up success");
-            navigate("/");
+            
           })
-          .catch((error) => console.log(error));
+          .catch((error) => {
+            console.log(error.message)});
       })
-      .catch((err) => console.log(err));
+      .catch((err) => {
+        toast(err.message)
+        console.log(err)});
   };
 
   const handleGoogleRegister = () => {
@@ -75,39 +77,52 @@ const Register = () => {
             navigate("/");
           });
       })
-      .catch((err) => console.log(err));
+      .catch((err) => {
+        toast(err)
+       console.log(err);
+       
+      });
   };
 
-  return (
-    <div className="min-h-screen flex items-center justify-center bg-gradient-to-r from-pink-500 via-orange-400 to-yellow-300 py-10">
-      <div className="w-full max-w-4xl bg-white rounded-xl shadow-lg overflow-hidden flex flex-col md:flex-row">
-        <div className="w-full md:w-1/2 relative min-h-[400px]">
-          <img
-            src="https://i.ibb.co/mrV94Gt4/Tomato-Ricotta-Resized.jpg"
-            alt="Food"
-            className="absolute inset-0 w-full h-full object-cover"
+ return (
+  <div className="min-h-screen flex items-center justify-center bg-gradient-to-r from-pink-400 via-orange-300 to-yellow-300 dark:from-gray-900 dark:via-gray-800 dark:to-gray-900 px-4 py-10">
+    <div className="w-full max-w-5xl bg-white/70 dark:bg-white/10 backdrop-blur-xl rounded-3xl shadow-2xl overflow-hidden flex flex-col md:flex-row transition-all duration-300 ease-in-out">
+      
+      {/* Left Image */}
+      <div className="w-full md:w-1/2">
+        <img
+          src="https://images.contentstack.io/v3/assets/blt6f84e20c72a89efa/bltc57ccf19c3e7a52f/6261d1931677fc28cf2347ae/img-adoption-benefits-header.jpg"
+          alt="waggo"
+          className="w-full h-full object-cover min-h-[400px]"
+        />
+      </div>
+
+      {/* Right Form Section */}
+      <div className="w-full md:w-1/2 p-10 flex flex-col justify-center bg-white/50 dark:bg-white/5 backdrop-blur-md">
+        
+        {/* Logo Animation */}
+        <div className="flex justify-center mb-6">
+          <motion.img
+            src="https://i.ibb.co/6RDpmBqr/Waggo-black-160x.jpg"
+            initial={{ y: -30, opacity: 0 }}
+            animate={{ y: 0, opacity: 1 }}
+            transition={{ duration: 0.6, type: "spring" }}
+            className="w-10 md:w-15 lg:w-20   shadow-md"
+            alt="Logo"
           />
         </div>
 
-        <div className="md:w-1/2 p-8">
-          <div className="flex justify-center mb-6">
-            <motion.img
-              src="https://i.ibb.co/JFKwYhjk/Chat-GPT-Image-Jun-13-2025-09-40-13-AM.png"
-              initial={{ x: -150, opacity: 0, scale: 0.8 }}
-              animate={{ x: 0, opacity: 1, scale: 1 }}
-              transition={{ type: "spring" }}
-              className=" w-30 h-22 btn-sm text-white "
-            />
-          </div>
+        {/* Title */}
+        <h2 className="text-3xl font-extrabold text-center text-pink-600 dark:text-white mb-6">
+          Create Your Account
+        </h2>
 
-          <h2 className="text-2xl font-bold mb-4 text-pink-600">Register</h2>
-
-          <div className="flex items-center pt-2 space-x-1 mb-4">
-            <button
-              onClick={handleGoogleRegister}
-              className="btn bg-white text-black btn-block border-[#e5e5e5] w-full"
-            >
-              <svg
+        {/* Google Button */}
+        <button
+          onClick={handleGoogleRegister}
+          className="w-full flex items-center justify-center gap-3 border border-gray-300 dark:border-gray-600 rounded-lg px-4 py-2 bg-white dark:bg-white/10 hover:shadow-md dark:hover:bg-white/20 transition"
+        >
+         <svg
                 aria-label="Google logo"
                 width="22"
                 height="22"
@@ -134,82 +149,78 @@ const Register = () => {
                   ></path>
                 </g>
               </svg>
-              <span className="ml-2">Login with Google</span>
-            </button>
-          </div>
+          <span className="font-medium text-gray-700 dark:text-gray-200">Continue with Google</span>
+        </button>
 
-          <form onSubmit={handleRegister} className="space-y-4">
-            <div className="form-control">
-              <label className="label">
-                <span className="label-text">Username</span>
-              </label>
-              <input
-                type="text"
-                name="username"
-                placeholder="Enter your username"
-                className="input input-bordered w-full"
-              />
-            </div>
-
-            <div className="form-control">
-              <label className="label">
-                <span className="label-text">Photo URL</span>
-              </label>
-              <input
-                type="text"
-                name="photoURL"
-                placeholder="https://example.com/photo.jpg"
-                className="input input-bordered w-full"
-              />
-            </div>
-
-            <div className="form-control">
-              <label className="label">
-                <span className="label-text">Email</span>
-              </label>
-              <input
-                type="email"
-                name="email"
-                placeholder="jhonCurry@gmail.com"
-                className="input input-bordered w-full"
-              />
-            </div>
-
-            <div className="form-control">
-              <label className="label">
-                <span className="label-text">Password</span>
-              </label>
-              <input
-                type="password"
-                name="password"
-                placeholder="Enter password"
-                className="input input-bordered w-full"
-              />
-            </div>
-
-            <button
-              type="submit"
-              className="btn w-full bg-gradient-to-r from-pink-500 to-purple-500 text-white mt-2"
-            >
-              Register
-            </button>
-          </form>
-
-          <div className="mt-4 text-center">
-            <p>
-              Already have an account?{" "}
-              <Link
-                to="/log-in"
-                className="text-pink-500 font-semibold hover:underline"
-              >
-                Log In
-              </Link>
-            </p>
-          </div>
+        {/* Divider */}
+        <div className="flex items-center my-5 gap-3">
+          <div className="flex-grow h-px bg-gray-300 dark:bg-gray-600" />
+          <span className="text-sm text-gray-500 dark:text-gray-400">or</span>
+          <div className="flex-grow h-px bg-gray-300 dark:bg-gray-600" />
         </div>
+
+        {/* Form */}
+        <form onSubmit={handleRegister} className="space-y-4">
+          <div>
+            <label className="block text-sm font-medium text-gray-700 dark:text-gray-200">Username</label>
+            <input
+              type="text"
+              name="username"
+              placeholder="Enter your username"
+              className="w-full px-4 py-2 rounded-md bg-white dark:bg-white/10 text-gray-800 dark:text-white border border-gray-300 dark:border-gray-600 focus:outline-none focus:ring-2 focus:ring-pink-500"
+            />
+          </div>
+
+          <div>
+            <label className="block text-sm font-medium text-gray-700 dark:text-gray-200">Photo URL</label>
+            <input
+              type="text"
+              name="photoURL"
+              placeholder="https://example.com/photo.jpg"
+              className="w-full px-4 py-2 rounded-md bg-white dark:bg-white/10 text-gray-800 dark:text-white border border-gray-300 dark:border-gray-600 focus:outline-none focus:ring-2 focus:ring-pink-500"
+            />
+          </div>
+
+          <div>
+            <label className="block text-sm font-medium text-gray-700 dark:text-gray-200">Email</label>
+            <input
+              type="email"
+              name="email"
+              placeholder="john.doe@gmail.com"
+              className="w-full px-4 py-2 rounded-md bg-white dark:bg-white/10 text-gray-800 dark:text-white border border-gray-300 dark:border-gray-600 focus:outline-none focus:ring-2 focus:ring-pink-500"
+            />
+          </div>
+
+          <div>
+            <label className="block text-sm font-medium text-gray-700 dark:text-gray-200">Password</label>
+            <input
+              type="password"
+              name="password"
+              placeholder="••••••••"
+              className="w-full px-4 py-2 rounded-md bg-white dark:bg-white/10 text-gray-800 dark:text-white border border-gray-300 dark:border-gray-600 focus:outline-none focus:ring-2 focus:ring-pink-500"
+            />
+          </div>
+
+          <button
+            type="submit"
+            className="w-full py-2 rounded-md bg-gradient-to-r from-pink-500 via-purple-500 to-indigo-500 text-white font-semibold shadow-md hover:shadow-lg transition"
+          >
+            Register
+          </button>
+        </form>
+
+        {/* Link to Login */}
+        <p className="mt-6 text-sm text-center text-gray-700 dark:text-gray-300">
+          Already have an account?{" "}
+          <Link to="/login" className="text-pink-600 dark:text-pink-400 font-medium underline hover:text-pink-700">
+            Log in
+          </Link>
+        </p>
       </div>
     </div>
-  );
+  </div>
+);
+
 };
 
 export default Register;

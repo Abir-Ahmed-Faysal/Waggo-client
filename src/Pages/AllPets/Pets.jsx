@@ -3,7 +3,7 @@ import axios from 'axios';
 import { useState, useEffect } from 'react';
 import { useInView } from 'react-intersection-observer';
 
-import {  useNavigate } from 'react-router';
+import {  useNavigate, useParams } from 'react-router';
 import useDebounce from '../../Hooks/useDebounce';
 
 const fetchPets = async ({ pageParam = 1, queryKey }) => {
@@ -23,8 +23,10 @@ const fetchPets = async ({ pageParam = 1, queryKey }) => {
 
 export default function PetList() {
   const [search, setSearch] = useState('');
-  const [category, setCategory] = useState('');
-    const navigate=useNavigate()
+  const navigate=useNavigate()
+  const{cat}=useParams()
+  const value=cat==='all'?'':cat
+  const [category, setCategory] = useState(value);
 
   // Debounced values
   const debouncedSearch = useDebounce(search, 500);
@@ -41,7 +43,7 @@ export default function PetList() {
     isError,
     error,
   } = useInfiniteQuery({
-    queryKey: ['pets', { search: debouncedSearch, category: debouncedCategory }],
+    queryKey: ['pets', { search: debouncedSearch, category: debouncedCategory.toLowerCase() }],
     queryFn: fetchPets,
     getNextPageParam: (lastPage, allPages) =>
       lastPage?.hasMore ? allPages.length + 1 : undefined,
@@ -96,7 +98,9 @@ const handleClick=(id)=>{
           <option value="Dog">Dog</option>
           <option value="Cat">Cat</option>
           <option value="Rabbit">Rabbit</option>
+          <option value="Parrot">Parrot</option>
           <option value="Fish">Fish</option>
+          <option value="Hamster">Hamster</option>
         </select>
       </div>
 

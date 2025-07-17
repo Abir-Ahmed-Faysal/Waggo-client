@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { NavLink } from "react-router";
+import { Link, NavLink } from "react-router";
 import useAuth from "../Hooks/useAuth";
 import { ThemeToggle } from "./ThemeToggle";
 
@@ -13,7 +13,7 @@ const Navbar = () => {
 
   const navItems = [
     { path: "/", label: "Home" },
-    { path: "/all-pets", label: "All Pets" },
+    { path: "/all-pets/all", label: "All Pets" },
     { path: "/donation", label: "Donation" },
   ];
 
@@ -23,13 +23,13 @@ const Navbar = () => {
     <header className="bg-gray-100 text-gray-800 shadow-md relative">
       <div className="container mx-auto flex items-center justify-between h-16 px-4">
         {/* Logo */}
-        <a href="/" className="flex items-center">
+        <Link href="/" className="flex items-center">
           <img
             src="https://i.ibb.co/6RDpmBqr/Waggo-black-160x.jpg"
             alt="waggo"
             className=" lg:max-h-8 md:max-h-10 max-h-5 object-cover"
           />
-        </a>
+        </Link>
 
         {/* Desktop Menu */}
         <ul className="hidden md:flex items-center space-x-4">

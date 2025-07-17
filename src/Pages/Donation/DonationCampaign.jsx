@@ -4,14 +4,12 @@ import { useInView } from "react-intersection-observer";
 import Skeleton from "react-loading-skeleton";
 import "react-loading-skeleton/dist/skeleton.css";
 import DonationCampaignCard from "./DonationCampaignCard";
-
-const fetchDonationCampaigns = async ({ pageParam = 1 }) => {
-  const res = await fetch(`https://waggo.vercel.app/donation?page=${pageParam}&limit=9`);
-  if (!res.ok) throw new Error("Error fetching campaigns");
-  return res.json();
-};
+import useAuth from "../../Hooks/useAuth";
+import useApi from "../../Hooks/useApi";
 
 export default function DonationCampaignsPage() {
+  const { user } = useAuth();
+  const apiPromise = useApi();
   const { ref, inView } = useInView();
 
   const {
@@ -22,13 +20,21 @@ export default function DonationCampaignsPage() {
     isLoading,
     error,
   } = useInfiniteQuery({
-    queryKey: ["donationCampaigns"],
-    queryFn: ({ pageParam = 1 }) => fetchDonationCampaigns({ pageParam }),
+    queryKey: ["donationCampaigns", user?.email],
+    queryFn: async ({ pageParam = 1 }) => {
+      const res = await apiPromise(`/donation?page=${pageParam}&limit=9`);
+      return res.data; 
+    },
+
     getNextPageParam: (lastPage, pages) => {
-      if (lastPage.hasMore) return pages.length + 1;
+      if (lastPage?.hasMore) {
+        return pages.length + 1;
+      }
       return undefined;
     },
   });
+
+  console.log(data);
 
   React.useEffect(() => {
     if (inView && hasNextPage && !isFetchingNextPage) {
@@ -37,7 +43,6 @@ export default function DonationCampaignsPage() {
   }, [inView, hasNextPage, isFetchingNextPage, fetchNextPage]);
 
   const onViewDetails = (campaign) => {
-   
     console.log("View details for:", campaign);
   };
 
@@ -52,7 +57,11 @@ export default function DonationCampaignsPage() {
   }
 
   if (error) {
-    return <p className="text-red-500 text-center">Error loading campaigns: {error.message}</p>;
+    return (
+      <p className="text-red-500 text-center">
+        Error loading campaigns: {error.message}
+      </p>
+    );
   }
 
   return (

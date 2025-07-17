@@ -24,9 +24,10 @@ export function AppSidebar({ ...props }) {
   console.log(role);
 
   const navMain = [
+    { title: "Adoption Request", link: "/dashboard" },
     { title: "Add a pet", link: "/dashboard/add-pet" },
     { title: "My added pets", link: "/dashboard/my-pet" },
-    { title: "Adoption Request", link: "/dashboard/adoption-req" },
+
     { title: "Create Donation Campaign", link: "/dashboard/donation-campaign" },
     { title: "My Donation Campaigns", link: "/dashboard/my-campaign" },
     { title: "My Donations", link: "/dashboard/my-honor-donation" },

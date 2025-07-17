@@ -20,7 +20,7 @@ const CheckoutForm = ({ _id, amount,refetch }) => {
     const createPaymentIntent = async () => {
       try {
         const res = await api.post("/createPayment-instance", {
-          amount,
+          amount,email:user.email,
 
           id: _id,
         });
@@ -51,9 +51,7 @@ const CheckoutForm = ({ _id, amount,refetch }) => {
       return;
     }
 
-    // Get a reference to a mounted CardElement. Elements knows how
-    // to find your CardElement because there can only ever be one of
-    // each type of element.
+    
     const card = elements.getElement(CardElement);
 
     if (card == null) {
