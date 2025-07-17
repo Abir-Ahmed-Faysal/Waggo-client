@@ -7,11 +7,10 @@ import Select from "react-select";
 import axios from "axios";
 import { toast } from "react-toastify";
 import { useParams } from "react-router";
-import { useQuery } from "@tanstack/react-query";
+import { useQuery, useQueryClient } from "@tanstack/react-query";
 import useSecureApi from "../../../../Hooks/useSecureApi";
 import useAuth from "../../../../Hooks/useAuth";
 import Spinner from "../../../../components/Spinner";
-
 
 const petCategories = [
   { value: "Dog", label: "Dog" },
@@ -27,39 +26,22 @@ const AdminUpdatePet = () => {
   const apiPromise = useSecureApi();
   const { user } = useAuth();
   const { id } = useParams();
+  const queryClient = useQueryClient(); // ✅ Needed for invalidation
 
   const { isPending, error, data } = useQuery({
     queryKey: ["myPet", user?.email],
     enabled: !!user?.email && !!user?.accessToken,
     queryFn: async () => {
-      try {
-        const res = await apiPromise(`/update?id=${id}&email=${user?.email}`);
-        return res.data;
-      } catch (error) {
-        console.error(error);
-        alert("something went wrong");
-      }
+      const res = await apiPromise(`/update?id=${id}&email=${user?.email}`);
+      return res.data;
     },
   });
-
 
   useEffect(() => {
     if (data?.image) {
       setImageUrl(data.image);
     }
   }, [data]);
-
-  if (isPending) {
-    return <Spinner />;
-  }
-
-  if (error) {
-    return (
-      <p className="text-red-500 text-center">
-        Something went wrong: {error.message}
-      </p>
-    );
-  }
 
   const handleImageUpload = async (file) => {
     const formData = new FormData();
@@ -75,11 +57,15 @@ const AdminUpdatePet = () => {
       setImageUrl(res.data.data.url);
     } catch (error) {
       setImageError("Image upload failed, please try again.");
-      console.error("Image Upload Failed:", error);
+      console.log(error);
+      
     } finally {
       setLoading(false);
     }
   };
+
+  if (isPending) return <Spinner />;
+  if (error) return <p className="text-red-500 text-center">Something went wrong: {error.message}</p>;
 
   return (
     <div className="max-w-xl mx-auto mt-6 p-6 shadow rounded bg-white">
@@ -89,8 +75,7 @@ const AdminUpdatePet = () => {
         initialValues={{
           name: data.name || "",
           age: data.age || "",
-          category:
-            petCategories.find((cat) => cat.value === data?.category) || null,
+          category: petCategories.find((cat) => cat.value === data?.category) || null,
           location: data.location || "",
           shortDescription: data.shortDescription || "",
           longDescription: data.longDescription || "",
@@ -98,18 +83,12 @@ const AdminUpdatePet = () => {
         validationSchema={Yup.object({
           name: Yup.string().required("Pet name is required"),
           age: Yup.string().required("Pet age is required"),
-          category: Yup.object()
-            .nullable()
-            .required("Pet category is required"),
+          category: Yup.object().nullable().required("Pet category is required"),
           location: Yup.string().required("Pickup location is required"),
-          shortDescription: Yup.string().required(
-            "Short description is required"
-          ),
-          longDescription: Yup.string().required(
-            "Long description is required"
-          ),
+          shortDescription: Yup.string().required("Short description is required"),
+          longDescription: Yup.string().required("Long description is required"),
         })}
-        onSubmit={async (values, ) => {
+        onSubmit={async (values) => {
           if (!imageUrl) {
             setImageError("Pet image is required");
             return;
@@ -129,21 +108,26 @@ const AdminUpdatePet = () => {
 
           try {
             setLoading(true);
+
             if (!petData.email) {
               setImageError("Pet added user is required");
               return;
             }
 
             const res = await apiPromise.patch(`/pet-status/admin/${data._id}`, petData);
+
             if (res.data.modifiedCount) {
-                
-              alert("Pet added successfully!");
+              
+              queryClient.invalidateQueries({ queryKey: ['all-pets'], exact: false });
+
+              toast.success("Pet updated successfully!");
             } else {
               toast.error("Failed to update pet.");
             }
           } catch (error) {
             toast.error("Server error. Try again later.");
-            console.error("Submit Failed:", error);
+            console.log(error);
+            
           } finally {
             setLoading(false);
           }
@@ -151,7 +135,6 @@ const AdminUpdatePet = () => {
       >
         {(formik) => (
           <form onSubmit={formik.handleSubmit} className="space-y-4">
-            
             <div>
               <Label>Pet Image</Label>
               <Input
@@ -159,17 +142,11 @@ const AdminUpdatePet = () => {
                 accept="image/*"
                 onChange={(event) => {
                   const file = event.currentTarget.files[0];
-                  if (file) {
-                    handleImageUpload(file);
-                  }
+                  if (file) handleImageUpload(file);
                 }}
               />
               {imageUrl && (
-                <img
-                  src={imageUrl}
-                  alt="Preview"
-                  className="mt-2 w-32 h-32 object-cover"
-                />
+                <img src={imageUrl} alt="Preview" className="mt-2 w-32 h-32 object-cover" />
               )}
               {imageError && <span className="text-red-500">{imageError}</span>}
             </div>
@@ -200,26 +177,20 @@ const AdminUpdatePet = () => {
               )}
             </div>
 
-            {/* Pet Category */}
             <div>
               <Label className="mb-1 block">Pet Category</Label>
               <Select
                 options={petCategories}
                 value={formik.values.category}
-                onChange={(option) =>
-                  formik.setFieldValue("category", option)
-                }
+                onChange={(option) => formik.setFieldValue("category", option)}
                 onBlur={() => formik.setFieldTouched("category", true)}
                 placeholder="Select a category"
               />
               {formik.touched.category && formik.errors.category && (
-                <p className="text-red-500 text-sm mt-1">
-                  {formik.errors.category}
-                </p>
+                <p className="text-red-500 text-sm mt-1">{formik.errors.category}</p>
               )}
             </div>
 
-            {/* Location */}
             <div>
               <Label>Pickup Location</Label>
               <Input
@@ -229,13 +200,10 @@ const AdminUpdatePet = () => {
                 onBlur={formik.handleBlur}
               />
               {formik.touched.location && formik.errors.location && (
-                <p className="text-red-500 text-sm">
-                  {formik.errors.location}
-                </p>
+                <p className="text-red-500 text-sm">{formik.errors.location}</p>
               )}
             </div>
 
-            {/* Short Description */}
             <div>
               <Label>Short Description</Label>
               <Input
@@ -244,15 +212,11 @@ const AdminUpdatePet = () => {
                 onChange={formik.handleChange}
                 onBlur={formik.handleBlur}
               />
-              {formik.touched.shortDescription &&
-                formik.errors.shortDescription && (
-                  <p className="text-red-500 text-sm">
-                    {formik.errors.shortDescription}
-                  </p>
-                )}
+              {formik.touched.shortDescription && formik.errors.shortDescription && (
+                <p className="text-red-500 text-sm">{formik.errors.shortDescription}</p>
+              )}
             </div>
 
-            {/* Long Description */}
             <div>
               <Label>Long Description</Label>
               <textarea
@@ -262,12 +226,9 @@ const AdminUpdatePet = () => {
                 onBlur={formik.handleBlur}
                 className="w-full p-2 border rounded"
               />
-              {formik.touched.longDescription &&
-                formik.errors.longDescription && (
-                  <p className="text-red-500 text-sm">
-                    {formik.errors.longDescription}
-                  </p>
-                )}
+              {formik.touched.longDescription && formik.errors.longDescription && (
+                <p className="text-red-500 text-sm">{formik.errors.longDescription}</p>
+              )}
             </div>
 
             <button

@@ -16,14 +16,14 @@ import useAuth from "../../Hooks/useAuth";
 import { toast } from "react-toastify";
 import { useQuery } from "@tanstack/react-query";
 import Spinner from "../../components/Spinner";
-import useApi from "../../Hooks/useApi";
+import useSecureApi from "../../Hooks/useSecureApi";
 
 const PetDetails = () => {
   const { user, loading } = useAuth();
   const [phone, setPhone] = useState("");
   const [address, setAddress] = useState("");
   const [open, setOpen] = useState(false);
-  const apiPromise = useApi();
+  const apiPromise = useSecureApi();
   const navigate = useNavigate();
   const { id } = useParams();
 
@@ -64,7 +64,7 @@ const PetDetails = () => {
     _id,
     name,
     category,
-   
+email,
     age,
     gender,
     longDescription,
@@ -74,12 +74,18 @@ const PetDetails = () => {
 
   const handleAdoptSubmit = async (e) => {
     e.preventDefault();
-    if (!user?.email || user) {
-      toast.warn("Log in first");
-      return navigate("/login");
-    }
+
+console.log(user);
+
+
+ if (!user || !user.email) {
+  toast.warn("Log in first");
+  return navigate("/login");
+}
+
+
     if (user.email === details.email) {
-      return alert("you can not Adopt your own pet");
+      return toast.warn("you can not Adopt your own pet");
     }
 
     const adoptionData = {
@@ -88,6 +94,7 @@ const PetDetails = () => {
       petImage: image,
       userName: user.displayName,
       email: user.email,
+      addedBy:email,
       phone,
       address,
     };

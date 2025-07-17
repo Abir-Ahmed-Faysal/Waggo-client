@@ -1,13 +1,9 @@
 import React from "react";
 import Swal from "sweetalert2";
 
-
-const AdoptionTable = ({ data,api,user, refetch }) => {
-  
-  
-
+const AdoptionTable = ({ data, api, user, refetch }) => {
   const handleClick = (req) => {
-    if (req.status !== "pending") return;
+    if (req.status !== false) return;
 
     const swalWithBootstrapButtons = Swal.mixin({
       customClass: {
@@ -17,53 +13,56 @@ const AdoptionTable = ({ data,api,user, refetch }) => {
       buttonsStyling: false,
     });
 
-    swalWithBootstrapButtons.fire({
-      title: "Are you sure?",
-      text: "You can either confirm or delete this request.",
-      icon: "warning",
-      showCancelButton: true,
-      confirmButtonText: "Confirm",
-      cancelButtonText: "Delete",
-      reverseButtons: true,
-    }).then(async (result) => {
-      if (result.isConfirmed) {
-        try {
-        const res=  await api.patch(`/adoption?id=${req._id}&email=${user.email}`,{status:"confirmed"});
-        if(res.data.
-modifiedCount>0){
-    refetch(); 
-   swalWithBootstrapButtons.fire(
-            "Confirmed!",
-            "The adoption request has been confirmed.",
-            "success"
-          ); 
-        
-}
-        
-        
-        } catch (error) {
-          console.error(error);
-          Swal.fire("Error", "Failed to confirm the request", "error");
-        }
-      } else if (result.dismiss === Swal.DismissReason.cancel) {
-        
-        try {
-         const res= await api.patch(`/adoption?id=${req._id}&email=${user.email}`,{status:'rejected'});
-         
-          if(res.data.deletedCount>0){
-            refetch(); 
-             swalWithBootstrapButtons.fire(
-            "Deleted!",
-            "The adoption request has been deleted.",
-            "error"
-          );
+    swalWithBootstrapButtons
+      .fire({
+        title: "Are you sure?",
+        text: "You can either confirm or delete this request.",
+        icon: "warning",
+        showCancelButton: true,
+        confirmButtonText: "Confirm",
+        cancelButtonText: "Delete",
+        reverseButtons: true,
+      })
+      .then(async (result) => {
+        if (result.isConfirmed) {
+          try {
+            const res = await api.patch(
+              `/adoption?id=${req._id}&email=${user.email}`,
+              { status: true, petId: req.petId }
+            );
+            if (res.data.modifiedCount > 0) {
+              refetch();
+              swalWithBootstrapButtons.fire(
+                "Confirmed!",
+                "The adoption request has been confirmed.",
+                "success"
+              );
+            }
+          } catch (error) {
+            console.error(error);
+            Swal.fire("Error", "Failed to confirm the request", "error");
           }
-        } catch (error) {
-          console.error(error);
-          Swal.fire("Error", "Failed to delete the request", "error");
+        } else if (result.dismiss === Swal.DismissReason.cancel) {
+          try {
+            const res = await api.patch(
+              `/adoption?id=${req._id}&email=${user.email}`,
+              { status: "rejected" }
+            );
+
+            if (res.data.deletedCount > 0) {
+              refetch();
+              swalWithBootstrapButtons.fire(
+                "Deleted!",
+                "The adoption request has been deleted.",
+                "error"
+              );
+            }
+          } catch (error) {
+            console.error(error);
+            Swal.fire("Error", "Failed to delete the request", "error");
+          }
         }
-      }
-    });
+      });
   };
 
   return (
@@ -91,10 +90,12 @@ modifiedCount>0){
           <td
             onClick={() => handleClick(req)}
             className={`capitalize font-medium cursor-pointer ${
-              req.status === "confirm" ? "text-blue-600 hover:underline" : "text-gray-400 cursor-not-allowed"
+              !req.status
+                ? "text-blue-500 hover:underline"
+                : "text-green-500 cursor-not-allowed"
             }`}
           >
-            {req?.status}
+            {req?.status ? "confirmed" : "pending"}
           </td>
         </tr>
       ))}

@@ -68,6 +68,10 @@ export const router = createBrowserRouter([
     ),
     children: [
       {
+        index: true,
+        Component: AdoptionRequest,
+      },
+      {
         path: "add-pet",
         Component: AddPet,
       },
@@ -79,10 +83,7 @@ export const router = createBrowserRouter([
         path: "update-pet/:id",
         Component: UpdatePet,
       },
-      {
-        index:true,
-        Component: AdoptionRequest,
-      },
+
       {
         path: "donation-campaign",
         Component: DonationCampaignForm,

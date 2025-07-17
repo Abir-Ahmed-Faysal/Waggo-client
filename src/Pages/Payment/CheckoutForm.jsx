@@ -38,7 +38,7 @@ const CheckoutForm = ({ _id, amount,refetch }) => {
     };
 
     createPaymentIntent();
-  }, [amount, _id, api]);
+  }, [amount, _id, api,user.email]);
 
   const handleSubmit = async (event) => {
     event.preventDefault();
@@ -87,9 +87,9 @@ const CheckoutForm = ({ _id, amount,refetch }) => {
       try {
         const res = await api.patch(`/donation-send/${_id}`, userData);
 
-        console.log(res.data.success===true);
-        if (res.data.modifiedCount > 0) {
-          alert("payment success");
+        
+        if (res.data.success > 0) {
+          toast.success("payment success");
           refetch()
         }
       } catch (error) {

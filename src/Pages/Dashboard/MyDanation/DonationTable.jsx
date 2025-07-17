@@ -1,4 +1,4 @@
-import React, { useMemo, } from "react";
+import React, { useMemo } from "react";
 import {
   createColumnHelper,
   flexRender,
@@ -16,19 +16,14 @@ import {
   DialogTrigger,
 } from "@/components/ui/dialog";
 import useSecureApi from "../../../Hooks/useSecureApi";
+import { Progress } from "@/components/ui/progress";
 
 const columnHelper = createColumnHelper();
 
-export default function DonationTable({
-  mockData,
-  refetch,
-  email,
-}) {
+export default function DonationTable({ mockData, refetch, email }) {
   const data = useMemo(() => mockData, [mockData]);
   const api = useSecureApi();
   const navigate = useNavigate();
-
-
 
   const columns = useMemo(
     () => [
@@ -80,9 +75,7 @@ export default function DonationTable({
           return (
             <button
               onClick={handleToggleStatus}
-              className={`btn btn-xs ${
-                status ? "btn-success" : "btn-warning"
-              }`}
+              className={`btn btn-xs ${status ? "btn-success" : "btn-warning"}`}
             >
               {status ? "Active" : "Paused"}
             </button>
@@ -91,7 +84,6 @@ export default function DonationTable({
         header: () => <span>Status</span>,
       }),
 
-      
       columnHelper.display({
         id: "view-donors",
         header: "View Donors",
@@ -100,12 +92,7 @@ export default function DonationTable({
           return (
             <Dialog>
               <DialogTrigger asChild>
-                <button
-                  className="btn btn-sm btn-info"
-              
-                >
-                  View
-                </button>
+                <button className="btn btn-sm btn-info">View</button>
               </DialogTrigger>
               <DialogContent>
                 <DialogHeader>
@@ -116,7 +103,9 @@ export default function DonationTable({
                 ) : (
                   <ul className="list-disc pl-5 space-y-1 text-sm text-gray-700 max-h-64 overflow-y-auto">
                     {donors.map((donor, index) => (
-                      <li key={index}>[{donor.email}=={donor.amount}]</li>
+                      <li key={index}>
+                        [{donor.email}=={donor.amount}]
+                      </li>
                     ))}
                   </ul>
                 )}
@@ -139,6 +128,16 @@ export default function DonationTable({
               Edit
             </button>
           );
+        },
+      }),
+      columnHelper.display({
+        id: "progress",
+        header: "Progress",
+        cell: ({ row }) => {
+          const maxDonation = row.original.maxDonation;
+          const donatedAmount = row.original.donatedAmount;
+          const progress = Math.min((donatedAmount / maxDonation) * 100, 100);
+          return <Progress  value={progress} className="mb-2" />;
         },
       }),
     ],

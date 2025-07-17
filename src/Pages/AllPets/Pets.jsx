@@ -43,7 +43,7 @@ export default function PetList() {
     isError,
     error,
   } = useInfiniteQuery({
-    queryKey: ['pets', { search: debouncedSearch, category: debouncedCategory.toLowerCase() }],
+    queryKey: ['all-pets', { search: debouncedSearch, category: debouncedCategory.toLowerCase() }],
     queryFn: fetchPets,
     getNextPageParam: (lastPage, allPages) =>
       lastPage?.hasMore ? allPages.length + 1 : undefined,
@@ -115,7 +115,9 @@ const handleClick=(id)=>{
             />
             <h3 className="text-xl font-bold mt-2">{pet.name}</h3>
             <p>Age: {pet.age}</p>
+            <p className='text-red-500'>satatus: {pet.adopted?"ture":'false'}</p>
             <p>Location: {pet.location}</p>
+            <p>Description: <br/> {pet.shortDescription}</p>
             <button onClick={
              ()=>handleClick(pet._id) } className="mt-2 text-blue-500 ">
               View Details

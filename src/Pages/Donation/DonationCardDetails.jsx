@@ -1,16 +1,20 @@
 import { Elements } from "@stripe/react-stripe-js";
 import { loadStripe } from "@stripe/stripe-js";
 import React, { useState } from "react";
-import {  useNavigate, useParams } from "react-router";
-
+import { useNavigate, useParams } from "react-router";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
+import {
+  Dialog,
+  DialogContent,
+  DialogHeader,
+  DialogTitle,
+  DialogTrigger,
+} from "@/components/ui/dialog";
 import CheckoutForm from "../Payment/CheckoutForm";
 import { useQuery } from "@tanstack/react-query";
 import useAuth from "../../Hooks/useAuth";
-
 import Spinner from "../../components/Spinner";
-
 import useApi from "../../Hooks/useApi";
 import { toast } from "react-toastify";
 
@@ -20,10 +24,11 @@ const DonationCardDetails = () => {
   const { id } = useParams();
   const { user } = useAuth();
   const apiPromise = useApi();
-  const navigate=useNavigate()
+  const navigate = useNavigate();
 
   const [inputAmount, setInputAmount] = useState("");
   const [amount, setAmount] = useState(null);
+  const [open, setOpen] = useState(false); // modal state
 
   const {
     isPending,
@@ -42,18 +47,9 @@ const DonationCardDetails = () => {
       }
     },
   });
-  if (isPending) {
-    return <Spinner></Spinner>;
-  }
-  if (error) {
-    return (
-      <div>
-        <p>Something went wrong</p>
-      </div>
-    );
-  }
 
-  console.log(id, donationDataList);
+  if (isPending) return <Spinner />;
+  if (error) return <p>Something went wrong</p>;
 
   const {
     _id,
@@ -62,6 +58,8 @@ const DonationCardDetails = () => {
     donatedAmount,
     maxDonation,
     status,
+    lastDate,
+
     createdAt,
   } = donationDataList;
 
@@ -70,9 +68,13 @@ const DonationCardDetails = () => {
   const remainingDonation = maxDonationNumber - donatedValue;
 
   const handleClick = () => {
-    if(!user || !user.email){
-      toast.warn("login in first")
-      return  navigate('/login')
+    const today = new Date();
+    const lastDateLimit = new Date(lastDate);
+    console.log(today, lastDateLimit);
+
+    if (today > lastDateLimit) {
+      toast.warn("Donation time expired");
+      return;
     }
     const parsedAmount = parseFloat(inputAmount);
 
@@ -82,7 +84,7 @@ const DonationCardDetails = () => {
       parsedAmount > remainingDonation
     ) {
       setAmount(null);
-      alert(`Please enter a valid amount between 1 and ${remainingDonation}`);
+      toast.error(`Enter valid amount between 1 and ${remainingDonation}`);
       return;
     }
 
@@ -111,10 +113,7 @@ const DonationCardDetails = () => {
     setAmount(null);
   };
 
-  const isButtonDisabled = () => {
-    const val = parseFloat(inputAmount);
-    return isNaN(val) || val < 1 || val > remainingDonation;
-  };
+  console.log(donationDataList);
 
   return (
     <div className="max-w-xl mx-auto my-10 p-6 rounded-2xl shadow-lg bg-base-100">
@@ -140,38 +139,68 @@ const DonationCardDetails = () => {
         Created At: {new Date(createdAt).toLocaleString()}
       </p>
 
-      <div className="mt-6 space-y-4">
-        <label htmlFor="amount" className="block font-semibold mb-1">
-          Amount of Donation (৳)
-        </label>
+      {!status && (
+        <p className="text-red-500 mt-4">This donation is not available</p>
+      )}
 
-        <Input
-          id="amount"
-          type="number"
-          placeholder="Enter donation amount"
-          value={inputAmount}
-          onChange={handleInputChange}
-          min={1}
-          max={remainingDonation}
-          required
-        />
+      {status && (
+        <div className="mt-6">
+          <Dialog open={open} onOpenChange={setOpen}>
+            <DialogTrigger asChild>
+              <Button
+                className="w-full"
+                onClick={() => {
+                  if (!user || !user.email) {
+                    toast.warn("Please log in first");
+                    navigate("/login");
+                  }
+                }}
+              >
+                Donate Now
+              </Button>
+            </DialogTrigger>
 
-        <Button
-          onClick={handleClick}
-          disabled={isButtonDisabled()}
-          className="w-full mt-2"
-        >
-          Donate Now
-        </Button>
-        {!status && (
-          <span className="text-red-500">this donation is not available</span>
-        )}
-        {amount && status && (
-          <Elements stripe={stripePromise}>
-            <CheckoutForm _id={_id} refetch={refetch} amount={amount} />
-          </Elements>
-        )}
-      </div>
+            <DialogContent>
+              <DialogHeader>
+                <DialogTitle>Enter Donation Amount</DialogTitle>
+              </DialogHeader>
+
+              <Input
+                id="amount"
+                type="number"
+                placeholder="Enter donation amount"
+                value={inputAmount}
+                onChange={handleInputChange}
+                min={1}
+                max={remainingDonation}
+                required
+              />
+
+              <div className="flex justify-end gap-2 mt-4">
+                <Button variant="outline" onClick={() => setOpen(false)}>
+                  Cancel
+                </Button>
+                <Button onClick={handleClick}>Proceed to Payment</Button>
+              </div>
+
+              {amount && (
+                <Elements stripe={stripePromise}>
+                  <CheckoutForm
+                    _id={_id}
+                    refetch={() => {
+                      refetch();
+                      setOpen(false); // close modal after payment
+                      setInputAmount("");
+                      setAmount(null);
+                    }}
+                    amount={amount}
+                  />
+                </Elements>
+              )}
+            </DialogContent>
+          </Dialog>
+        </div>
+      )}
     </div>
   );
 };
