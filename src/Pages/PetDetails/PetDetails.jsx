@@ -15,8 +15,8 @@ import { Textarea } from "@/components/ui/textarea";
 import useAuth from "../../Hooks/useAuth";
 import { toast } from "react-toastify";
 import { useQuery } from "@tanstack/react-query";
-import Spinner from "../../components/Spinner";
 import useSecureApi from "../../Hooks/useSecureApi";
+import Spinner from "../../components/Spinner";
 
 const PetDetails = () => {
   const { user, loading } = useAuth();
@@ -46,7 +46,7 @@ const PetDetails = () => {
   });
 
   if (isPending) {
-    return Spinner;
+    return <Spinner></Spinner>;
   }
   if (error) {
     return (
@@ -57,14 +57,14 @@ const PetDetails = () => {
   }
 
   if (details.length === 0 || loading) {
-    return <div className="text-center mt-10">Loading...</div>;
+    return <Spinner></Spinner>;
   }
 
   const {
     _id,
     name,
     category,
-email,
+    email,
     age,
     gender,
     longDescription,
@@ -75,14 +75,12 @@ email,
   const handleAdoptSubmit = async (e) => {
     e.preventDefault();
 
-console.log(user);
+    console.log(user);
 
-
- if (!user || !user.email) {
-  toast.warn("Log in first");
-  return navigate("/login");
-}
-
+    if (!user || !user.email) {
+      toast.warn("Log in first");
+      return navigate("/login");
+    }
 
     if (user.email === details.email) {
       return toast.warn("you can not Adopt your own pet");
@@ -94,7 +92,7 @@ console.log(user);
       petImage: image,
       userName: user.displayName,
       email: user.email,
-      addedBy:email,
+      addedBy: email,
       phone,
       address,
     };

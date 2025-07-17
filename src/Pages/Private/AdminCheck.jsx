@@ -1,6 +1,7 @@
 import { Navigate, useLocation } from "react-router";
 import useAuth from "../../Hooks/useAuth";
 import useUserRole from "../../Hooks/useUserRole";
+import Spinner from "../../components/Spinner";
 
 const AdminCheck = ({ children }) => {
   const { user, loading } = useAuth();
@@ -8,7 +9,7 @@ const AdminCheck = ({ children }) => {
   const location = useLocation();
 
   if (loading || isLoading) {
-    return <div className="p-4">Loading...</div>;
+    return <Spinner></Spinner>
   }
 
   if (error) {

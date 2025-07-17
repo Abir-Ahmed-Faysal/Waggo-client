@@ -67,7 +67,7 @@ const AdminUpdatePet = () => {
     return (
       <div>
         <Spinner />
-        <div>Loading...</div>
+      
       </div>
     );
   }
