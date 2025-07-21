@@ -1,18 +1,12 @@
 import { Navigate, useLocation } from "react-router";
 import useAuth from "../../Hooks/useAuth";
+import Spinner from "../../components/Spinner";
 
 const Private = ({ children }) => {
   const location = useLocation();
-  const { user,  loading } = useAuth();
+  const { user, loading } = useAuth();
   if (loading) {
-    return (
-      <div
-        className="lg:h-[calc(100vh-338px)] h-[calc(100vh-580px)] md:h-[calc(100vh-450px)]
-"
-      >
-        <span className="loading absolute  top-[50%] left-[50%] loading-xl loading-spinner text-secondary"></span>
-      </div>
-    );
+    return <Spinner></Spinner>;
   }
   if (!user || !user.email) {
     return (

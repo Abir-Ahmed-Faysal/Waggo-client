@@ -1,15 +1,16 @@
-import { useInfiniteQuery } from '@tanstack/react-query';
-import axios from 'axios';
-import { useState, useEffect } from 'react';
-import { useInView } from 'react-intersection-observer';
+import { useInfiniteQuery } from "@tanstack/react-query";
+import axios from "axios";
+import { useState, useEffect } from "react";
+import { useInView } from "react-intersection-observer";
 
-import {  useNavigate, useParams } from 'react-router';
-import useDebounce from '../../Hooks/useDebounce';
+import { useNavigate, useParams } from "react-router";
+import useDebounce from "../../Hooks/useDebounce";
+import Skeleton from "react-loading-skeleton";
+
 
 const fetchPets = async ({ pageParam = 1, queryKey }) => {
-
   const [_key, { search, category }] = queryKey;
-  const res = await axios.get('https://waggo.vercel.app/pets', {
+  const res = await axios.get("https://waggo.vercel.app/pets", {
     params: {
       search,
       category,
@@ -20,12 +21,11 @@ const fetchPets = async ({ pageParam = 1, queryKey }) => {
   return res.data;
 };
 
-
 export default function PetList() {
-  const [search, setSearch] = useState('');
-  const navigate=useNavigate()
-  const{cat}=useParams()
-  const value=cat==='all'?'':cat
+  const [search, setSearch] = useState("");
+  const navigate = useNavigate();
+  const { cat } = useParams();
+  const value = cat === "all" ? "" : cat;
   const [category, setCategory] = useState(value);
 
   // Debounced values
@@ -43,7 +43,10 @@ export default function PetList() {
     isError,
     error,
   } = useInfiniteQuery({
-    queryKey: ['all-pets', { search: debouncedSearch, category: debouncedCategory.toLowerCase() }],
+    queryKey: [
+      "all-pets",
+      { search: debouncedSearch, category: debouncedCategory.toLowerCase() },
+    ],
     queryFn: fetchPets,
     getNextPageParam: (lastPage, allPages) =>
       lastPage?.hasMore ? allPages.length + 1 : undefined,
@@ -56,9 +59,9 @@ export default function PetList() {
     }
   }, [inView, hasNextPage, isFetchingNextPage, fetchNextPage]);
 
-const handleClick=(id)=>{
- navigate(`/pet/${id}`)
-}
+  const handleClick = (id) => {
+    navigate(`/pet/${id}`);
+  };
 
   // Optional: error handling
   if (isError) {
@@ -71,9 +74,11 @@ const handleClick=(id)=>{
 
   // Loading state
   if (isLoading) {
-    return (
-      <div className="p-8 text-center text-lg font-semibold">Loading...</div>
-    );
+    return <div className="grid grid-cols-3 gap-6 p-6">
+            {[...Array(9)].map((_, idx) => (
+              <Skeleton key={idx} height={300} />
+            ))}
+          </div>;
   }
 
   const pets = data?.pages.flatMap((page) => page.pets) || [];
@@ -105,7 +110,8 @@ const handleClick=(id)=>{
       </div>
 
       {/* Pet Cards */}
-      <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-6">
+      <div className="grid grid-cols-1 max w-7xl mx-auto  sm:grid-cols-2 md:grid-cols-3 gap-6">
+        {pets.length < 1 && <div>No data found</div>}
         {pets.map((pet) => (
           <div key={pet._id} className="border p-4 rounded shadow">
             <img
@@ -115,11 +121,15 @@ const handleClick=(id)=>{
             />
             <h3 className="text-xl font-bold mt-2">{pet.name}</h3>
             <p>Age: {pet.age}</p>
-            
+
             <p>Location: {pet.location}</p>
-            <p>Description: <br/> {pet.shortDescription}</p>
-            <button onClick={
-             ()=>handleClick(pet._id) } className="mt-2 text-blue-500 ">
+            <p>
+              Description: <br /> {pet.shortDescription}
+            </p>
+            <button
+              onClick={() => handleClick(pet._id)}
+              className="mt-2 text-blue-500 "
+            >
               View Details
             </button>
           </div>

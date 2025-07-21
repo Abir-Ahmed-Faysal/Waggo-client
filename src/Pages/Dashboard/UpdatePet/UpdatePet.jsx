@@ -11,6 +11,7 @@ import useAuth from "../../../Hooks/useAuth";
 import { useParams } from "react-router";
 import { useQuery } from "@tanstack/react-query";
 import Spinner from "../../../components/Spinner";
+import { Editor } from "@tinymce/tinymce-react";
 
 const petCategories = [
   { value: "Dog", label: "Dog" },
@@ -41,16 +42,13 @@ const UpdatePet = () => {
     },
   });
 
-  // ⬇️ Set initial image if exists
   useEffect(() => {
     if (data?.image) {
       setImageUrl(data.image);
     }
   }, [data]);
 
-  if (isPending) {
-    return <Spinner />;
-  }
+  if (isPending) return <Spinner />;
 
   if (error) {
     return (
@@ -81,9 +79,10 @@ const UpdatePet = () => {
   };
 
   return (
-    <div className="max-w-xl mx-auto mt-6 p-6 shadow rounded bg-white">
-      <h1 className="text-center text-2xl font-bold mb-4">Update Pet</h1>
-
+    <div className="max-w-4xl mx-auto mt-10 overflow-auto p-8 shadow-md rounded-2xl bg-white pb-5 h-full">
+      <h1 className="text-center text-3xl font-semibold mb-8 text-gray-800">
+        Update Pet
+      </h1>
       <Formik
         initialValues={{
           name: data.name || "",
@@ -108,7 +107,7 @@ const UpdatePet = () => {
             "Long description is required"
           ),
         })}
-        onSubmit={async (values, ) => {
+        onSubmit={async (values) => {
           if (!imageUrl) {
             setImageError("Pet image is required");
             return;
@@ -135,8 +134,7 @@ const UpdatePet = () => {
 
             const res = await apiPromise.patch(`/status/${data._id}`, petData);
             if (res.data.modifiedCount) {
-                
-              alert("Pet added successfully!");
+              alert("Pet updated successfully!");
             } else {
               toast.error("Failed to update pet.");
             }
@@ -149,133 +147,158 @@ const UpdatePet = () => {
         }}
       >
         {(formik) => (
-          <form onSubmit={formik.handleSubmit} className="space-y-4">
-            
-            <div>
-              <Label>Pet Image</Label>
-              <Input
-                type="file"
-                accept="image/*"
-                onChange={(event) => {
-                  const file = event.currentTarget.files[0];
-                  if (file) {
-                    handleImageUpload(file);
-                  }
-                }}
-              />
-              {imageUrl && (
-                <img
-                  src={imageUrl}
-                  alt="Preview"
-                  className="mt-2 w-32 h-32 object-cover"
-                />
-              )}
-              {imageError && <span className="text-red-500">{imageError}</span>}
-            </div>
+          <form onSubmit={formik.handleSubmit} className="space-y-6 h-full">
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+              {/* Left Column */}
+              <div className="space-y-4">
+                <div>
+                  <Label>Pet Image</Label>
+                  <Input
+                    type="file"
+                    accept="image/*"
+                    onChange={(event) => {
+                      const file = event.currentTarget.files[0];
+                      if (file) {
+                        handleImageUpload(file);
+                      }
+                    }}
+                  />
+                  {imageUrl && (
+                    <img
+                      src={imageUrl}
+                      alt="Preview"
+                      className="mt-3 w-40 h-40 object-cover rounded  border"
+                    />
+                  )}
+                  {imageError && (
+                    <p className="text-red-500 text-sm mt-1">{imageError}</p>
+                  )}
+                </div>
 
-            <div>
-              <Label>Pet Name</Label>
-              <Input
-                name="name"
-                value={formik.values.name}
-                onChange={formik.handleChange}
-                onBlur={formik.handleBlur}
-              />
-              {formik.touched.name && formik.errors.name && (
-                <p className="text-red-500 text-sm">{formik.errors.name}</p>
-              )}
-            </div>
+                <div>
+                  <Label>Pet Name</Label>
+                  <Input
+                    name="name"
+                    value={formik.values.name}
+                    onChange={formik.handleChange}
+                    onBlur={formik.handleBlur}
+                  />
+                  {formik.touched.name && formik.errors.name && (
+                    <p className="text-red-500 text-sm mt-1">
+                      {formik.errors.name}
+                    </p>
+                  )}
+                </div>
 
-            <div>
-              <Label>Pet Age</Label>
-              <Input
-                name="age"
-                value={formik.values.age}
-                onChange={formik.handleChange}
-                onBlur={formik.handleBlur}
-              />
-              {formik.touched.age && formik.errors.age && (
-                <p className="text-red-500 text-sm">{formik.errors.age}</p>
-              )}
-            </div>
+                <div>
+                  <Label>Pet Age</Label>
+                  <Input
+                    name="age"
+                    value={formik.values.age}
+                    onChange={formik.handleChange}
+                    onBlur={formik.handleBlur}
+                  />
+                  {formik.touched.age && formik.errors.age && (
+                    <p className="text-red-500 text-sm mt-1">
+                      {formik.errors.age}
+                    </p>
+                  )}
+                </div>
+              </div>
 
-            {/* Pet Category */}
-            <div>
-              <Label className="mb-1 block">Pet Category</Label>
-              <Select
-                options={petCategories}
-                value={formik.values.category}
-                onChange={(option) =>
-                  formik.setFieldValue("category", option)
-                }
-                onBlur={() => formik.setFieldTouched("category", true)}
-                placeholder="Select a category"
-              />
-              {formik.touched.category && formik.errors.category && (
-                <p className="text-red-500 text-sm mt-1">
-                  {formik.errors.category}
-                </p>
-              )}
-            </div>
+              {/* Right Column */}
+              <div className="space-y-4">
+                <div>
+                  <Label>Pet Category</Label>
+                  <Select
+                    options={petCategories}
+                    value={formik.values.category}
+                    onChange={(option) =>
+                      formik.setFieldValue("category", option)
+                    }
+                    onBlur={() => formik.setFieldTouched("category", true)}
+                    placeholder="Select a category"
+                  />
+                  {formik.touched.category && formik.errors.category && (
+                    <p className="text-red-500 text-sm mt-1">
+                      {formik.errors.category}
+                    </p>
+                  )}
+                </div>
 
-            {/* Location */}
-            <div>
-              <Label>Pickup Location</Label>
-              <Input
-                name="location"
-                value={formik.values.location}
-                onChange={formik.handleChange}
-                onBlur={formik.handleBlur}
-              />
-              {formik.touched.location && formik.errors.location && (
-                <p className="text-red-500 text-sm">
-                  {formik.errors.location}
-                </p>
-              )}
-            </div>
+                <div>
+                  <Label>Pickup Location</Label>
+                  <Input
+                    name="location"
+                    value={formik.values.location}
+                    onChange={formik.handleChange}
+                    onBlur={formik.handleBlur}
+                  />
+                  {formik.touched.location && formik.errors.location && (
+                    <p className="text-red-500 text-sm mt-1">
+                      {formik.errors.location}
+                    </p>
+                  )}
+                </div>
 
-            {/* Short Description */}
-            <div>
-              <Label>Short Description</Label>
-              <Input
-                name="shortDescription"
-                value={formik.values.shortDescription}
-                onChange={formik.handleChange}
-                onBlur={formik.handleBlur}
-              />
-              {formik.touched.shortDescription &&
-                formik.errors.shortDescription && (
-                  <p className="text-red-500 text-sm">
-                    {formik.errors.shortDescription}
-                  </p>
-                )}
+                <div>
+                  <Label>Short Description</Label>
+                  <Input
+                    name="shortDescription"
+                    value={formik.values.shortDescription}
+                    onChange={formik.handleChange}
+                    onBlur={formik.handleBlur}
+                  />
+                  {formik.touched.shortDescription &&
+                    formik.errors.shortDescription && (
+                      <p className="text-red-500 text-sm mt-1">
+                        {formik.errors.shortDescription}
+                      </p>
+                    )}
+                </div>
+              </div>
             </div>
 
             {/* Long Description */}
             <div>
               <Label>Long Description</Label>
-              <textarea
-                name="longDescription"
-                value={formik.values.longDescription}
-                onChange={formik.handleChange}
-                onBlur={formik.handleBlur}
-                className="w-full p-2 border rounded"
-              />
+              <div className="border rounded overflow-hidden focus-within:ring-2 ring-blue-500">
+                <Editor
+                  apiKey={import.meta.env.VITE_TYNEMCE}
+                  value={formik.values.longDescription}
+                  onEditorChange={(content) =>
+                    formik.setFieldValue("longDescription", content)
+                  }
+                  init={{
+                    height: 250,
+                    menubar: false,
+                    plugins: [
+                      "lists link image media table wordcount",
+                      "code visualblocks",
+                    ],
+                    toolbar:
+                      "undo redo | formatselect | bold italic | alignleft aligncenter alignright | bullist numlist | code",
+                  }}
+                />
+              </div>
               {formik.touched.longDescription &&
                 formik.errors.longDescription && (
-                  <p className="text-red-500 text-sm">
+                  <p className="text-red-500 text-sm mt-1">
                     {formik.errors.longDescription}
                   </p>
                 )}
             </div>
 
-            <button
-              type="submit"
-              className="bg-blue-600 text-white px-4 py-2 rounded"
-              disabled={loading}
-            >
-              {loading ? "Updating..." : "Update"}
-            </button>
+            {/* Submit Button */}
+            <div className="text-center">
+              <button
+                type="submit"
+                className="bg-blue-600 hover:bg-blue-700 text-white font-medium px-6 py-2 rounded-md transition-colors"
+                disabled={loading}
+              >
+                {loading ? "Updating..." : "Update"}
+              </button>
+            </div>
           </form>
         )}
       </Formik>
