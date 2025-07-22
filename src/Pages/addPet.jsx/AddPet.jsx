@@ -47,7 +47,7 @@ const AddPet = () => {
   };
 
   return (
-    <div className="max-w-4xl mx-auto mt-10 p-8 shadow-md rounded-2xl bg-white pb-5 h-full">
+    <div className="max-w-4xl mx-auto  mt-10 p-8 shadow-md rounded-2xl bg-white  h-full">
       <h1 className="text-center text-3xl font-semibold mb-8 text-gray-800">
         Add a New Pet
       </h1>
@@ -118,7 +118,7 @@ const AddPet = () => {
         }}
       >
         {(formik) => (
-          <form onSubmit={formik.handleSubmit} className="space-y-6 h-full">
+          <form onSubmit={formik.handleSubmit} className="space-y-6 h-full overflow-auto pb-10">
             <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
               {/* Left Column */}
               <div className="space-y-4">
@@ -241,7 +241,7 @@ const AddPet = () => {
                     formik.setFieldValue("longDescription", content)
                   }
                   init={{
-                    height: 250,
+                    height: 100,
                     menubar: false,
                     plugins: [
                       "lists link image media table wordcount",
