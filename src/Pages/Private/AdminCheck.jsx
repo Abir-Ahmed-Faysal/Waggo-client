@@ -19,7 +19,7 @@ const AdminCheck = ({ children }) => {
   if (!user || role !== "admin") {
     return <Navigate to="/" state={{ from: location }} replace />;
   }
-console.log(role);
+
 
   return <>{children}</>;
 };

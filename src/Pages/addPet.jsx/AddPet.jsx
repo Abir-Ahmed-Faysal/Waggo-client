@@ -25,6 +25,7 @@ const AddPet = () => {
   const [imageError, setImageError] = useState("");
   const apiPromise = useSecureApi();
   const { user } = useAuth();
+ 
 
   const handleImageUpload = async (file) => {
     const formData = new FormData();
@@ -47,7 +48,7 @@ const AddPet = () => {
   };
 
   return (
-    <div className="max-w-4xl mx-auto  mt-10 p-8 shadow-md rounded-2xl bg-white  h-full">
+    <div className="max-w-4xl mx-auto dark:bg-dark   mt-10 p-8 shadow-md rounded-2xl  h-full">
       <h1 className="text-center text-3xl font-semibold mb-8 text-gray-800">
         Add a New Pet
       </h1>
@@ -118,7 +119,10 @@ const AddPet = () => {
         }}
       >
         {(formik) => (
-          <form onSubmit={formik.handleSubmit} className="space-y-6 h-full overflow-auto pb-10">
+          <form
+            onSubmit={formik.handleSubmit}
+            className="space-y-6 h-full overflow-auto pb-10"
+          >
             <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
               {/* Left Column */}
               <div className="space-y-4">
@@ -234,14 +238,14 @@ const AddPet = () => {
             <div>
               <Label>Long Description</Label>
               <div className="border rounded overflow-hidden focus-within:ring-2 ring-blue-500">
-                <Editor
+                <Editor 
                   apiKey={import.meta.env.VITE_TYNEMCE}
                   value={formik.values.longDescription}
                   onEditorChange={(content) =>
                     formik.setFieldValue("longDescription", content)
                   }
                   init={{
-                    height: 100,
+                    height: 150,
                     menubar: false,
                     plugins: [
                       "lists link image media table wordcount",
@@ -249,6 +253,8 @@ const AddPet = () => {
                     ],
                     toolbar:
                       "undo redo | formatselect | bold italic | alignleft aligncenter alignright | bullist numlist | code",
+                       skin: "oxide-dark",
+    content_css: "dark",
                   }}
                 />
               </div>
@@ -264,7 +270,7 @@ const AddPet = () => {
             <div className="text-center">
               <button
                 type="submit"
-                className="bg-blue-600 hover:bg-blue-700 text-white font-medium px-6 py-2 rounded-md transition-colors"
+                className="bg-blue-600 hover:bg-blue-700  font-medium px-6 py-2 rounded-md transition-colors"
                 disabled={loading}
               >
                 {loading ? "Submitting..." : "Submit"}

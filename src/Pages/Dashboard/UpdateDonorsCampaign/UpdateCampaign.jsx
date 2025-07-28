@@ -76,7 +76,7 @@ const UpdatePet = () => {
 
   return (
     <div className="max-w-xl mx-auto mt-6 p-6 shadow rounded bg-white">
-      <h1 className="text-center text-2xl font-bold mb-4">Update Pet</h1>
+      <h1 className="text-center text-2xl font-bold mb-4">Update Donation pet status</h1>
 
       <Formik
         initialValues={{
@@ -141,7 +141,7 @@ const UpdatePet = () => {
         }}
       >
         {(formik) => (
-          <form onSubmit={formik.handleSubmit} className="space-y-4">
+          <form onSubmit={formik.handleSubmit} className="space-y-4 h-[400px] overflow-scroll">
             <div>
               <Label>Pet Image</Label>
               <Input

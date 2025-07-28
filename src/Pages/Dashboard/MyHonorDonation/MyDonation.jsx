@@ -67,7 +67,7 @@ const MyHonorDonation = () => {
         <p className="text-center text-gray-500">You haven’t donated yet.</p>
       ) : (
         <div className="overflow-x-auto">
-          <table className="min-w-full bg-white shadow rounded">
+          <table className="min-w-full  shadow rounded">
             <thead className="bg-gray-100 text-left">
               <tr>
                 <th className="py-3 px-4">Pet Image</th>
