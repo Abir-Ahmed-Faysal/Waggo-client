@@ -53,9 +53,9 @@ const Volunteer = () => {
         <button className="px-10 py-3 rounded-full font-bold text-nowrap text-white bg-[rgb(214,28,98)]">Contact Us</button>
       </div>
 
-      <div className=" flex justify-center items-center">
+      {/* <div className=" flex justify-center items-center">
         <img src="" alt="" />
-      </div>
+      </div> */}
     </div>
   );
 };

@@ -1,17 +1,17 @@
 import React, { useEffect, useState } from "react";
-import { Link } from "react-router";
+import { Link } from "react-router"; // ঠিক ইমপোর্ট
 import { Button } from "@/components/ui/button";
 
 const Banner = () => {
   const [offsetY, setOffsetY] = useState(0);
 
-  const handleScroll = () => {
-    setOffsetY(window.pageYOffset);
-  };
-
   useEffect(() => {
+    const handleScroll = () => {
+      requestAnimationFrame(() => {
+        setOffsetY(window.pageYOffset);
+      });
+    };
     window.addEventListener("scroll", handleScroll);
-
     return () => window.removeEventListener("scroll", handleScroll);
   }, []);
 
@@ -20,7 +20,7 @@ const Banner = () => {
       <section
         className="relative h-[80vh] flex flex-col items-center justify-center bg-cover bg-center bg-no-repeat pb-60"
         style={{
-          backgroundImage: `url('https://i.ibb.co.com/GfbRBj81/pet-accessories-still-life-with-food-bowl-treats.jpg')`,
+          backgroundImage: `url('https://i.ibb.co.com/tMJdZmVc/wmremove-transformed.jpg')`, // আগের ইমেজ লিংক
           backgroundPositionY: `calc(25% + ${offsetY * 0.5}px)`,
           backgroundAttachment: "scroll",
         }}
@@ -41,6 +41,7 @@ const Banner = () => {
                 hover:bg-[hsl(221.2,83.2%,45%)]
                 dark:bg-[hsl(221.2,83.2%,40%)]
                 dark:hover:bg-[hsl(221.2,83.2%,35%)]
+                transition-colors duration-300
               "
             >
               Browse Pets
@@ -48,10 +49,10 @@ const Banner = () => {
           </Link>
         </div>
 
-        {/* Bottom decorative image */}
+        {/* নিচের ডেকোরেটিভ ইমেজ */}
         <div className="absolute bottom-0 left-0 w-full z-10">
           <img
-            src="https://i.ibb.co.com/1Gy5sVfZ/1000-F-481854656-g-HGTn-Bsc-KXp-FEg-VTw-AT4-DL4-NXXNh-DKU9-ezgif-com-webp-to-jpg-converter-removebg.png"
+            src="https://i.ibb.co.com/1Gy5sVfZ/1000-F-481854656-g-HGTn-Bsc-KXp-FEg-VTw-AT4-DL4-NXXNh-DKU9-ezgif-com-webp-to-jpg-converter-removebg.png" // আগের ইমেজ লিংক
             alt="Bottom decorative"
             className="w-full h-96 object-contain"
           />
