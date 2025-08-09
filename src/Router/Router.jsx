@@ -23,11 +23,13 @@ import AllUsers from "../Pages/Dashboard/Admin/AllUsers/AllUsers";
 import AllPetsAdmin from "../Pages/Dashboard/Admin/AllPetsAdmin/AllPetsAdmin";
 import AllDonationsAdmin from "../Pages/Dashboard/Admin/AllDonationsAdmin/AllDonationsAdmin";
 import AdminUpdatePet from "../Pages/Dashboard/Admin/AdminPetUpdate/UpdatePet";
+import NotFound from "../components/NotFound";
 
 export const router = createBrowserRouter([
   {
     path: "/",
     Component: Root,
+    errorElement: <NotFound></NotFound>,
     children: [
       {
         index: true,
@@ -45,6 +47,10 @@ export const router = createBrowserRouter([
       {
         path: "/donationCardDetails/:id",
         Component: DonationCardDetails,
+      },
+      {
+        path: "*",
+        Component: NotFound,
       },
     ],
   },

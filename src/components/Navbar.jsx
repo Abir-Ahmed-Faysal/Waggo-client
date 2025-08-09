@@ -75,9 +75,9 @@ const Navbar = () => {
                   className={({ isActive }) =>
                     `px-4 py-2 border-b-2 ${
                       isActive
-                        ? "text-teal-600 border-teal-600"
+                        ? "text-[rgb(214,28,98)] border-[rgb(214,28,98)]"
                         : "border-transparent"
-                    } hover:text-teal-600`
+                    } hover:text-[rgb(214,28,98)]`
                   }
                 >
                   {item.label}
@@ -91,7 +91,7 @@ const Navbar = () => {
               <li>
                 <NavLink
                   to="/login"
-                  className="px-4 py-2 text-teal-600 hover:text-teal-800"
+                  className="px-4 py-2 text-[rgb(214,28,98)] hover:text-[rgb(214,28,98)]"
                 >
                   Login
                 </NavLink>
@@ -100,7 +100,7 @@ const Navbar = () => {
               <li className="relative">
                 <button
                   onClick={toggleDropdown}
-                  className="w-10 h-10 rounded-full overflow-hidden border-2 border-teal-600"
+                  className="w-10 h-10 rounded-full overflow-hidden border-2 border-[rgb(214,28,98)]"
                 >
                   <img
                     src={user.photoURL || "https://i.ibb.co/2nzwxcQ/avatar.png"}

@@ -10,9 +10,8 @@ import VolunteersCarousel from "./Volunteering";
 import { toast } from "react-toastify";
 
 const Home = () => {
-
   const handleClick = (e) => {
-    e.preventDefault()
+    e.preventDefault();
     toast.success("Email sent");
   };
   return (
@@ -25,48 +24,48 @@ const Home = () => {
       <VolunteersCarousel />
 
       <section className="bg-[rgb(159,119,115)] ">
-  <div className=" mx-auto flex items-center lg:p-0 p-4  max-w-6xl overflow-hidden">
-    {/* Left side: text content */}
-    <div className="flex-1   text-white max-w-xl">
-      <h3 className="text-3xl font-bold mb-4">Subscribe to our Newsletter</h3>
-      <p className="mb-6">
-        We send emails once a month, we never send Spam!
-      </p>
-<form className="flex flex-col sm:flex-row items-center">
-  <Input
-    type="email"
-    placeholder="Enter your email"
-    className="w-full sm:w-[300px] bg-white dark:bg-gray-700 rounded-md rounded-r-none border border-gray-300"
-    required
-  />
-  <Button onClick={handleClick}
-    type="submit"
-    className="px-6 py-2 text-lg hover:bg-[rgb(2,123,199)] bg-[rgb(1,138,224)] font-medium rounded-md rounded-l-none"
-  >
-    Subscribe
-  </Button>
-</form>
+        <div className=" mx-auto justify-center lg:justify-start flex items-center  lg:p-0 p-4  max-w-6xl overflow-hidden">
+          {/* Left side: text content */}
+          <div className="flex-1   text-white max-w-xl">
+            <h3 className="text-3xl font-bold mb-4">
+              Subscribe to our Newsletter
+            </h3>
+            <p className="mb-6">
+              We send emails once a month, we never send Spam!
+            </p>
+            <form className="flex flex-col sm:flex-row items-center">
+              <Input
+                type="email"
+                placeholder="Enter your email"
+                className="w-full sm:w-[300px] bg-white dark:bg-gray-700 rounded-md rounded-r-none border border-gray-300"
+                required
+              />
+              <Button
+                onClick={handleClick}
+                type="submit"
+                className="px-6 py-2 text-lg hover:bg-[rgb(2,123,199)] bg-[rgb(1,138,224)] font-medium rounded-md rounded-l-none"
+              >
+                Subscribe
+              </Button>
+            </form>
 
+            <p className="mt-4 text-sm text-gray-200 dark:text-gray-400">
+              We respect your privacy. No spam, just pawsitive vibes
+            </p>
+          </div>
 
-
-      <p className="mt-4 text-sm text-gray-200 dark:text-gray-400">
-        We respect your privacy. No spam, just pawsitive vibes
-      </p>
-    </div>
-
-    {/* Right side: fixed background image */}
-    <div
-      className="hidden md:block flex-1 bg-no-repeat bg-center bg-cover"
-      style={{
-        backgroundImage:
-          "url('https://i.ibb.co/60j5JKNY/close-up-pet-accessories.png')",
-        minHeight: "300px",
-        backgroundPosition: "right center",
-      }}
-    />
-  </div>
-</section>
-
+          {/* Right side: fixed background image */}
+          <div
+            className="hidden lg:block flex-1 bg-no-repeat bg-center bg-cover"
+            style={{
+              backgroundImage:
+                "url('https://i.ibb.co/60j5JKNY/close-up-pet-accessories.png')",
+              minHeight: "300px",
+              backgroundPosition: "right center",
+            }}
+          />
+        </div>
+      </section>
     </div>
   );
 };

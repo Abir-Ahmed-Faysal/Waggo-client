@@ -3,13 +3,13 @@ import { FaFacebook, FaTwitter } from "react-icons/fa";
 const Footer = () => {
   return (
     <footer className="text-gray-700">
-      <div className="max-w-6xl mx-auto lg:p-0 p-4  pt-10">
+      <div className="max-w-6xl mx-auto lg:p-0 p-4 lg:py-7 lg:pt-12  pt-10">
         {/* Top Footer Content */}
         <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-10 border-b pb-8">
           {/* Left Column */}
           <div className="flex flex-col items-center md:items-start space-y-6">
             {/* Logo */}
-            <h1 className="text-3xl md:text-4xl lg:text-5xl font-bold text-gray-900">
+            <h1 className="text-3xl md:text-4xl lg:text-5xl font-bold ">
               WAGGO
             </h1>
 
@@ -19,7 +19,7 @@ const Footer = () => {
                 href="https://www.facebook.com/WaggoHome/"
                 target="_blank"
                 rel="noopener noreferrer"
-                className="hover:text-teal-600 dark:hover:text-teal-400 transition"
+                className=" dark:text-white transition"
               >
                 <FaFacebook size={28} />
               </a>
@@ -27,7 +27,7 @@ const Footer = () => {
                 href="https://x.com/waggopet"
                 target="_blank"
                 rel="noopener noreferrer"
-                className="hover:text-teal-600 dark:hover:text-teal-400 transition"
+                className="dark:text-white transition"
               >
                 <FaTwitter size={28} />
               </a>
