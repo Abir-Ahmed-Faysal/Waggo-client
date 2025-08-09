@@ -9,41 +9,27 @@ import AboutUs from "./AboutUs";
 import Volunteer from "./Volunteer";
 import Services from "./Services";
 import Goal from "./Goal";
+import VolunteersCarousel from "./Volunteering";
 
 const Home = () => {
   return (
     <div className="">
       <Banner></Banner>
-        <PetCatagories></PetCatagories>
+      <PetCatagories></PetCatagories>
       <Volunteer></Volunteer>
       <Services></Services>
       <Goal></Goal>
-    
+      <VolunteersCarousel></VolunteersCarousel>
 
-      <CallToAction></CallToAction>
+      {/* <CallToAction></CallToAction> */}
 
       {/* About Us */}
-      <AboutUs></AboutUs>
+      {/* <AboutUs></AboutUs> */}
 
       {/* Extra Section 1: Volunteer */}
-      <section className="py-16 bg-gray-100 dark:bg-gray-900">
-        <div className="max-w-6xl mx-auto px-4 text-center">
-          <h2 className="text-3xl font-bold mb-6 text-gray-800 dark:text-white">
-            Become a Volunteer
-          </h2>
-          <p className="text-gray-600 dark:text-gray-300 mb-6">
-            Want to help but can’t adopt? Join our team and become a part of
-            something special. Volunteers make a real impact in the lives of
-            animals every day.
-          </p>
-          <Link to="/">
-            <Button>Join as Volunteer</Button>
-          </Link>
-        </div>
-      </section>
 
       {/* Extra Section 2: Happy Adoptions */}
-      <section className="py-16 px-6 bg-pink-50 dark:bg-gray-800 rounded-2xl shadow-md my-12 max-w-5xl mx-auto">
+      <section className="py-16 px-6 bg-pink-50 dark:bg-gray-800 rounded-2xl shadow-md my-12 max-w-5xl mx-auto">npm install swiper
         <div className="text-center max-w-3xl mx-auto">
           <h2 className="text-3xl md:text-4xl font-bold text-gray-800 dark:text-white mb-4">
             Stay Connected with Waggo 🐾
