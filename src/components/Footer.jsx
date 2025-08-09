@@ -3,7 +3,7 @@ import { FaFacebook, FaTwitter } from "react-icons/fa";
 const Footer = () => {
   return (
     <footer className="text-gray-700">
-      <div className="max-w-6xl mx-auto px-4 pt-10">
+      <div className="max-w-6xl mx-auto lg:p-0 p-4  pt-10">
         {/* Top Footer Content */}
         <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-10 border-b pb-8">
           {/* Left Column */}
@@ -71,7 +71,7 @@ const Footer = () => {
               "url('https://i.ibb.co.com/v45QVVzQ/wmremove-transformed-1-removebg-preview')",
           }}
         >
-          <p className="bg-white/80 py-2 px-4 inline-block rounded-md shadow-md text-xs sm:text-sm">
+          <p className=" py-2 px-4 inline-block rounded-md shadow-md text-xs sm:text-sm">
             © 2014 - 2023{" "}
             <a
               href="#"

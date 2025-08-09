@@ -40,23 +40,23 @@ const Navbar = () => {
   return (
     <>
       <div
-        className={`bg-teal-600 text-white text-sm py-2 px-4 text-center transition-transform duration-300 ${
+        className={`bg-[rgb(20,70,160)] text-white text-sm py-2 px-4 text-center transition-transform duration-300 ${
           showTopBar ? "translate-y-0" : "-translate-y-full"
         }`}
         style={{ position: "fixed", top: 0, left: 0, right: 0, zIndex: 60 }}
       >
-        📧 demo@email.com | 📍 Khulna, Bangladesh
+        📧 fr.abir.ahmed.faysal@gmail.com | 📍 Khulna, Bangladesh
       </div>
 
       {/* Main Navbar */}
       <header
-        className="bg-gray-100 text-gray-800 shadow-md sticky z-50 transition-[top] duration-300"
+        className="bg-gray-50 text-gray-800 shadow-md lg:p-0 p-4 sticky z-50 transition-[top] duration-300"
         style={{
           top: showTopBar ? "2rem" : "0", // 2.5rem matches top bar height
           position: "sticky",
         }}
       >
-        <div className="container mx-auto flex items-center justify-between h-16 px-4">
+        <div className="max-w-6xl mx-auto flex items-center justify-between h-16 ">
           {/* Logo */}
           <Link to="/" className="flex items-center">
             <img

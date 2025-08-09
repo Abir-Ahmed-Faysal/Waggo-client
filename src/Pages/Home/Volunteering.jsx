@@ -60,7 +60,7 @@ const VolunteersCarousel = () => {
       </div>
 
       {/* Carousel with Arrows */}
-      <div className="relative max-w-6xl mx-auto px-4">
+      <div className="relative max-w-6xl mx-auto p-4  lg:p-0 ">
         {/* Left Arrow */}
         <button
           className="absolute top-1/2 left-0 -translate-y-1/2 p-3   text-[rgb(214,28,98)]   text-xl   z-10"

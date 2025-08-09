@@ -65,7 +65,7 @@ const PetCatagories = () => {
           Explore and adopt pets from your favorite category
         </p>
       </div>
-      <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6 px-4 max-w-6xl mx-auto">
+      <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 p-4 lg:p-0 gap-6  max-w-6xl mx-auto">
         {petCategories.map((pet, index) => (
           <motion.div
             key={pet.name}

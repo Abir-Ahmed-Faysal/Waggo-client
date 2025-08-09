@@ -2,7 +2,7 @@ import React from "react";
 
 const Volunteer = () => {
   return (
-    <div className="p-20 my-5 lg:flex justify-center gap-10 items-center relative" style={{ position: "relative" }}>
+    <div className="py-15 mb-8 lg:flex justify-center p-4 lg:p-0 gap-10 items-center relative" style={{ position: "relative" }}>
       {/* First rotated background image - top right */}
       <div
         style={{
@@ -41,7 +41,7 @@ const Volunteer = () => {
         }}
       ></div>
 
-      <div className="w-[50%] space-y-5" style={{ position: "relative", zIndex: 1 }}>
+      <div className="w-[50%] space-y-5 " style={{ position: "relative", zIndex: 1 }}>
         <h1 className="text-4xl font-bold">Become a Volunteer</h1>
         <p>
           Want to help but can’t adopt? Join our team and become a part of something

@@ -24,10 +24,10 @@ const Home = () => {
       <Goal />
       <VolunteersCarousel />
 
-      <section className=" ">
-  <div className=" mx-auto flex items-center bg-[rgb(159,119,115)]  overflow-hidden">
+      <section className="bg-[rgb(159,119,115)] ">
+  <div className=" mx-auto flex items-center lg:p-0 p-4  max-w-6xl overflow-hidden">
     {/* Left side: text content */}
-    <div className="flex-1  px-8 text-white max-w-xl">
+    <div className="flex-1   text-white max-w-xl">
       <h3 className="text-3xl font-bold mb-4">Subscribe to our Newsletter</h3>
       <p className="mb-6">
         We send emails once a month, we never send Spam!
