@@ -9,8 +9,8 @@ const Footer = () => {
           {/* Left Column */}
           <div className="flex flex-col items-center md:items-start space-y-6">
             {/* Logo */}
-            <h1 className="text-4xl sm:text-5xl lg:text-6xl font-bold text-gray-900">
-              Waggo
+            <h1 className="text-3xl md:text-4xl lg:text-5xl font-bold text-gray-900">
+              WAGGO
             </h1>
 
             {/* Social Icons */}
