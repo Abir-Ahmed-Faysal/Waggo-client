@@ -1,27 +1,64 @@
-import React from 'react';
-import { Link } from 'react-router';
+import React, { useEffect, useState } from "react";
+import { Link } from "react-router";
 import { Button } from "@/components/ui/button";
 
 const Banner = () => {
-    return (
-        <div>
-              {/* Banner */}
-                  <section className="relative h-[80vh] flex items-center justify-center bg-cover bg-center bg-[url('https://i.ibb.co/5hz32WKZ/Pet-adoption-1536x865.webp')]">
-                    <div className="bg-black/50 w-full h-full absolute top-0 left-0"></div>
-                    <div className="relative z-10 text-center text-white max-w-2xl mx-auto px-4">
-                      <h1 className="text-4xl md:text-5xl font-bold mb-4">
-                        Find Your Forever Friend
-                      </h1>
-                      <p className="mb-6 text-lg">
-                        Adopt a pet today and change a life forever.
-                      </p>
-                      <Link to="/all-pets">
-                        <Button variant="secondary">Browse Pets</Button>
-                      </Link>
-                    </div>
-                  </section>
+  const [offsetY, setOffsetY] = useState(0);
+
+  const handleScroll = () => {
+    setOffsetY(window.pageYOffset);
+  };
+
+  useEffect(() => {
+    window.addEventListener("scroll", handleScroll);
+
+    return () => window.removeEventListener("scroll", handleScroll);
+  }, []);
+
+  return (
+    <div className="pt-5">
+      <section
+        className="relative h-[80vh] flex flex-col items-center justify-center bg-cover bg-center bg-no-repeat pb-60"
+        style={{
+          backgroundImage: `url('https://i.ibb.co.com/GfbRBj81/pet-accessories-still-life-with-food-bowl-treats.jpg')`,
+          backgroundPositionY: `calc(25% + ${offsetY * 0.5}px)`,
+          backgroundAttachment: "scroll",
+        }}
+      >
+        <div className="absolute top-0 left-0 w-full h-full bg-gradient-to-b from-black/20 via-black/10 to-black/20"></div>
+
+        <div className="relative z-20 text-center text-white max-w-2xl mx-auto px-4">
+          <h1 className="text-4xl md:text-5xl font-bold mb-4">
+            Find Your Forever Friend
+          </h1>
+          <p className="mb-6 font-bold text-lg">
+            Adopt a pet today and change a life forever.
+          </p>
+          <Link to="/all-pets">
+            <Button
+              className="px-14 text-xl py-5 rounded-full
+                bg-[hsl(221.2,83.2%,53.3%)]
+                hover:bg-[hsl(221.2,83.2%,45%)]
+                dark:bg-[hsl(221.2,83.2%,40%)]
+                dark:hover:bg-[hsl(221.2,83.2%,35%)]
+              "
+            >
+              Browse Pets
+            </Button>
+          </Link>
         </div>
-    );
+
+        {/* Bottom decorative image */}
+        <div className="absolute bottom-0 left-0 w-full z-10">
+          <img
+            src="https://i.ibb.co.com/1Gy5sVfZ/1000-F-481854656-g-HGTn-Bsc-KXp-FEg-VTw-AT4-DL4-NXXNh-DKU9-ezgif-com-webp-to-jpg-converter-removebg.png"
+            alt="Bottom decorative"
+            className="w-full h-96 object-contain"
+          />
+        </div>
+      </section>
+    </div>
+  );
 };
 
 export default Banner;
