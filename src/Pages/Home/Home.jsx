@@ -7,8 +7,14 @@ import Volunteer from "./Volunteer";
 import Services from "./Services";
 import Goal from "./Goal";
 import VolunteersCarousel from "./Volunteering";
+import { toast } from "react-toastify";
 
 const Home = () => {
+
+  const handleClick = (e) => {
+    e.preventDefault()
+    toast.success("Email sent");
+  };
   return (
     <div>
       <Banner />
@@ -33,9 +39,9 @@ const Home = () => {
     className="w-full sm:w-[300px] bg-white dark:bg-gray-700 rounded-md rounded-r-none border border-gray-300"
     required
   />
-  <Button
+  <Button onClick={handleClick}
     type="submit"
-    className="px-6 py-2 text-lg bg-[rgb(1,138,224)] font-medium rounded-md rounded-l-none"
+    className="px-6 py-2 text-lg hover:bg-[rgb(2,123,199)] bg-[rgb(1,138,224)] font-medium rounded-md rounded-l-none"
   >
     Subscribe
   </Button>
