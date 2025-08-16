@@ -16,6 +16,7 @@ const Navbar = () => {
     { path: "/", label: "Home" },
     { path: "/all-pets/all", label: "All Pets" },
     { path: "/donation", label: "Donation" },
+    { path: "/join-us", label: "Join us" },
   ];
 
   const privateLinks = [{ path: "/dashboard", label: "Dashboard" }];
@@ -84,6 +85,25 @@ const Navbar = () => {
                 </NavLink>
               </li>
             ))}
+
+            {/* Dashboard link directly in navbar on md+ */}
+            {user && (
+              <li>
+                <NavLink
+                  to="/dashboard"
+                  className={({ isActive }) =>
+                    `px-4 py-2 border-b-2 ${
+                      isActive
+                        ? "text-[rgb(214,28,98)] border-[rgb(214,28,98)]"
+                        : "border-transparent"
+                    } hover:text-[rgb(214,28,98)]`
+                  }
+                >
+                  Dashboard
+                </NavLink>
+              </li>
+            )}
+
             <ThemeToggle />
 
             {/* Auth Buttons */}
@@ -112,17 +132,7 @@ const Navbar = () => {
                 {showDropdown && (
                   <div className="absolute right-0 mt-2 w-64 bg-white border border-gray-200 shadow-lg rounded z-50">
                     <ul className="p-2">
-                      {privateLinks.map((link) => (
-                        <li key={link.path}>
-                          <NavLink
-                            to={link.path}
-                            className="block px-4 py-2 hover:bg-gray-100"
-                            onClick={() => setShowDropdown(false)}
-                          >
-                            {link.label}
-                          </NavLink>
-                        </li>
-                      ))}
+                      {/* Removed Dashboard from dropdown */}
                       <li>
                         <button
                           onClick={() => {

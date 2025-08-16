@@ -34,7 +34,7 @@ const Banner = () => {
           <p className="mb-6 font-bold text-lg">
             Adopt a pet today and change a life forever.
           </p>
-          <Link to="/all-pets">
+          <Link to="/all-pets/all">
             <Button
               className="px-14 text-xl py-5 rounded-full
                 bg-[hsl(221.2,83.2%,53.3%)]

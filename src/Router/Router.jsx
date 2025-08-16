@@ -24,6 +24,7 @@ import AllPetsAdmin from "../Pages/Dashboard/Admin/AllPetsAdmin/AllPetsAdmin";
 import AllDonationsAdmin from "../Pages/Dashboard/Admin/AllDonationsAdmin/AllDonationsAdmin";
 import AdminUpdatePet from "../Pages/Dashboard/Admin/AdminPetUpdate/UpdatePet";
 import NotFound from "../components/NotFound";
+import JoinUs from "../Pages/JoinUs/JoinUs";
 
 export const router = createBrowserRouter([
   {
@@ -47,6 +48,10 @@ export const router = createBrowserRouter([
       {
         path: "/donationCardDetails/:id",
         Component: DonationCardDetails,
+      },
+      {
+        path: "/join-us",
+        Component: JoinUs,
       },
       {
         path: "*",

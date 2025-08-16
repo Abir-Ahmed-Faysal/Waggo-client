@@ -5,6 +5,7 @@ import Navbar from "../components/Navbar";
 import useAuth from "../Hooks/useAuth";
 import Spinner from "../components/Spinner";
 import Footer from "../components/Footer";
+import ScrollToTop from "../lib/ScrollToTop";
 
 const Root = () => {
   const { loading } = useAuth();
@@ -15,7 +16,7 @@ const Root = () => {
 
   return (
     <div>
-    
+      <ScrollToTop></ScrollToTop>
       <Navbar />
       <div className="min-h-screen">
         <Outlet />

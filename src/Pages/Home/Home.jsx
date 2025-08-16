@@ -23,7 +23,7 @@ const Home = () => {
       <Goal />
       <VolunteersCarousel />
 
-      <section className="bg-[rgb(159,119,115)] ">
+      <section className="bg-[rgb(159,119,115)] py-6">
         <div className=" mx-auto justify-center lg:justify-start flex items-center  lg:p-0 p-4  max-w-6xl overflow-hidden">
           {/* Left side: text content */}
           <div className="flex-1   text-white max-w-xl">
