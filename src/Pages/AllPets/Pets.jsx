@@ -2,11 +2,9 @@ import { useInfiniteQuery } from "@tanstack/react-query";
 import axios from "axios";
 import { useState, useEffect } from "react";
 import { useInView } from "react-intersection-observer";
-
 import { useNavigate, useParams } from "react-router";
 import useDebounce from "../../Hooks/useDebounce";
 import Skeleton from "react-loading-skeleton";
-
 
 const fetchPets = async ({ pageParam = 1, queryKey }) => {
   const [_key, { search, category }] = queryKey;
@@ -28,10 +26,8 @@ export default function PetList() {
   const value = cat === "all" ? "" : cat;
   const [category, setCategory] = useState(value);
 
-  // Debounced values
   const debouncedSearch = useDebounce(search, 500);
   const debouncedCategory = useDebounce(category, 500);
-
   const { ref, inView } = useInView();
 
   const {
@@ -52,7 +48,6 @@ export default function PetList() {
       lastPage?.hasMore ? allPages.length + 1 : undefined,
   });
 
-  // Auto-fetch next page when bottom in view
   useEffect(() => {
     if (inView && hasNextPage && !isFetchingNextPage) {
       fetchNextPage();
@@ -63,7 +58,6 @@ export default function PetList() {
     navigate(`/pet/${id}`);
   };
 
-  // Optional: error handling
   if (isError) {
     return (
       <div className="p-8 text-center text-red-600 font-semibold">
@@ -72,21 +66,29 @@ export default function PetList() {
     );
   }
 
-  // Loading state
   if (isLoading) {
-    return <div className="grid grid-cols-3 gap-6 p-6">
-            {[...Array(9)].map((_, idx) => (
-              <Skeleton key={idx} height={300} />
-            ))}
-          </div>;
+    return (
+      <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6 px-4 md:px-0 max-w-7xl mx-auto">
+        {[...Array(9)].map((_, idx) => (
+          <Skeleton key={idx} height={300} />
+        ))}
+      </div>
+    );
   }
 
   const pets = data?.pages.flatMap((page) => page.pets) || [];
 
   return (
-    <div className="p-4">
+    <div className="px-4 md:px-4 md:pt-16 max-w-7xl mx-auto">
+      <div className="mb-6">
+        <h1 className="text-2xl sm:text-3xl font-bold">Find your Forever Friend</h1>
+        <p className="text-sm sm:text-base mt-2">
+          Discover adorable pets looking for a forever home. Browse through dogs, cats, and more—ready to be adopted, loved, and cared for.
+        </p>
+      </div>
+
       {/* Search & Filter */}
-      <div className="mb-4 flex flex-col md:flex-row gap-2">
+      <div className="mb-6 flex flex-col md:flex-row gap-2">
         <input
           type="text"
           placeholder="Search pets..."
@@ -110,25 +112,29 @@ export default function PetList() {
       </div>
 
       {/* Pet Cards */}
-      <div className="grid grid-cols-1 max w-7xl mx-auto  sm:grid-cols-2 md:grid-cols-3 gap-6">
-        {pets.length < 1 && <div>No data found</div>}
+      <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
+        {pets.length < 1 && <div className="col-span-full text-center">No data found</div>}
         {pets.map((pet) => (
-          <div key={pet._id} className="border p-4 rounded shadow">
-            <img
-              src={pet.image}
-              alt={pet.name}
-              className="w-full h-48 object-cover rounded"
-            />
-            <h3 className="text-xl font-bold mt-2">{pet.name}</h3>
-            <p>Age: {pet.age}</p>
-
-            <p>Location: {pet.location}</p>
-            <p>
+          <div
+            key={pet._id}
+            className="border p-4 rounded shadow flex flex-col overflow-hidden"
+          >
+            <div className="overflow-hidden rounded">
+              <img
+                src={pet.image}
+                alt={pet.name}
+                className="w-full aspect-[4/3] object-cover rounded"
+              />
+            </div>
+            <h3 className="text-lg sm:text-xl font-bold mt-2">{pet.name}</h3>
+            <p className="text-sm sm:text-base">Age: {pet.age}</p>
+            <p className="line-clamp-1 text-sm sm:text-base">Location: {pet.location}</p>
+            <p className="line-clamp-2 text-sm sm:text-base">
               Description: <br /> {pet.shortDescription}
             </p>
             <button
               onClick={() => handleClick(pet._id)}
-              className="mt-2 text-blue-500 "
+              className="mt-2 text-blue-500 text-sm sm:text-base"
             >
               View Details
             </button>

@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, {  useState } from "react";
 import { Formik } from "formik";
 import * as Yup from "yup";
 import { Input } from "@/components/ui/input";
@@ -9,6 +9,7 @@ import { toast } from "react-toastify";
 import useAuth from "../../Hooks/useAuth";
 import useSecureApi from "../../Hooks/useSecureApi";
 import { Editor } from "@tinymce/tinymce-react";
+import { AuthContext } from "../../Context/AuthContext";
 
 const petCategories = [
   { value: "Dog", label: "Dog" },
@@ -19,12 +20,14 @@ const petCategories = [
   { value: "Hamster", label: "Hamster" },
 ];
 
+
 const AddPet = () => {
   const [imageUrl, setImageUrl] = useState("");
   const [loading, setLoading] = useState(false);
   const [imageError, setImageError] = useState("");
   const apiPromise = useSecureApi();
-  const { user } = useAuth();
+  const { user ,isDark} = useAuth();
+
  
 
   const handleImageUpload = async (file) => {
@@ -49,7 +52,7 @@ const AddPet = () => {
 
   return (
     <div className="max-w-4xl mx-auto dark:bg-dark   mt-10 p-8 shadow-md rounded-2xl  h-full">
-      <h1 className="text-center text-3xl font-semibold mb-8 text-gray-800">
+      <h1 className="text-center text-3xl font-semibold mb-8 text-gray-800 dark:text-white">
         Add a New Pet
       </h1>
 
@@ -237,26 +240,26 @@ const AddPet = () => {
             {/* Long Description */}
             <div>
               <Label>Long Description</Label>
-              <div className="border rounded overflow-hidden focus-within:ring-2 ring-blue-500">
-                <Editor 
-                  apiKey={import.meta.env.VITE_TYNEMCE}
-                  value={formik.values.longDescription}
-                  onEditorChange={(content) =>
-                    formik.setFieldValue("longDescription", content)
-                  }
-                  init={{
-                    height: 150,
-                    menubar: false,
-                    plugins: [
-                      "lists link image media table wordcount",
-                      "code visualblocks",
-                    ],
-                    toolbar:
-                      "undo redo | formatselect | bold italic | alignleft aligncenter alignright | bullist numlist | code",
-                       skin: "oxide-dark",
-    content_css: "dark",
-                  }}
-                />
+              <div className="border rounded overflow-hidden @apply bg-white dark:bg-gray-900 dark:text-white">
+               <Editor
+      apiKey={import.meta.env.VITE_TYNEMCE}
+      value={formik.values.longDescription}
+      onEditorChange={(content) =>
+        formik.setFieldValue('longDescription', content)
+      }
+    init={{
+  height: 150,
+  menubar: false,
+  plugins: ['lists link image media table wordcount', 'code visualblocks'],
+  toolbar: 'undo redo | formatselect | bold italic | alignleft aligncenter alignright | bullist numlist | code',
+  skin: isDark ? 'oxide-dark' : 'oxide',
+  content_css: isDark
+    ? 'dark' // or full URL to dark content CSS
+    : 'default',
+  color_input: true,
+}}
+key={isDark ? 'dark' : 'light'} // forces re-render on theme change
+    />
               </div>
               {formik.touched.longDescription &&
                 formik.errors.longDescription && (
@@ -270,7 +273,7 @@ const AddPet = () => {
             <div className="text-center">
               <button
                 type="submit"
-                className="bg-blue-600 hover:bg-blue-700  font-medium px-6 py-2 rounded-md transition-colors"
+                className="bg-[rgb(214,28,98)] hover:bg-[rgb(185,22,85)] dark:bg-blue-600 dark:hover:bg-blue-700  font-medium px-6 py-2 rounded-md transition-colors"
                 disabled={loading}
               >
                 {loading ? "Submitting..." : "Submit"}
@@ -284,3 +287,4 @@ const AddPet = () => {
 };
 
 export default AddPet;
+git add . com

@@ -37,7 +37,7 @@ const AdoptionRequest = () => {
       {data.length === 0 ? (
         <p>No adoption requests yet.</p>
       ) : (
-        <div className="overflow-x-auto bg-white shadow-md rounded-lg">
+        <div className="overflow-x-auto  shadow-md rounded-lg">
           <table className="min-w-full divide-y divide-gray-200">
             <thead>
               <tr >

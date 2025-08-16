@@ -15,7 +15,6 @@ const JoinUs = () => {
   const handleChange = (e) => {
     const { name, value } = e.target;
     setFormData({ ...formData, [name]: value });
-  
   };
 
   const handleSubmit = (e) => {
@@ -24,21 +23,20 @@ const JoinUs = () => {
     setSubmitted(true);
     setFormData({ name: "", phone: "", email: "", address: "" });
 
-
     setTimeout(() => {
       setSubmitted(false);
     }, 4000); // auto-hide success message after 4s
-      toast.success('submitted')
+    toast.success("submitted");
   };
 
   return (
-    <div className="bg-gray-50 py-16 px-6 md:px-20">
+    <div className="bg-gray-50 dark:bg-gray-900 py-16 px-6 md:px-20 transition-colors duration-300">
       {/* Hero Section */}
       <div className="text-center mb-12">
-        <h1 className="text-4xl md:text-5xl font-bold text-gray-900 mb-4">
+        <h1 className="text-4xl md:text-5xl font-bold text-gray-900 dark:text-white mb-4">
           Join Us as a Volunteer
         </h1>
-        <p className="text-gray-700 text-lg md:text-xl max-w-2xl mx-auto">
+        <p className="text-gray-700 dark:text-gray-300 text-lg md:text-xl max-w-2xl mx-auto">
           Be a part of our mission to rescue, foster, and adopt homeless animals.
           Your help can make a huge difference!
         </p>
@@ -60,12 +58,12 @@ const JoinUs = () => {
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.6 }}
-          className="md:w-1/2 bg-white rounded-xl shadow-xl p-8 md:p-12"
+          className="md:w-1/2 bg-white dark:bg-gray-800 rounded-xl shadow-xl p-8 md:p-12 transition-colors duration-300"
         >
-          <h2 className="text-3xl font-bold text-gray-900 mb-4">
+          <h2 className="text-3xl font-bold text-gray-900 dark:text-white mb-4">
             Rescue, Foster And Adopt
           </h2>
-          <p className="text-gray-700 mb-6">
+          <p className="text-gray-700 dark:text-gray-300 mb-6">
             Don't buy pets when there are so many homeless animals on the streets.
             Adopt rescued animals from our shelters and make a change in the lives
             of animals in your area.
@@ -81,7 +79,7 @@ const JoinUs = () => {
               placeholder="Your Name"
               value={formData.name}
               onChange={handleChange}
-              className="p-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-pink-400"
+              className="p-3 border border-gray-300 dark:border-gray-600 dark:bg-gray-700 dark:text-white rounded-lg focus:outline-none focus:ring-2 focus:ring-pink-400"
               required
             />
             <input
@@ -90,7 +88,7 @@ const JoinUs = () => {
               placeholder="Your Phone"
               value={formData.phone}
               onChange={handleChange}
-              className="p-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-pink-400"
+              className="p-3 border border-gray-300 dark:border-gray-600 dark:bg-gray-700 dark:text-white rounded-lg focus:outline-none focus:ring-2 focus:ring-pink-400"
               required
             />
             <input
@@ -99,7 +97,7 @@ const JoinUs = () => {
               placeholder="Your Email"
               value={formData.email}
               onChange={handleChange}
-              className="p-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-pink-400"
+              className="p-3 border border-gray-300 dark:border-gray-600 dark:bg-gray-700 dark:text-white rounded-lg focus:outline-none focus:ring-2 focus:ring-pink-400"
               required
             />
             <input
@@ -108,7 +106,7 @@ const JoinUs = () => {
               placeholder="Your Address"
               value={formData.address}
               onChange={handleChange}
-              className="md:col-span-2 p-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-pink-400"
+              className="md:col-span-2 p-3 border border-gray-300 dark:border-gray-600 dark:bg-gray-700 dark:text-white rounded-lg focus:outline-none focus:ring-2 focus:ring-pink-400"
               required
             />
 
@@ -122,8 +120,8 @@ const JoinUs = () => {
 
           {/* Success Message */}
           {submitted && (
-            <div className="text-green-600 font-semibold text-center">
-               Thank you for joining us! We'll reach out soon.
+            <div className="text-green-600 dark:text-green-400 font-semibold text-center">
+              Thank you for joining us! We'll reach out soon.
             </div>
           )}
         </motion.div>

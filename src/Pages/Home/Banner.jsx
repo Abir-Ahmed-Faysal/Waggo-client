@@ -18,9 +18,9 @@ const Banner = () => {
   return (
     <div className="pt-5">
       <section
-        className="relative h-[80vh] flex flex-col items-center justify-center bg-cover bg-center bg-no-repeat pb-60"
+        className="relative h-[50vh] md:h-[65vh]  lg:h-[80vh] flex flex-col items-center justify-center bg-cover bg-center bg-no-repeat pb-60"
         style={{
-          backgroundImage: `url('https://i.ibb.co.com/tMJdZmVc/wmremove-transformed.jpg')`, 
+          backgroundImage: `url('https://i.ibb.co.com/tMJdZmVc/wmremove-transformed.jpg')`,
           backgroundPositionY: `calc(25% + ${offsetY * 0.5}px)`,
           backgroundAttachment: "scroll",
         }}
@@ -49,10 +49,9 @@ const Banner = () => {
           </Link>
         </div>
 
-        
         <div className="absolute bottom-0 left-0 w-full z-10">
           <img
-            src="https://i.ibb.co.com/1Gy5sVfZ/1000-F-481854656-g-HGTn-Bsc-KXp-FEg-VTw-AT4-DL4-NXXNh-DKU9-ezgif-com-webp-to-jpg-converter-removebg.png" 
+            src="https://i.ibb.co.com/1Gy5sVfZ/1000-F-481854656-g-HGTn-Bsc-KXp-FEg-VTw-AT4-DL4-NXXNh-DKU9-ezgif-com-webp-to-jpg-converter-removebg.png"
             className="w-full  md:h-80 lg:h-96  object-contain"
           />
         </div>

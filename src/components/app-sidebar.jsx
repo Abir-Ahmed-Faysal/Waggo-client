@@ -62,10 +62,10 @@ export function AppSidebar({ ...props }) {
 
       <SidebarContent>
         <SidebarGroup>
-          <SidebarMenu>
+          <SidebarMenu className='md:pt-11 lg:pt-4 '>
             {navMain.map((item) => (
               <SidebarMenuItem key={item.title}>
-                <SidebarMenuButton asChild>
+                <SidebarMenuButton  asChild>
                   <Link to={item.link} className="font-medium">
                     {item.title}
                   </Link>

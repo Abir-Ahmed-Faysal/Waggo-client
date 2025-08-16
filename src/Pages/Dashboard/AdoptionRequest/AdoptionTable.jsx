@@ -66,7 +66,7 @@ const AdoptionTable = ({ data, api, user, refetch }) => {
   };
 
   return (
-    <tbody>
+    <tbody >
       {data.map((req) => (
         <tr key={req._id}>
           <td>
@@ -76,9 +76,15 @@ const AdoptionTable = ({ data, api, user, refetch }) => {
                 alt={req.petName}
                 className="w-12 h-12 object-cover rounded"
               />
-              <span>{req.petName}</span>
             </div>
           </td>
+
+          <td>
+            <div className="flex items-center gap-2">
+              <p >{req.petName}</p>
+            </div>
+          </td>
+
           <td>
             <div>
               <p className="font-semibold">{req.userName}</p>

@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import { Link, NavLink } from "react-router"; // react-router-dom is preferred
+import { Link, NavLink, useLocation } from "react-router";
 import useAuth from "../Hooks/useAuth";
 import { ThemeToggle } from "./ThemeToggle";
 
@@ -8,6 +8,8 @@ const Navbar = () => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const [showDropdown, setShowDropdown] = useState(false);
   const [showTopBar, setShowTopBar] = useState(true);
+  const { pathname } = useLocation();
+
 
   const toggleMenu = () => setIsMenuOpen(!isMenuOpen);
   const toggleDropdown = () => setShowDropdown(!showDropdown);
@@ -40,20 +42,22 @@ const Navbar = () => {
 
   return (
     <>
-      <div
-        className={`bg-[rgb(20,70,160)] text-white text-sm py-2 px-4 text-center transition-transform duration-300 ${
-          showTopBar ? "translate-y-0" : "-translate-y-full"
-        }`}
-        style={{ position: "fixed", top: 0, left: 0, right: 0, zIndex: 60 }}
-      >
-        📧 fr.abir.ahmed.faysal@gmail.com | 📍 Khulna, Bangladesh
+      <div className={pathname.startsWith("/dashboard") && "hidden"}>
+        <div
+          className={`bg-[rgb(20,70,160)] text-white text-sm py-2 px-4 text-center transition-transform duration-300 ${
+            showTopBar ? "translate-y-0" : "-translate-y-full"
+          }`}
+          style={{ position: "fixed", top: 0, left: 0, right: 0, zIndex: 60 }}
+        >
+          📧 fr.abir.ahmed.faysal@gmail.com | 📍 Khulna, Bangladesh
+        </div>
       </div>
 
       {/* Main Navbar */}
       <header
         className="bg-gray-50 text-gray-800 shadow-md lg:p-0 p-4 sticky z-50 transition-[top] duration-300"
         style={{
-          top: showTopBar ? "2rem" : "0", // 2.5rem matches top bar height
+          top: showTopBar && !pathname.startsWith("/dashboard") ? "2rem" : "0",
           position: "sticky",
         }}
       >
@@ -104,18 +108,22 @@ const Navbar = () => {
               </li>
             )}
 
-            <ThemeToggle />
-
             {/* Auth Buttons */}
             {!user ? (
-              <li>
-                <NavLink
-                  to="/login"
-                  className="px-4 py-2 text-[rgb(214,28,98)] hover:text-[rgb(214,28,98)]"
-                >
-                  Login
-                </NavLink>
-              </li>
+              <>
+                <li>
+                  {" "}
+                  <ThemeToggle />
+                </li>
+                <li>
+                  <NavLink
+                    to="/login"
+                    className="px-4 py-2 text-[rgb(214,28,98)] hover:text-[rgb(214,28,98)]"
+                  >
+                    Login
+                  </NavLink>
+                </li>
+              </>
             ) : (
               <li className="relative">
                 <button
@@ -143,6 +151,9 @@ const Navbar = () => {
                         >
                           Logout
                         </button>
+                      </li>
+                      <li>
+                        <ThemeToggle />
                       </li>
                     </ul>
                   </div>
@@ -172,7 +183,7 @@ const Navbar = () => {
 
         {/* Mobile Dropdown Menu */}
         {isMenuOpen && (
-          <div className="md:hidden bg-gray-100 border-t border-gray-300">
+          <div className="md:hidden bg-gray-100 max-w-32  absolute border-t border-gray-300">
             <ul className="flex flex-col space-y-1 p-4">
               {navItems.map((item) => (
                 <li key={item.path}>
@@ -181,7 +192,7 @@ const Navbar = () => {
                     className={({ isActive }) =>
                       `block px-4 py-2 rounded ${
                         isActive
-                          ? "text-teal-600 font-semibold"
+                          ? "text-[rgb(214,28,98)] font-semibold"
                           : "hover:bg-gray-200"
                       }`
                     }
@@ -196,7 +207,7 @@ const Navbar = () => {
                 <li>
                   <NavLink
                     to="/login"
-                    className="block px-4 py-2 text-teal-600 hover:bg-teal-100"
+                    className="block px-4 py-2 text-[rgb(214,28,98)]hover:bg-teal-100"
                     onClick={() => setIsMenuOpen(false)}
                   >
                     Login
@@ -228,6 +239,10 @@ const Navbar = () => {
                   </li>
                 </>
               )}
+              <li>
+                {" "}
+                <ThemeToggle />
+              </li>
             </ul>
           </div>
         )}
