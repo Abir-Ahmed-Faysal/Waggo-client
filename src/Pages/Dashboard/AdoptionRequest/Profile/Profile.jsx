@@ -6,11 +6,14 @@ import { toast } from "react-toastify";
 import { LogOut, Edit, UserPlus } from "lucide-react";
 
 const Profile = () => {
-  const { user, logOut } = useAuth();
+  const { user, logOut, updateUser } = useAuth();
   const { role } = useUserRole();
   const navigate = useNavigate();
 
   const [volunteerData, setVolunteerData] = useState(null);
+  const [isEditing, setIsEditing] = useState(false);
+  const [displayName, setDisplayName] = useState(user?.displayName || "");
+  const [photoURL, setPhotoURL] = useState(user?.photoURL || "");
 
   useEffect(() => {
     const storedData = localStorage.getItem("volunteerData");
@@ -18,6 +21,19 @@ const Profile = () => {
       setVolunteerData(JSON.parse(storedData));
     }
   }, []);
+
+  const handleUpdateProfile = (e) => {
+    e.preventDefault();
+
+    updateUser(displayName, photoURL)
+      .then(() => {
+        toast.success("Profile updated successfully!");
+        setIsEditing(false);
+      })
+      .catch((err) => {
+        toast.error("Failed to update profile: " + err.message);
+      });
+  };
 
   return (
     <div className="flex justify-center items-center min-h-screen bg-gradient-to-br from-blue-50 to-gray-100 dark:from-gray-900 dark:to-gray-800 transition-colors duration-500">
@@ -51,10 +67,10 @@ const Profile = () => {
             </h3>
             <ul className="space-y-2 text-sm text-gray-700 dark:text-gray-300">
               <li>
-                <span className="font-medium">📞 Phone:</span> {volunteerData.phone}
+                <span className="font-medium"> Phone:</span> {volunteerData.phone}
               </li>
               <li>
-                <span className="font-medium">📍 Address:</span> {volunteerData.address}
+                <span className="font-medium"> Address:</span> {volunteerData.address}
               </li>
             </ul>
           </div>
@@ -69,7 +85,10 @@ const Profile = () => {
 
         {/* Buttons */}
         <div className="mt-6 flex flex-col sm:flex-row justify-center gap-3">
-          <button className="flex items-center justify-center gap-2 px-5 py-2 w-full sm:w-auto bg-blue-500 text-white rounded-full shadow hover:bg-blue-600 transition font-medium">
+          <button
+            onClick={() => setIsEditing(true)}
+            className="flex items-center justify-center gap-2 px-5 py-2 w-full sm:w-auto bg-blue-500 text-white rounded-full shadow hover:bg-blue-600 transition font-medium"
+          >
             <Edit size={18} /> Edit Profile
           </button>
           <button
@@ -77,6 +96,7 @@ const Profile = () => {
               logOut()
                 .then(() => {
                   toast.success("User signed out successfully");
+                  navigate("/");
                 })
                 .catch((error) => {
                   console.error("Logout error:", error);
@@ -87,6 +107,49 @@ const Profile = () => {
             <LogOut size={18} /> Logout
           </button>
         </div>
+
+        {/* Edit Profile Modal */}
+        {isEditing && (
+          <div className="fixed inset-0 bg-black bg-opacity-50 flex justify-center items-center">
+            <div className="bg-white dark:bg-gray-800 p-6 rounded-2xl shadow-xl w-full max-w-sm">
+              <h2 className="text-xl font-bold text-gray-800 dark:text-gray-100 mb-4">
+                Edit Profile
+              </h2>
+              <form onSubmit={handleUpdateProfile} className="space-y-4">
+                <input
+                  type="text"
+                  value={displayName}
+                  onChange={(e) => setDisplayName(e.target.value)}
+                  placeholder="Display Name"
+                  className="w-full p-2 border rounded-lg dark:bg-gray-700 dark:text-white"
+                />
+                <input
+                  type="text"
+                  value={photoURL}
+                  onChange={(e) => setPhotoURL(e.target.value)}
+                  placeholder="Photo URL"
+                  className="w-full p-2 border rounded-lg dark:bg-gray-700 dark:text-white"
+                />
+                <div className="flex gap-3 justify-end">
+                  <button
+                    type="button"
+                    onClick={() => setIsEditing(false)}
+                    className="px-4 py-2 rounded-lg bg-gray-300 hover:bg-gray-400 dark:bg-gray-600 dark:hover:bg-gray-500"
+                  >
+                    Cancel
+                  </button>
+                  <button
+                    type="submit"
+                    className="px-4 py-2 rounded-lg bg-blue-500 hover:bg-blue-600 text-white"
+                  >
+                    Save
+                  </button>
+                </div>
+              </form>
+            </div>
+          </div>
+        )}
+
       </div>
     </div>
   );
