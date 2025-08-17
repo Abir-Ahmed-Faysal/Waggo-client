@@ -83,7 +83,7 @@ const CheckoutForm = ({ _id, amount,refetch }) => {
     });
     // data patch
     if (result?.paymentIntent?.status === "succeeded") {
-      const userData = { email: user.email, amount };
+      const userData = { email: user.email, amount , createdAt: new Date() };
       try {
         const res = await api.patch(`/donation-send/${_id}`, userData);
 
