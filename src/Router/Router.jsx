@@ -26,6 +26,7 @@ import AdminUpdatePet from "../Pages/Dashboard/Admin/AdminPetUpdate/UpdatePet";
 import NotFound from "../components/NotFound";
 import JoinUs from "../Pages/JoinUs/JoinUs";
 import Profile from "../Pages/Dashboard/AdoptionRequest/Profile/Profile";
+import Overview from "../Pages/Dashboard/Admin/Overview/Overview";
 
 export const router = createBrowserRouter([
   {
@@ -125,6 +126,14 @@ export const router = createBrowserRouter([
         element: (
           <AdminCheck>
             <AllUsers />
+          </AdminCheck>
+        ),
+      },
+      {
+        path: "overview",
+        element: (
+          <AdminCheck>
+            <Overview />
           </AdminCheck>
         ),
       },

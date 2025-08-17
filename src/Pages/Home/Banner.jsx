@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { Link } from "react-router"; // ঠিক ইমপোর্ট
+import { Link } from "react-router"; 
 import { Button } from "@/components/ui/button";
 
 const Banner = () => {
@@ -16,7 +16,7 @@ const Banner = () => {
   }, []);
 
   return (
-    <div className="pt-5">
+    <div className="pt-10 md:pt-5">
       <section
         className="relative h-[50vh] md:h-[65vh]  lg:h-[80vh] flex flex-col items-center justify-center bg-cover bg-center bg-no-repeat pb-60"
         style={{

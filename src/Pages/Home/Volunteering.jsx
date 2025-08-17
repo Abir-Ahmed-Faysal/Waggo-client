@@ -43,7 +43,7 @@ const VolunteersCarousel = () => {
       name: "Noah Williams",
       profession: "Animal Rights Advocate",
       img: "https://randomuser.me/api/portraits/men/22.jpg",
-      desc: "Every life matters, especially those without a voice.",
+      desc: "Every life matters, especially those without a voice.A Life always God's given",
     },
   ];
 
