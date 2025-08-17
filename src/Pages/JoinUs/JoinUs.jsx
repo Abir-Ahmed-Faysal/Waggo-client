@@ -20,13 +20,18 @@ const JoinUs = () => {
   const handleSubmit = (e) => {
     e.preventDefault();
     console.log("User Data:", formData);
+
+
+    localStorage.setItem("volunteerData", JSON.stringify(formData));
+
     setSubmitted(true);
     setFormData({ name: "", phone: "", email: "", address: "" });
 
     setTimeout(() => {
       setSubmitted(false);
     }, 4000); // auto-hide success message after 4s
-    toast.success("submitted");
+
+    toast.success("Submitted successfully & saved to localStorage ");
   };
 
   return (

@@ -2,6 +2,7 @@ import React, { useState, useEffect } from "react";
 import { Link, NavLink, useLocation } from "react-router";
 import useAuth from "../Hooks/useAuth";
 import { ThemeToggle } from "./ThemeToggle";
+import { toast } from "react-toastify";
 
 const Navbar = () => {
   const { user, logOut } = useAuth();
@@ -9,7 +10,6 @@ const Navbar = () => {
   const [showDropdown, setShowDropdown] = useState(false);
   const [showTopBar, setShowTopBar] = useState(true);
   const { pathname } = useLocation();
-
 
   const toggleMenu = () => setIsMenuOpen(!isMenuOpen);
   const toggleDropdown = () => setShowDropdown(!showDropdown);
@@ -144,7 +144,14 @@ const Navbar = () => {
                       <li>
                         <button
                           onClick={() => {
-                            logOut();
+                            logOut()
+                              .then(() => {
+                                toast.success("User signed out successfully");
+                              })
+                              .catch((error) => {
+                               
+                                console.error("Logout error:", error);
+                              });
                             setShowDropdown(false);
                           }}
                           className="w-full text-left px-4 py-2 text-red-500 hover:bg-red-100"

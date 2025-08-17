@@ -21,8 +21,6 @@ export function AppSidebar({ ...props }) {
   const { role } = useUserRole();
   const currentUser = user || {};
 
-  console.log(role);
-
   const navMain = [
     { title: "Adoption Request", link: "/dashboard" },
     { title: "Add a pet", link: "/dashboard/add-pet" },
@@ -31,6 +29,7 @@ export function AppSidebar({ ...props }) {
     { title: "Create Donation Campaign", link: "/dashboard/donation-campaign" },
     { title: "My Donation Campaigns", link: "/dashboard/my-campaign" },
     { title: "My Donations", link: "/dashboard/my-honor-donation" },
+    { title: "Profile", link: "/dashboard/profile" },
 
     ...(role === "admin"
       ? [

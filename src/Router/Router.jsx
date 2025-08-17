@@ -25,6 +25,7 @@ import AllDonationsAdmin from "../Pages/Dashboard/Admin/AllDonationsAdmin/AllDon
 import AdminUpdatePet from "../Pages/Dashboard/Admin/AdminPetUpdate/UpdatePet";
 import NotFound from "../components/NotFound";
 import JoinUs from "../Pages/JoinUs/JoinUs";
+import Profile from "../Pages/Dashboard/AdoptionRequest/Profile/Profile";
 
 export const router = createBrowserRouter([
   {
@@ -85,6 +86,10 @@ export const router = createBrowserRouter([
       {
         path: "add-pet",
         Component: AddPet,
+      },
+      {
+        path: "profile",
+        Component: Profile,
       },
       {
         path: "my-pet",

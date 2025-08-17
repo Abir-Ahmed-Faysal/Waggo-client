@@ -287,4 +287,3 @@ key={isDark ? 'dark' : 'light'} // forces re-render on theme change
 };
 
 export default AddPet;
-git add . com
