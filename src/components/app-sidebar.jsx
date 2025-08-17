@@ -22,14 +22,13 @@ export function AppSidebar({ ...props }) {
   const currentUser = user || {};
 
   const navMain = [
-    { title: "Adoption Request", link: "/dashboard" },
+    { title: "Profile", link: "/dashboard" },
+    { title: "Adoption Request", link: "/dashboard/adoptionRequest" },
     { title: "Add a pet", link: "/dashboard/add-pet" },
     { title: "My added pets", link: "/dashboard/my-pet" },
-
     { title: "Create Donation Campaign", link: "/dashboard/donation-campaign" },
     { title: "My Donation Campaigns", link: "/dashboard/my-campaign" },
     { title: "My Donations", link: "/dashboard/my-honor-donation" },
-    { title: "Profile", link: "/dashboard/profile" },
 
     ...(role === "admin"
       ? [
@@ -61,10 +60,10 @@ export function AppSidebar({ ...props }) {
 
       <SidebarContent>
         <SidebarGroup>
-          <SidebarMenu className='md:pt-11 lg:pt-4 '>
+          <SidebarMenu className="md:pt-11 lg:pt-4 ">
             {navMain.map((item) => (
               <SidebarMenuItem key={item.title}>
-                <SidebarMenuButton  asChild>
+                <SidebarMenuButton asChild>
                   <Link to={item.link} className="font-medium">
                     {item.title}
                   </Link>

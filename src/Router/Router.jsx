@@ -27,6 +27,7 @@ import NotFound from "../components/NotFound";
 import JoinUs from "../Pages/JoinUs/JoinUs";
 import Profile from "../Pages/Dashboard/AdoptionRequest/Profile/Profile";
 import Overview from "../Pages/Dashboard/Admin/Overview/Overview";
+import UserChart from "../Pages/Dashboard/UserChart/UserChart";
 
 export const router = createBrowserRouter([
   {
@@ -81,7 +82,7 @@ export const router = createBrowserRouter([
     ),
     children: [
       {
-        index: true,
+      path: 'adoptionRequest',
         Component: AdoptionRequest,
       },
       {
@@ -89,9 +90,10 @@ export const router = createBrowserRouter([
         Component: AddPet,
       },
       {
-        path: "profile",
+        index: true,
         Component: Profile,
       },
+    
       {
         path: "my-pet",
         Component: MyPet,
