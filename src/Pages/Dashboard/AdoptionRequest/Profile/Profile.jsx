@@ -37,6 +37,9 @@ const Profile = () => {
   };
 
   return (
+    <div className="h-full overflow-y-scroll">
+
+  
     <div className="flex flex-col lg:flex-row justify-center items-start min-h-screen bg-gradient-to-br from-blue-50 to-gray-100 dark:from-gray-900 dark:to-gray-800 transition-colors duration-500 gap-6 sm:gap-8 p-4 sm:p-6 lg:p-8">
 
       {/* Profile Card */}
@@ -162,6 +165,7 @@ const Profile = () => {
         </div>
       </div>
 
+    </div>
     </div>
   );
 };
