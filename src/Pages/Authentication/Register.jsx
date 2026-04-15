@@ -85,8 +85,8 @@ const Register = () => {
   };
 
  return (
-  <div className="min-h-screen flex items-center justify-center bg-gradient-to-r from-pink-400 via-orange-300 to-yellow-300 dark:from-gray-900 dark:via-gray-800 dark:to-gray-900 px-4 py-10">
-    <div className="w-full max-w-5xl bg-white/70 dark:bg-white/10 backdrop-blur-xl rounded-3xl shadow-2xl overflow-hidden flex flex-col md:flex-row transition-all duration-300 ease-in-out">
+  <div className="min-h-screen flex items-center justify-center bg-gradient-to-br from-slate-50 to-slate-100 dark:from-slate-900 dark:to-slate-800 px-4 py-10">
+    <div className="w-full max-w-5xl bg-white dark:bg-slate-800 rounded-xl shadow-lg overflow-hidden flex flex-col md:flex-row border border-slate-200 dark:border-slate-700">
       
       {/* Left Image */}
       <div className="w-full md:w-1/2">
@@ -98,7 +98,7 @@ const Register = () => {
       </div>
 
       {/* Right Form Section */}
-      <div className="w-full md:w-1/2 p-10 flex flex-col justify-center bg-white/50 dark:bg-white/5 backdrop-blur-md">
+      <div className="w-full md:w-1/2 p-10 flex flex-col justify-center bg-white dark:bg-slate-800">
         
         {/* Logo Animation */}
         <div className="flex justify-center mb-6">
@@ -107,20 +107,20 @@ const Register = () => {
             initial={{ y: -30, opacity: 0 }}
             animate={{ y: 0, opacity: 1 }}
             transition={{ duration: 0.6, type: "spring" }}
-            className="w-10 md:w-15 lg:w-20   shadow-md"
+            className="w-10 md:w-15 lg:w-20 shadow-md"
             alt="Logo"
           />
         </div>
 
         {/* Title */}
-        <h2 className="text-3xl font-extrabold text-center text-pink-600 dark:text-white mb-6">
+        <h2 className="text-3xl font-bold text-center text-slate-900 dark:text-slate-100 mb-6">
           Create Your Account
         </h2>
 
         {/* Google Button */}
         <button
           onClick={handleGoogleRegister}
-          className="w-full flex items-center justify-center gap-3 border border-gray-300 dark:border-gray-600 rounded-lg px-4 py-2 bg-white dark:bg-white/10 hover:shadow-md dark:hover:bg-white/20 transition"
+          className="w-full flex items-center justify-center gap-3 border border-slate-300 dark:border-slate-600 rounded-lg px-4 py-2 bg-white dark:bg-slate-700 hover:bg-slate-50 dark:hover:bg-slate-600 transition-colors text-slate-900 dark:text-slate-100 font-medium"
         >
          <svg
                 aria-label="Google logo"
@@ -149,71 +149,72 @@ const Register = () => {
                   ></path>
                 </g>
               </svg>
-          <span className="font-medium text-gray-700 dark:text-gray-200">Continue with Google</span>
+          <span className="font-medium">Continue with Google</span>
         </button>
 
         {/* Divider */}
         <div className="flex items-center my-5 gap-3">
-          <div className="flex-grow h-px bg-gray-300 dark:bg-gray-600" />
-          <span className="text-sm text-gray-500 dark:text-gray-400">or</span>
-          <div className="flex-grow h-px bg-gray-300 dark:bg-gray-600" />
+          <div className="flex-grow h-px bg-slate-300 dark:bg-slate-600" />
+          <span className="text-sm text-slate-500 dark:text-slate-400 font-medium">or</span>
+          <div className="flex-grow h-px bg-slate-300 dark:bg-slate-600" />
         </div>
 
         {/* Form */}
         <form onSubmit={handleRegister} className="space-y-4">
           <div>
-            <label className="block text-sm font-medium text-gray-700 dark:text-gray-200">Username</label>
+            <label className="block text-sm font-semibold text-slate-700 dark:text-slate-300 mb-2">Full Name</label>
             <input
               type="text"
               name="username"
-              placeholder="Enter your username"
-              className="w-full px-4 py-2 rounded-md bg-white dark:bg-white/10 text-gray-800 dark:text-white border border-gray-300 dark:border-gray-600 focus:outline-none focus:ring-2 focus:ring-pink-500"
+              placeholder="John Doe"
+              className="w-full px-4 py-2 rounded-lg bg-white dark:bg-slate-700 text-slate-900 dark:text-slate-100 border border-slate-300 dark:border-slate-600 focus:outline-none focus:ring-2 focus:ring-primary/50 transition-all"
             />
           </div>
 
           <div>
-            <label className="block text-sm font-medium text-gray-700 dark:text-gray-200">Photo URL</label>
+            <label className="block text-sm font-semibold text-slate-700 dark:text-slate-300 mb-2">Photo URL</label>
             <input
               type="text"
               name="photoURL"
               placeholder="https://example.com/photo.jpg"
-              className="w-full px-4 py-2 rounded-md bg-white dark:bg-white/10 text-gray-800 dark:text-white border border-gray-300 dark:border-gray-600 focus:outline-none focus:ring-2 focus:ring-pink-500"
+              className="w-full px-4 py-2 rounded-lg bg-white dark:bg-slate-700 text-slate-900 dark:text-slate-100 border border-slate-300 dark:border-slate-600 focus:outline-none focus:ring-2 focus:ring-primary/50 transition-all"
             />
           </div>
 
           <div>
-            <label className="block text-sm font-medium text-gray-700 dark:text-gray-200">Email</label>
+            <label className="block text-sm font-semibold text-slate-700 dark:text-slate-300 mb-2">Email Address</label>
             <input
               type="email"
               name="email"
-              placeholder="john.doe@gmail.com"
-              className="w-full px-4 py-2 rounded-md bg-white dark:bg-white/10 text-gray-800 dark:text-white border border-gray-300 dark:border-gray-600 focus:outline-none focus:ring-2 focus:ring-pink-500"
+              placeholder="john@example.com"
+              className="w-full px-4 py-2 rounded-lg bg-white dark:bg-slate-700 text-slate-900 dark:text-slate-100 border border-slate-300 dark:border-slate-600 focus:outline-none focus:ring-2 focus:ring-primary/50 transition-all"
             />
           </div>
 
           <div>
-            <label className="block text-sm font-medium text-gray-700 dark:text-gray-200">Password</label>
+            <label className="block text-sm font-semibold text-slate-700 dark:text-slate-300 mb-2">Password</label>
             <input
               type="password"
               name="password"
               placeholder="••••••••"
-              className="w-full px-4 py-2 rounded-md bg-white dark:bg-white/10 text-gray-800 dark:text-white border border-gray-300 dark:border-gray-600 focus:outline-none focus:ring-2 focus:ring-pink-500"
+              className="w-full px-4 py-2 rounded-lg bg-white dark:bg-slate-700 text-slate-900 dark:text-slate-100 border border-slate-300 dark:border-slate-600 focus:outline-none focus:ring-2 focus:ring-primary/50 transition-all"
             />
+            <p className="text-xs text-slate-500 dark:text-slate-400 mt-1">At least 6 characters with 1 uppercase & 1 lowercase</p>
           </div>
 
           <button
             type="submit"
-            className="w-full py-2 rounded-md bg-gradient-to-r from-pink-500 via-purple-500 to-indigo-500 text-white font-semibold shadow-md hover:shadow-lg transition"
+            className="w-full py-2 rounded-lg bg-primary hover:bg-primary-dark text-white font-semibold shadow-md hover:shadow-lg transition-all duration-200"
           >
-            Register
+            Create Account
           </button>
         </form>
 
         {/* Link to Login */}
-        <p className="mt-6 text-sm text-center text-gray-700 dark:text-gray-300">
+        <p className="mt-6 text-sm text-center text-slate-600 dark:text-slate-400">
           Already have an account?{" "}
-          <Link to="/login" className="text-pink-600 dark:text-pink-400 font-medium underline hover:text-pink-700">
-            Log in
+          <Link to="/login" className="text-primary hover:text-primary-dark font-semibold transition-colors">
+            Sign in
           </Link>
         </p>
       </div>

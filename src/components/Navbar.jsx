@@ -44,7 +44,7 @@ const Navbar = () => {
     <>
       <div className={pathname.startsWith("/dashboard") && "hidden"}>
         <div
-          className={`bg-[rgb(20,70,160)] text-white text-sm py-2 px-4 text-center transition-transform duration-300 ${
+          className={`bg-primary text-white text-sm py-2 px-4 text-center transition-transform duration-300 ${
             showTopBar ? "translate-y-0" : "-translate-y-full"
           }`}
           style={{ position: "fixed", top: 0, left: 0, right: 0, zIndex: 60 }}
@@ -55,15 +55,15 @@ const Navbar = () => {
 
       {/* Main Navbar */}
       <header
-        className="bg-gray-50 text-gray-800 shadow-md lg:p-0 p-4 sticky z-50 transition-[top] duration-300"
+        className="bg-white dark:bg-slate-900 text-slate-900 dark:text-slate-100 shadow-md lg:p-0 p-4 sticky z-50 transition-[top] duration-300 border-b border-slate-200 dark:border-slate-800"
         style={{
           top: showTopBar && !pathname.startsWith("/dashboard") ? "2rem" : "0",
           position: "sticky",
         }}
       >
-        <div className="max-w-6xl mx-auto flex items-center justify-between h-16 ">
+        <div className="max-w-7xl mx-auto flex items-center justify-between h-16 ">
           {/* Logo */}
-          <Link to="/" className="flex items-center">
+          <Link to="/" className="flex items-center hover:opacity-80 transition-opacity">
             <img
               src="https://i.ibb.co/6RDpmBqr/Waggo-black-160x.jpg"
               alt="waggo"
@@ -72,17 +72,17 @@ const Navbar = () => {
           </Link>
 
           {/* Desktop Menu */}
-          <ul className="hidden md:flex items-center space-x-4">
+          <ul className="hidden md:flex items-center space-x-2">
             {navItems.map((item) => (
               <li key={item.path}>
                 <NavLink
                   to={item.path}
                   className={({ isActive }) =>
-                    `px-4 py-2 border-b-2 ${
+                    `px-4 py-2 rounded-md font-medium transition-colors duration-200 ${
                       isActive
-                        ? "text-[rgb(214,28,98)] border-[rgb(214,28,98)]"
-                        : "border-transparent"
-                    } hover:text-[rgb(214,28,98)]`
+                        ? "text-secondary bg-secondary/10"
+                        : "text-slate-600 dark:text-slate-300 hover:text-primary hover:bg-primary/5"
+                    }`
                   }
                 >
                   {item.label}
@@ -96,11 +96,11 @@ const Navbar = () => {
                 <NavLink
                   to="/dashboard"
                   className={({ isActive }) =>
-                    `px-4 py-2 border-b-2 ${
+                    `px-4 py-2 rounded-md font-medium transition-colors duration-200 ${
                       isActive
-                        ? "text-[rgb(214,28,98)] border-[rgb(214,28,98)]"
-                        : "border-transparent"
-                    } hover:text-[rgb(214,28,98)]`
+                        ? "text-secondary bg-secondary/10"
+                        : "text-slate-600 dark:text-slate-300 hover:text-primary hover:bg-primary/5"
+                    }`
                   }
                 >
                   Dashboard
@@ -118,7 +118,7 @@ const Navbar = () => {
                 <li>
                   <NavLink
                     to="/login"
-                    className="px-4 py-2 text-[rgb(214,28,98)] hover:text-[rgb(214,28,98)]"
+                    className="px-4 py-2 text-primary font-medium hover:text-primary-dark transition-colors"
                   >
                     Login
                   </NavLink>
@@ -128,7 +128,7 @@ const Navbar = () => {
               <li className="relative">
                 <button
                   onClick={toggleDropdown}
-                  className="w-10 h-10 rounded-full overflow-hidden border-2 border-[rgb(214,28,98)]"
+                  className="w-10 h-10 rounded-full overflow-hidden border-2 border-secondary hover:border-secondary-dark transition-colors"
                 >
                   <img
                     src={user.photoURL || "https://i.ibb.co/2nzwxcQ/avatar.png"}
@@ -138,7 +138,7 @@ const Navbar = () => {
                 </button>
 
                 {showDropdown && (
-                  <div className="absolute right-0 mt-2 w-64 bg-white border border-gray-200 shadow-lg rounded z-50">
+                  <div className="absolute right-0 mt-2 w-64 bg-white dark:bg-slate-800 border border-slate-200 dark:border-slate-700 shadow-lg rounded-lg z-50">
                     <ul className="p-2">
                       {/* Removed Dashboard from dropdown */}
                       <li>
@@ -154,7 +154,7 @@ const Navbar = () => {
                               });
                             setShowDropdown(false);
                           }}
-                          className="w-full text-left px-4 py-2 text-red-500 hover:bg-red-100"
+                          className="w-full text-left px-4 py-2 text-danger hover:bg-danger/10 rounded-md transition-colors"
                         >
                           Logout
                         </button>
@@ -170,7 +170,7 @@ const Navbar = () => {
           </ul>
 
           {/* Mobile Menu Button */}
-          <button onClick={toggleMenu} className="md:hidden p-2">
+          <button onClick={toggleMenu} className="md:hidden p-2 hover:bg-slate-100 dark:hover:bg-slate-800 rounded-md transition-colors">
             <svg
               xmlns="http://www.w3.org/2000/svg"
               fill="none"
@@ -190,17 +190,17 @@ const Navbar = () => {
 
         {/* Mobile Dropdown Menu */}
         {isMenuOpen && (
-          <div className="md:hidden bg-gray-100 max-w-32  absolute border-t border-gray-300">
+          <div className="md:hidden bg-slate-50 dark:bg-slate-800 absolute border-t border-slate-200 dark:border-slate-700 w-full left-0 shadow-md">
             <ul className="flex flex-col space-y-1 p-4">
               {navItems.map((item) => (
                 <li key={item.path}>
                   <NavLink
                     to={item.path}
                     className={({ isActive }) =>
-                      `block px-4 py-2 rounded ${
+                      `block px-4 py-2 rounded-md transition-colors ${
                         isActive
-                          ? "text-[rgb(214,28,98)] font-semibold"
-                          : "hover:bg-gray-200"
+                          ? "text-secondary bg-secondary/10 font-semibold"
+                          : "text-slate-600 dark:text-slate-300 hover:bg-slate-200 dark:hover:bg-slate-700"
                       }`
                     }
                     onClick={() => setIsMenuOpen(false)}
@@ -214,7 +214,7 @@ const Navbar = () => {
                 <li>
                   <NavLink
                     to="/login"
-                    className="block px-4 py-2 text-[rgb(214,28,98)]hover:bg-teal-100"
+                    className="block px-4 py-2 text-primary font-medium hover:bg-primary/10 rounded-md transition-colors"
                     onClick={() => setIsMenuOpen(false)}
                   >
                     Login
@@ -226,7 +226,7 @@ const Navbar = () => {
                     <li key={link.path}>
                       <NavLink
                         to={link.path}
-                        className="block px-4 py-2 hover:bg-gray-200"
+                        className="block px-4 py-2 text-slate-600 dark:text-slate-300 hover:bg-slate-200 dark:hover:bg-slate-700 rounded-md transition-colors"
                         onClick={() => setIsMenuOpen(false)}
                       >
                         {link.label}
@@ -235,7 +235,7 @@ const Navbar = () => {
                   ))}
                   <li>
                     <button
-                      className="block w-full text-left px-4 py-2 text-red-500 hover:bg-red-100"
+                      className="block w-full text-left px-4 py-2 text-danger hover:bg-danger/10 rounded-md transition-colors"
                       onClick={() => {
                         logOut();
                         setIsMenuOpen(false);

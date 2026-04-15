@@ -23,34 +23,34 @@ const Home = () => {
       <Goal />
       <VolunteersCarousel />
 
-      <section className="bg-[rgb(159,119,115)] py-6">
-        <div className=" mx-auto justify-center lg:justify-start flex items-center  lg:p-0 p-4  max-w-6xl overflow-hidden">
+      <section className="bg-gradient-to-r from-primary via-primary-dark to-secondary py-8 md:py-12">
+        <div className=" mx-auto justify-center lg:justify-start flex items-center lg:p-0 p-4 max-w-7xl overflow-hidden">
           {/* Left side: text content */}
-          <div className="flex-1   text-white max-w-xl">
-            <h3 className="text-3xl font-bold mb-4">
+          <div className="flex-1 text-white max-w-xl">
+            <h3 className="text-3xl md:text-4xl font-bold mb-4">
               Subscribe to our Newsletter
             </h3>
-            <p className="mb-6">
-              We send emails once a month, we never send Spam!
+            <p className="mb-6 text-slate-100">
+              Stay updated with pet adoption tips, success stories, and community events.
             </p>
-            <form className="flex flex-col sm:flex-row items-center">
+            <form className="flex flex-col sm:flex-row items-center gap-0">
               <Input
                 type="email"
                 placeholder="Enter your email"
-                className="w-full sm:w-[300px] bg-white dark:bg-gray-700 rounded-md rounded-r-none border border-gray-300"
+                className="w-full sm:w-[300px] bg-white dark:bg-slate-100 rounded-l-md border-0 text-slate-900 placeholder:text-slate-400"
                 required
               />
               <Button
                 onClick={handleClick}
                 type="submit"
-                className="px-6 py-2 text-lg hover:bg-[rgb(2,123,199)] bg-[rgb(1,138,224)] font-medium rounded-md rounded-l-none"
+                className="px-6 py-5 text-lg bg-secondary hover:bg-secondary-dark font-semibold rounded-r-md rounded-l-none transition-colors duration-200"
               >
                 Subscribe
               </Button>
             </form>
 
-            <p className="mt-4 text-sm text-gray-200 dark:text-gray-400">
-              We respect your privacy. No spam, just pawsitive vibes
+            <p className="mt-4 text-sm text-slate-200">
+              We respect your privacy. No spam, just pawsitive vibes 🐾
             </p>
           </div>
 
